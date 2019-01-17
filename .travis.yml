@@ -1,7 +1,10 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=9c3a4c12da21071eb7199ef9c539eb45dd916557e2b99b333961e7d3ded5d01f
 language: node_js
 node_js: '10'
 script:
-- npm run build
+  - npm run build
 deploy:
   on:
     branch: develop
