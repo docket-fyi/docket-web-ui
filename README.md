@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# docket-web-ui
+Docket web app UI. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+[![Build Status](https://travis-ci.org/docket-fyi/docket-web-ui.svg?branch=develop)](https://travis-ci.org/docket-fyi/docket-web-ui)
 
 ## Font Research
 
