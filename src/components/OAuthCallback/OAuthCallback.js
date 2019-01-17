@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { googleActions } from '../../actions';
-import history from '../../history';
 import withQueryParams from '../QueryParams/QueryParams';
 import './OAuthCallback.css';
 
