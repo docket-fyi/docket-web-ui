@@ -20,7 +20,8 @@ import {
   NewUserSuccess,
   RegistrationConfirmation,
   ForgotPassword,
-  ResetPassword
+  ResetPassword,
+  OAuthCallback
 } from '../../components';
 import { sdkActions } from '../../actions';
 
@@ -41,6 +42,7 @@ const AppRouter = props => {
       <AuthenticatedRoute path="/event/:id" component={EventDetail} />
       <AuthenticatedRoute path="/events" component={EventsList} />
       <AuthenticatedRoute path="/profile" component={Profile} />
+      <AuthenticatedRoute path="/oauth/callback" component={OAuthCallback} />
 
       <Redirect to='/login' />
     </Switch>

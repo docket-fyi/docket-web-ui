@@ -21,6 +21,7 @@ import Navbar from './Navbar/Navbar';
 import NewEvent from './NewEvent/NewEvent';
 import NewUser from './NewUser/NewUser'; // @todo Register
 import NewUserSuccess from './NewUserSuccess/NewUserSuccess'; // @todo RegistrationSuccess
+import OAuthCallback from './OAuthCallback/OAuthCallback'; // @todo RegistrationSuccess
 import Profile from './Profile/Profile';
 import QueryParams from './QueryParams/QueryParams';
 import RegistrationConfirmation from './RegistrationConfirmation/RegistrationConfirmation';
@@ -42,6 +43,7 @@ export {
   NewEvent,
   NewUser,
   NewUserSuccess,
+  OAuthCallback,
   Profile,
   QueryParams,
   RegistrationConfirmation,

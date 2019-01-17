@@ -251,7 +251,7 @@ export function forgotPassword(email = '') {
 }
 
 /**
- * [confirm description]
+ * [resetPassword description]
  *
  * @param   {String} email [code description]
  *

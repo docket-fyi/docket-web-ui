@@ -1,5 +1,18 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Font Research
+
+1. https://speckyboy.com/free-brush-fonts/
+1. https://www.behance.net/gallery/49384581/SALTED-MOCHA-FREE-BRUSH-FONT
+1. https://www.behance.net/gallery/43321903/THE-WOODLANDS-FREE-FONT
+1. https://www.behance.net/gallery/30399859/Brusher-Free-Font
+1. https://www.pixelsurplus.com/freebies/atmosphere
+1. https://www.behance.net/gallery/43628519/WILD-YOUTH-FREE-FONT
+1. https://www.behance.net/gallery/33401167/Selima-Free-Font
+1. https://www.fontspring.com/tag/brush-script
+1. https://www.behance.net/gallery/63159677/TAHU-FREE-SCRIPT-FONT
+1. https://www.behance.net/gallery/24882765/Hamster-Script-(Free-Font)
+
 ## Available Scripts
 
 In the project directory, you can run:

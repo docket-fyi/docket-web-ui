@@ -33,7 +33,7 @@ class EventsList extends Component {
   render() {
     const { events, match } = this.props
     return (
-      <Container fluid>
+      <Container>
         <Route path={`${match.url}/new`} component={NewEvent} />
         {events.all.map((event, index) => (
           <EventListItem key={index} {...event} />

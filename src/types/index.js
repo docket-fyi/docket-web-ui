@@ -8,6 +8,7 @@
 
 import _authenticationTypes from './authentication';
 import _errorTypes from './error';
+import _googleTypes from './google';
 // import _eventTypes from './event';
 import _meTypes from './me';
 import _sdkTypes from './sdk';
@@ -24,6 +25,7 @@ export default {
 
 export const authenticationTypes = _authenticationTypes;
 export const errorTypes = _errorTypes;
+export const googleTypes = _googleTypes;
 // export const eventTypes = _eventTypes;
 export const meTypes = _meTypes;
 export const sdkTypes = _sdkTypes;

@@ -6,11 +6,21 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { withRouter } from 'react-router';
-import { Navbar, NavDropdown, Nav, Form, FormControl, Button } from 'react-bootstrap'
+import {
+  Image,
+  Navbar,
+  NavDropdown,
+  Nav,
+  Form,
+  FormControl,
+  Button
+} from 'react-bootstrap'
 
+import { meActions, googleActions } from '../../actions';
 import history from '../../history';
 import './Navbar.css'
+// import googleLogo from './google-logo.png'
+import googleCalendarLogo from './google-calendar-logo.png'
 
 class Navbar2 extends Component {
 
@@ -19,11 +29,17 @@ class Navbar2 extends Component {
     this.onBrandClick = this.onBrandClick.bind(this);
     this.getInitials = this.getInitials.bind(this);
     this.goToProfile = this.goToProfile.bind(this);
+    this.onGoogleCalendarClick = this.onGoogleCalendarClick.bind(this);
   }
 
   goToProfile(event) {
     event.preventDefault();
     history.push('/profile');
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(meActions.getProfile())
   }
 
   getInitials() {
@@ -37,11 +53,17 @@ class Navbar2 extends Component {
     history.push('/events')
   }
 
+  onGoogleCalendarClick(event) {
+    event.preventDefault();
+    const { dispatch } = this.props;
+    dispatch(googleActions.getAuthUrl())
+  }
+
   render() {
     return (
       <Navbar expand="lg">
         {/* <Navbar.Brand as="button" onClick={this.onBrandClick}>Docket</Navbar.Brand> */}
-        <Button variant="primary" onClick={this.onBrandClick}>Docket</Button>
+        <Button variant="link" className="navbar-brand" onClick={this.onBrandClick}>Docket</Button>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Form className="ml-auto" inline>
@@ -49,6 +71,9 @@ class Navbar2 extends Component {
             {/* <Button variant="outline-success">Search</Button> */}
           </Form>
           <Nav className="ml-auto">
+            <Button variant="link" onClick={this.onGoogleCalendarClick}>
+              <Image src={googleCalendarLogo} height="30" width="30" />
+            </Button>
             <NavDropdown title={this.getInitials()} id="basic-nav-dropdown">
               <NavDropdown.Item onClick={this.goToProfile}>Profile</NavDropdown.Item>
               {/* <Button variant="primary" onClick={this.onBrandClick}>Docket</Button> */}

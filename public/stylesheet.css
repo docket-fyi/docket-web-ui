@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Crawley';
+    src: url('Crawley.eot');
+    src: url('Crawley.eot?#iefix') format('embedded-opentype'),
+        url('Crawley.woff2') format('woff2'),
+        url('Crawley.woff') format('woff'),
+        url('Crawley.ttf') format('truetype'),
+        url('Crawley.svg#Crawley') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Hensa';
+    src: url('Hensa-Regular.eot');
+    src: url('Hensa-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Hensa-Regular.woff2') format('woff2'),
+        url('Hensa-Regular.woff') format('woff'),
+        url('Hensa-Regular.ttf') format('truetype'),
+        url('Hensa-Regular.svg#Hensa-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Adrenaline';
+    src: url('Adrenaline-Regular.eot');
+    src: url('Adrenaline-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Adrenaline-Regular.woff2') format('woff2'),
+        url('Adrenaline-Regular.woff') format('woff'),
+        url('Adrenaline-Regular.ttf') format('truetype'),
+        url('Adrenaline-Regular.svg#Adrenaline-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
