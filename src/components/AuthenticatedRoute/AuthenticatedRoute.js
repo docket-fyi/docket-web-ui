@@ -16,7 +16,7 @@ import { hasJwt, isJwtExpired, getJwt } from '../../local-storage/jwt'
 
 function AuthenticatedRoute(props) {
 
-  const { dispatch, t } = props;
+  const { dispatch } = props;
   dispatch(notificationActions.requestPermission());
   if (!hasJwt()) {
     props.dispatch(errorActions.enqueued({translationKey: 'pleaseLoginToContinue'}));
