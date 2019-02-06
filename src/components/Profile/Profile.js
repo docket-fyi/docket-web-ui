@@ -6,7 +6,8 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Form } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 
 import { meActions } from '../../actions';
 
@@ -50,24 +51,28 @@ class Profile extends Component {
   render() {
     // const { firstName, lastName, email, createdAt = '' } = me;
     const { firstName, lastName, email, createdAt } = this.state;
+    const { t } = this.props;
+
     return (
-      <Form onSubmit={this.onSubmit}>
-        <Form.Group>
-          <Form.Label>First Name</Form.Label>
-          <Form.Control name="firstName" value={firstName} onChange={this.onChange} placeholder="First Name" />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Last Name</Form.Label>
-          <Form.Control name="lastName" value={lastName} onChange={this.onChange} placeholder="Last Name" />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Email</Form.Label>
-          <Form.Control name="email" type="email" value={email} onChange={this.onChange} placeholder="Email" />
-        </Form.Group>
-        <Button variant="primary" type="submit">Submit</Button>
-        <h3>Member since { createdAt.toString() }</h3>
-        <Button onClick={ this.onDelete }>Delete</Button>
-      </Form>
+      <Container>
+        <Form onSubmit={this.onSubmit}>
+          <Form.Group>
+            <Form.Label>{t('firstName')}</Form.Label>
+            <Form.Control name="firstName" value={firstName} onChange={this.onChange} placeholder={t('firstName')} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>{t('lastName')}</Form.Label>
+            <Form.Control name="lastName" value={lastName} onChange={this.onChange} placeholder={t('lastName')} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>{t('email')}</Form.Label>
+            <Form.Control name="email" type="email" value={email} onChange={this.onChange} placeholder={t('email')} />
+          </Form.Group>
+          <h3>{t('memberSince', {date: createdAt.toString()})}</h3>
+          <Button variant="outline-light" size="lg" type="submit">{t('submit')}</Button>
+          <Button variant="link" size="lg" onClick={ this.onDelete }>{t('delete')}</Button>
+        </Form>
+      </Container>
     );
   }
 
@@ -84,5 +89,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withNamespaces(),
   connect(mapStateToProps)
 )(Profile);

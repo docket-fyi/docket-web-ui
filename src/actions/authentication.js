@@ -2,12 +2,12 @@
  * @module actions/authentication
  */
 
-import { AuthPostRequestBody } from "@docket/docket-sdk";
+import { AuthPostRequestBody } from "@docket/docket.js";
 import jwtDecode from 'jwt-decode';
 
-import { sdkActions, meActions } from './index';
+import { sdkActions, meActions, errorActions } from './index';
 import { authenticationTypes } from '../types';
-import { setJwt, removeJwt } from '../local-storage';
+import { setJwt, removeJwt } from '../local-storage/jwt';
 import { authApi } from '../api';
 
 /**
@@ -72,6 +72,7 @@ export function authenticate(email = '', password = '') {
     dispatch(authenticationRequested());
     if (!email || !password) {
       dispatch(authenticationFailed());
+      dispatch(errorActions.enqueued({translationKey: 'authenticationFailed'}))
       dispatch(sdkActions.teardownSdkAuthentication());
       return;
     }
@@ -84,13 +85,16 @@ export function authenticate(email = '', password = '') {
         const { jwt } = authResponse.data
         dispatch(authenticationSucceeded(jwt));
         // dispatch(sdkActions.setupSdkAuthentication());
+        dispatch(errorActions.enqueued({translationKey: 'welcomeBack', variant: 'primary'}))
         dispatch(meActions.getProfile())
       } else {
         dispatch(authenticationFailed());
+        dispatch(errorActions.enqueued(authResponse.errors[0]))
         dispatch(sdkActions.teardownSdkAuthentication());
       }
-    } catch (err) {
+    } catch (authErrorResponse) {
       dispatch(authenticationFailed());
+      dispatch(errorActions.enqueued(authErrorResponse.response.body.errors[0]))
       dispatch(sdkActions.teardownSdkAuthentication());
     }
   };

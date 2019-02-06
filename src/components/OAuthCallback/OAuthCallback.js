@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 import { googleActions } from '../../actions';
 import withQueryParams from '../QueryParams/QueryParams';
@@ -20,8 +21,10 @@ class OAuthCallback extends Component {
   }
 
   render() {
+    const { t } = this.props;
+
     return (
-      <div>Loading...</div>
+      <div>{t('loading')}</div>
     );
   }
 
@@ -40,5 +43,6 @@ function mapStateToProps(state) {
 export default compose(
   // withRouter,
   withQueryParams,
+  withNamespaces(),
   connect(mapStateToProps)
 )(OAuthCallback);

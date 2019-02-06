@@ -13,18 +13,21 @@ const initialState = {
 
 function errors(state = initialState, action) {
   switch (action.type) {
+
     case errorTypes.ERROR_ENQUEUED:
       return Object.assign({}, state, {
         ...state,
         isOpen: true,
         // all: state.all.concat(action.response.response.body.errors[0].title),
         all: state.all.concat({
-          message: action.message,
-          autoHide: action.autoHide,
-          autoHideDuration: action.autoHideDuration
+          ...action.error,
+          // variant: action.variant || 'danger'
+          // autoHide: action.autoHide,
+          // autoHideDuration: action.autoHideDuration
         }),
         // count: state.count + 1
       });
+
     case errorTypes.ERROR_DEQUEUED:
       return Object.assign({}, state, {
         ...state,
@@ -32,11 +35,13 @@ function errors(state = initialState, action) {
         all: state.all.slice(1),
         // count: state.count - 1
       });
+
     case errorTypes.ERROR_CLOSED:
       return Object.assign({}, state, {
         ...state,
         isOpen: false
       });
+
     default:
       return state;
   }

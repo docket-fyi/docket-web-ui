@@ -6,7 +6,7 @@ import { meTypes } from '../types';
 import { meApi } from '../api';
 import history from '../history';
 import { authenticationActions } from './index';
-import { MePutRequestBody, MeEventPutRequestBody, MeEventsPostRequestBody } from '@docket/docket-sdk';
+import { MePutRequestBody, MeEventPutRequestBody, MeEventsPostRequestBody } from '@docket/docket.js';
 
 /**
  * [myEventsRequested description]

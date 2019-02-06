@@ -11,6 +11,7 @@ import { Route } from 'react-router-dom';
 
 import { meActions } from '../../actions';
 import { NewEvent, EventListItem } from '../index'
+import './styles.css'
 
 class EventsList extends Component {
 
@@ -34,11 +35,11 @@ class EventsList extends Component {
     const { events, match } = this.props
     return (
       <Container>
-        <Route path={`${match.url}/new`} component={NewEvent} />
         {events.all.map((event, index) => (
           <EventListItem key={index} {...event} />
         ))}
-        <Button variant="primary" onClick={this.onAddNewEvent}>+</Button>
+        <Route path={`${match.url}/new`} component={NewEvent} />
+        <Button className="add-new-event" variant="outline-light" size="lg" onClick={this.onAddNewEvent}>+</Button>
       </Container>
     )
   }

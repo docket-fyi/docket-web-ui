@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Container, Row, Col} from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 import { userActions } from '../../actions';
 import './RegistrationConfirmation.css'
@@ -20,11 +21,13 @@ class RegistrationConfirmation extends Component {
   }
 
   render() {
+    const { t } = this.props;
+
     return (
       <Container fluid>
         <Row>
           <Col xs={{span: 4, offset: 4}}>
-            Loading...
+            {t('loading')}
           </Col>
         </Row>
       </Container>
@@ -43,6 +46,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withNamespaces(),
   connect(mapStateToProps)
 )(RegistrationConfirmation);
 

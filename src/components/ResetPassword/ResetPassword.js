@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 import { userActions } from '../../actions';
 import './ResetPassword.css'
@@ -36,20 +37,22 @@ class ResetPassword extends Component {
   }
 
   render() {
+    const { t } = this.props;
+
     return (
       <Container fluid>
         <Row>
           <Col xs={{span: 4, offset: 4}}>
             <Form onSubmit={this.onSubmit}>
               <Form.Group>
-                <Form.Label>Password</Form.Label>
-                <Form.Control name="password" type="password" onChange={this.onChange} placeholder="Password" />
+                <Form.Label>{t('password')}</Form.Label>
+                <Form.Control name="password" type="password" onChange={this.onChange} placeholder={t('password')} />
               </Form.Group>
               <Form.Group>
-                <Form.Label>Password Confirmation</Form.Label>
-                <Form.Control name="passwordConfirmation" type="password" onChange={this.onChange} placeholder="Password confirmation" />
+                <Form.Label>{t('passwordConfirmation')}</Form.Label>
+                <Form.Control name="passwordConfirmation" type="password" onChange={this.onChange} placeholder={t('passwordConfirmation')} />
               </Form.Group>
-              <Button variant="primary" type="submit">Submit</Button>
+              <Button variant="primary" type="submit">{t('submit')}</Button>
             </Form>
           </Col>
         </Row>
@@ -70,6 +73,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withNamespaces(),
   connect(mapStateToProps)
 )(ResetPassword);
 

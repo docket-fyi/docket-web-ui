@@ -7,9 +7,10 @@ import { connect } from 'react-redux';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 import { authenticationActions } from '../../actions';
-import { hasJwt, isJwtExpired } from '../../local-storage';
+import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
 import './Login.css'
 
 class Login extends Component {
@@ -60,6 +61,7 @@ class Login extends Component {
   }
 
   render() {
+    const { t } = this.props;
 
     return (
       <Container fluid>
@@ -67,17 +69,17 @@ class Login extends Component {
           <Col xs={{span: 4, offset: 4}}>
             <Form onSubmit={this.onSubmit}>
               <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control name="email" type="email" placeholder="Email" onChange={this.onChange} />
+                <Form.Label>{t('email')}</Form.Label>
+                <Form.Control name="email" type="email" placeholder={t('email')} onChange={this.onChange} />
               </Form.Group>
 
               <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control name="password" type="password" placeholder="Password" onChange={this.onChange} />
+                <Form.Label>{t('password')}</Form.Label>
+                <Form.Control name="password" type="password" placeholder={t('password')} onChange={this.onChange} />
               </Form.Group>
-              <Button variant="primary" type="submit">Login</Button>
-              <Button variant="link" onClick={this.onRegister}>Register</Button>
-              <Button variant="link" onClick={this.onForgotPassword}>Forgot Password?</Button>
+              <Button variant="primary" type="submit">{t('login')}</Button>
+              <Button variant="link" onClick={this.onRegister}>{t('register')}</Button>
+              <Button variant="link" onClick={this.onForgotPassword}>{t('forgotPassword')}</Button>
             </Form>
           </Col>
         </Row>
@@ -101,6 +103,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withNamespaces(),
   connect(mapStateToProps)
 )(Login);
 

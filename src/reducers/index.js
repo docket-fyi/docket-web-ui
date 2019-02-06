@@ -13,7 +13,9 @@ import authentication from './authentication';
 import errors from './errors';
 import event from './event';
 import events from './events';
+import i18n from './i18n';
 import me from './me';
+import notifications from './notifications';
 import sdk from './sdk';
 
 /**
@@ -25,7 +27,9 @@ const reducers = {
   errors,
   event,
   events,
+  i18n,
   me,
+  notifications,
   sdk
 }
 

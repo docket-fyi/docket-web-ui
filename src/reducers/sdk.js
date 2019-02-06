@@ -9,7 +9,9 @@ import { sdkTypes } from '../types';
  * @type {Object}
  */
 const initialState = {
-  isConfigured: false
+  basePath: '',
+  isBasePathConfigured: false,
+  isAuthenticationConfigured: false
 };
 
 /**
@@ -21,10 +23,17 @@ const initialState = {
 function sdk(state = initialState, action) {
   switch (action.type) {
 
+    case sdkTypes.SDK_BASE_PATH_CONFIGURED:
+      return Object.assign({}, state, {
+        ...state,
+        basePath: action.basePath,
+        isBasePathConfigured: true
+      });
+
     case sdkTypes.SDK_AUTHENTICATION_SET_UP:
       return Object.assign({}, state, {
         ...state,
-        isConfigured: true
+        isAuthenticationConfigured: true
       });
 
     // case sdkTypes.AUTHENTICATION_REQUEST_SUCCEEDED
@@ -32,7 +41,7 @@ function sdk(state = initialState, action) {
     case sdkTypes.SDK_AUTHENTICATION_TORN_DOWN:
       return Object.assign({}, state, {
         ...state,
-        isConfigured: false
+        isAuthenticationConfigured: false
       });
 
     default:

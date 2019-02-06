@@ -6,7 +6,8 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Form } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 
 import { meActions } from '../../actions'
 
@@ -49,20 +50,24 @@ class EventDetail extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { name, date } = this.state;
+
     return (
-      <Form onSubmit={this.onSubmit}>
-        <Form.Group>
-          <Form.Label>Name</Form.Label>
-          <Form.Control name="name" value={name} onChange={this.onChange} placeholder="Name" />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Date</Form.Label>
-          <Form.Control name="date" type="date" value={date} onChange={this.onChange} placeholder="Date" />
-        </Form.Group>
-        <Button variant="primary" type="submit">Submit</Button>
-        <Button onClick={ this.onDelete }>Delete</Button>
-      </Form>
+      <Container>
+        <Form onSubmit={this.onSubmit}>
+          <Form.Group>
+            <Form.Label>{t('name')}</Form.Label>
+            <Form.Control name="name" value={name} onChange={this.onChange} placeholder={t('name')} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>{t('date')}</Form.Label>
+            <Form.Control name="date" type="date" value={date} onChange={this.onChange} placeholder={t('date')} />
+          </Form.Group>
+          <Button variant="outline-light" size="lg" type="submit">{t('submit')}</Button>
+          <Button variant="link" size="lg" onClick={ this.onDelete }>{t('delete')}</Button>
+        </Form>
+      </Container>
     )
   }
 }
@@ -78,5 +83,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withNamespaces(),
   connect(mapStateToProps)
 )(EventDetail);

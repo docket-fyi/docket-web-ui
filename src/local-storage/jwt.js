@@ -1,20 +1,12 @@
 /**
- * @module util/localStorage
+ * @module local-storage/jwt
  */
 
 import jwtDecode from 'jwt-decode';
 
-// import environment from '../env';
+import { key } from './config';
 
-const localStoragePrefix = 'docket'
-const localStorageSeparator = '.';
 const jwtPrefix = 'Bearer';
-
-function key(...pieces) {
-  return Array.from([localStoragePrefix, /*environment, */...pieces])
-              .join(localStorageSeparator);
-}
-
 export const JWT_KEY = key('jwt');
 
 /**

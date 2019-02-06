@@ -6,7 +6,7 @@ import {
   UsersPostRequestBody,
   ForgotPasswordPostRequestBody,
   ResetPasswordPostRequestBody
-} from '@docket/docket-sdk';
+} from '@docket/docket.js';
 
 import { userTypes } from '../types';
 import { userApi } from '../api';

@@ -6,7 +6,8 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 
 import { meActions } from '../../actions'
 
@@ -25,18 +26,22 @@ class NewEvent extends Component {
   }
 
   render() {
+    const { t } = this.props;
+
     return (
-      <Form onSubmit={this.onSubmit}>
-        <Form.Group>
-          <Form.Label>Name</Form.Label>
-          <Form.Control name="name" placeholder="Name" />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Date</Form.Label>
-          <Form.Control name="date" type="date" placeholder="Date" />
-        </Form.Group>
-        <Button variant="primary" type="submit">Submit</Button>
-      </Form>
+      <Container>
+        <Form onSubmit={this.onSubmit}>
+          <Form.Group>
+            <Form.Label>{t('name')}</Form.Label>
+            <Form.Control name="name" placeholder={t('name')} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>{t('date')}</Form.Label>
+            <Form.Control name="date" type="date" placeholder={t('date')} />
+          </Form.Group>
+          <Button variant="outline-light" size="lg" type="submit">{t('submit')}</Button>
+        </Form>
+      </Container>
     );
   }
 
@@ -51,5 +56,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withNamespaces(),
   connect(mapStateToProps)
 )(NewEvent);

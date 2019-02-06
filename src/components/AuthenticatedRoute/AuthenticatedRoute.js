@@ -8,29 +8,26 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router';
 import { Container } from 'react-bootstrap';
-// import { withRouter } from 'react-router';
+import { withNamespaces } from 'react-i18next';
 
 import { Navbar } from '../index';
-import { sdkActions, authenticationActions, errorActions } from '../../actions';
-import { hasJwt, isJwtExpired, getJwt } from '../../local-storage'
+import { sdkActions, authenticationActions, errorActions, notificationActions } from '../../actions';
+import { hasJwt, isJwtExpired, getJwt } from '../../local-storage/jwt'
 
 function AuthenticatedRoute(props) {
-// class AuthenticatedRoute extends Component {
 
-  // shouldComponentUpdate() {}
-
-  const { dispatch } = props;
-
+  const { dispatch, t } = props;
+  dispatch(notificationActions.requestPermission());
   if (!hasJwt()) {
-    props.dispatch(errorActions.enqueued('Please login to continue'));
+    props.dispatch(errorActions.enqueued({translationKey: 'pleaseLoginToContinue'}));
     return <Redirect to="/login" />;
   }
   if (isJwtExpired()) {
-    props.dispatch(errorActions.enqueued('Login expired'));
+    props.dispatch(errorActions.enqueued({translationKey: 'loginExpired'}));
     return <Redirect to="/login" />;
   }
   dispatch(sdkActions.setupSdkAuthentication(getJwt()));
-  dispatch(authenticationActions.authenticationSucceeded(getJwt()))
+  dispatch(authenticationActions.authenticationSucceeded(getJwt()));
   return (
     <Container fluid>
       {/* TODO: <AuthenticatedLayout /> */}
@@ -48,6 +45,6 @@ AuthenticatedRoute.propTypes = {
 }
 
 export default compose(
-  // withRouter,
+  withNamespaces(),
   connect(),
 )(AuthenticatedRoute);

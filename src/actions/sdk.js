@@ -2,7 +2,7 @@
  * @module actions/sdk
  */
 
-import * as DocketSdk from '@docket/docket-sdk';
+import * as DocketSdk from '@docket/docket.js';
 
 import { sdkTypes } from '../types';
 
@@ -14,9 +14,11 @@ const jwtAuth = defaultClient.authentications['bearerAuth'];
  * @return {[type]} [description]
  */
 export function configureSdkBasePath() {
-  defaultClient.basePath = `${process.env.REACT_APP_API_BASE_PATH}/${process.env.REACT_APP_API_VERSION}`;
+  const basePath = `${process.env.REACT_APP_API_BASE_PATH}/${process.env.REACT_APP_API_VERSION}`;
+  defaultClient.basePath = basePath
   return {
-    type: sdkTypes.SDK_BASE_PATH_CONFIGURED
+    type: sdkTypes.SDK_BASE_PATH_CONFIGURED,
+    basePath
   }
 }
 

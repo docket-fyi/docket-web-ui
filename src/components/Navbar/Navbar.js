@@ -15,6 +15,7 @@ import {
   FormControl,
   Button
 } from 'react-bootstrap'
+import { withNamespaces } from 'react-i18next';
 
 import { meActions, googleActions } from '../../actions';
 import history from '../../history';
@@ -60,6 +61,8 @@ class Navbar2 extends Component {
   }
 
   render() {
+    const { t } = this.props;
+
     return (
       <Navbar expand="lg">
         {/* <Navbar.Brand as="button" onClick={this.onBrandClick}>Docket</Navbar.Brand> */}
@@ -67,18 +70,18 @@ class Navbar2 extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Form className="ml-auto" inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            {/* <Button variant="outline-success">Search</Button> */}
+            <FormControl size="lg" type="text" placeholder={t('search')} className="mr-sm-2" />
+            {/* <Button variant="outline-success">{t('search')}</Button> */}
           </Form>
           <Nav className="ml-auto">
             <Button variant="link" onClick={this.onGoogleCalendarClick}>
               <Image src={googleCalendarLogo} height="30" width="30" />
             </Button>
             <NavDropdown title={this.getInitials()} id="basic-nav-dropdown">
-              <NavDropdown.Item onClick={this.goToProfile}>Profile</NavDropdown.Item>
+              <NavDropdown.Item onClick={this.goToProfile}>{t('profile')}</NavDropdown.Item>
               {/* <Button variant="primary" onClick={this.onBrandClick}>Docket</Button> */}
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+              <NavDropdown.Item href="/logout">{t('logout')}</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
@@ -100,5 +103,6 @@ function mapStateToProps(state) {
 
 export default compose(
   // withRouter,
+  withNamespaces(),
   connect(mapStateToProps)
 )(Navbar2);

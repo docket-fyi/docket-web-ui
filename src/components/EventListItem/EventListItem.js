@@ -31,7 +31,7 @@ class EventListItem extends Component {
     return (
       <div>
         <h2>
-          <Button onClick={event => this.goToEvent(event, _id, slug)}>{ name }</Button>
+          <Button variant="link" size="lg" onClick={event => this.goToEvent(event, _id, slug)}>{ name }</Button>
         </h2>
         <h3>{ duration }</h3>
       </div>

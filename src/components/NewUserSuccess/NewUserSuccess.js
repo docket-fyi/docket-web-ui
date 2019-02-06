@@ -7,9 +7,10 @@ import { connect } from 'react-redux';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
-import { hasJwt, isJwtExpired } from '../../local-storage';
 import { userActions } from '../../actions';
+import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
 import './NewUserSuccess.css'
 
 class NewUserSuccess extends Component {
@@ -52,28 +53,30 @@ class NewUserSuccess extends Component {
   }
 
   render() {
+    const { t } = this.props;
+
     return (
       <Container fluid>
         <Row>
           <Col xs={{span: 4, offset: 4}}>
             <Form onSubmit={this.onSubmit}>
               <Form.Group>
-                <Form.Label>First Name</Form.Label>
-                <Form.Control name="firstName" onChange={this.onChange} placeholder="First Name" />
+                <Form.Label>{t('firstName')}</Form.Label>
+                <Form.Control name="firstName" onChange={this.onChange} placeholder={t('firstName')} />
               </Form.Group>
               <Form.Group>
-                <Form.Label>Last Name</Form.Label>
-                <Form.Control name="lastName" onChange={this.onChange} placeholder="Last Name" />
+                <Form.Label>{t('lastName')}</Form.Label>
+                <Form.Control name="lastName" onChange={this.onChange} placeholder={t('lastName')} />
               </Form.Group>
               <Form.Group>
-                <Form.Label>Email</Form.Label>
-                <Form.Control name="email" type="email" onChange={this.onChange} placeholder="Email" />
+                <Form.Label>{t('email')}</Form.Label>
+                <Form.Control name="email" type="email" onChange={this.onChange} placeholder={t('email')} />
               </Form.Group>
               <Form.Group>
-                <Form.Label>Password</Form.Label>
-                <Form.Control name="password" type="password" onChange={this.onChange} placeholder="Password" />
+                <Form.Label>{t('password')}</Form.Label>
+                <Form.Control name="password" type="password" onChange={this.onChange} placeholder={t('password')} />
               </Form.Group>
-              <Button variant="primary" type="submit">Submit</Button>
+              <Button variant="primary" type="submit">{t('submit')}</Button>
             </Form>
           </Col>
         </Row>
@@ -94,6 +97,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withNamespaces(),
   connect(mapStateToProps)
 )(NewUserSuccess);
 

@@ -5,11 +5,9 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-// import Snackbar from '@material-ui/core/Snackbar';
-// import IconButton from '@material-ui/core/IconButton';
-// import CloseIcon from '@material-ui/icons/Close';
-// import { withStyles } from '@material-ui/core/styles';
+import { Alert } from 'react-bootstrap'
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 import { errorActions } from '../../actions';
 
@@ -33,32 +31,19 @@ class GlobalError extends Component {
   }
 
   render() {
-    // const { classes, errors } = this.props;
+    const { errors, t } = this.props;
+
     return (
-      <div></div>
-      // <div>Error</div>
-      // <Snackbar
-      //   anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      //   open={errors.isOpen}
-      //   onClose={this.handleClose}
-      //   onExited={this.handleExited}
-      //   ContentProps={{
-      //     'aria-describedby': 'message-id',
-      //   }}
-      //   message={<span id="message-id">{errors.all.length && errors.all[0].hasOwnProperty('message') ? errors.all[0].message.text : ''}</span>}
-      //   autoHideDuration={errors.all.length && errors.all[0].autoHide ? errors.all[0].autoHideDuration : null}
-      //   action={[
-      //     <IconButton
-      //       key="close"
-      //       aria-label="Close"
-      //       color="inherit"
-      //       className={classes.close}
-      //       onClick={this.handleClose}
-      //     >
-      //       <CloseIcon />
-      //     </IconButton>
-      //   ]}
-      // />
+      <div>
+        {
+          errors.all.map((error, index) => {
+            const variant = error.variant || 'danger';
+            return (
+              <Alert style={{width: '400px', position: 'absolute', top: 10, right: 10}} dismissible key={index} variant={variant}>{t(error.translationKey)}</Alert>
+            );
+          })
+        }
+      </div>
     );
   }
 
@@ -77,5 +62,6 @@ function mapStateToProps(state) {
 
 export default compose(
   // withStyles(styles),
+  withNamespaces(),
   connect(mapStateToProps)
 )(GlobalError);

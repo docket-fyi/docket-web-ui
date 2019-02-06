@@ -27,7 +27,10 @@ import { sdkActions } from '../../actions';
 
 const AppRouter = props => {
 
-  props.dispatch(sdkActions.configureSdkBasePath());
+  const { dispatch } = props;
+  dispatch(sdkActions.configureSdkBasePath());
+  // dispatch(i18nActions.setLocale());
+  // dispatch(i18nActions.getTranslations());
 
   return (
     <Switch>
