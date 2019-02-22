@@ -3,7 +3,7 @@ Docket web app UI. This project was bootstrapped with [Create React App](https:/
 
 [![Build Status](https://travis-ci.org/docket-fyi/docket-web-ui.svg?branch=develop)](https://travis-ci.org/docket-fyi/docket-web-ui)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fdc7873bb824eacd5e27/maintainability)](https://codeclimate.com/github/docket-fyi/docket-web-ui/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/fdc7873bb824eacd5e27/test_coverage)](https://codeclimate.com/github/docket-fyi/docket-web-ui/test_coverage)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/fdc7873bb824eacd5e27/test_coverage)](https://codeclimate.com/github/docket-fyi/docket-web-ui/test_coverage) [![Greenkeeper badge](https://badges.greenkeeper.io/docket-fyi/docket-web-ui.svg)](https://greenkeeper.io/)
 
 ## Font Research
 
