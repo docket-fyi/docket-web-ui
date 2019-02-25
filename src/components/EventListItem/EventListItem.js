@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+// import moment from 'moment';
 import { Button } from 'react-bootstrap';
 
 import history from '../../history';
@@ -23,7 +23,7 @@ class EventListItem extends Component {
   }
 
   render() {
-    const { _id, name, slug, date, diff } = this.props;
+    const { _id, name, slug, /*date,*/ diff } = this.props;
     // const now = moment()
     // const eventDate = moment(date)
     // const diff = eventDate.diff(now)
