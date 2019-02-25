@@ -5,7 +5,7 @@ Docket web app UI. This project was bootstrapped with [Create React App](https:/
 [![Maintainability](https://api.codeclimate.com/v1/badges/fdc7873bb824eacd5e27/maintainability)](https://codeclimate.com/github/docket-fyi/docket-web-ui/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/fdc7873bb824eacd5e27/test_coverage)](https://codeclimate.com/github/docket-fyi/docket-web-ui/test_coverage)
 [![David DM](https://david-dm.org/docket-fyi/docket-web-ui.svg)](https://david-dm.org)
-[![Known Vulnerabilities](https://snyk.io/test/github/docket-fyi/docket-web-ui/badge.svg)](https://snyk.io/test/github/docket-fyi/docket-web-ui)
+[![Known Vulnerabilities](https://snyk.io/test/github/docket-fyi/docket-web-ui/badge.svg)](https://snyk.io/test/github/docket-fyi/docket-web-ui) [![Greenkeeper badge](https://badges.greenkeeper.io/docket-fyi/docket-web-ui.svg)](https://greenkeeper.io/)
 
 ## Font Research
 
