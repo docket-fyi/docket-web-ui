@@ -1,5 +1,5 @@
 /**
- * @module components/OAuthCallback
+ * @module components/OAuthMicrosoftCallback
  */
 
 import React, { Component } from 'react';
@@ -8,16 +8,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 
-import { googleActions } from '../../actions';
+import { microsoftActions } from '../../actions';
 import withQueryParams from '../QueryParams/QueryParams';
-import './OAuthCallback.css';
+import './OAuthMicrosoftCallback.css';
 
-class OAuthCallback extends Component {
+class OAuthMicrosoftCallback extends Component {
 
   componentDidMount() {
     const { dispatch, queryParams } = this.props
     const { code } = queryParams
-    dispatch(googleActions.getTokens(code))
+    dispatch(microsoftActions.getTokens(code))
   }
 
   render() {
@@ -30,7 +30,7 @@ class OAuthCallback extends Component {
 
 }
 
-OAuthCallback.propTypes = {
+OAuthMicrosoftCallback.propTypes = {
   dispatch: PropTypes.func.isRequired,
 }
 
@@ -45,4 +45,4 @@ export default compose(
   withQueryParams,
   withNamespaces(),
   connect(mapStateToProps)
-)(OAuthCallback);
+)(OAuthMicrosoftCallback);

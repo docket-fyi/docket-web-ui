@@ -4,80 +4,33 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap'
+import { Container, Row, Col} from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 
-import { userActions } from '../../actions';
-import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
 import './NewUserSuccess.css'
 
 class NewUserSuccess extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: ''
-    };
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
-
-  componentWillMount() {
-    if (hasJwt() && !isJwtExpired()) {
-      this.props.history.push('/events');
-      return;
-    }
-  }
-
   componentDidUpdate() {
-    if (hasJwt() && !isJwtExpired()) {
-      this.props.history.push('/events');
+    const { user, history } = this.props;
+    if (!user.email || !user.firstName) {
+      history.push('/register');
       return;
     }
-  }
-
-  onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
-  onSubmit(event) {
-    event.preventDefault();
-    const { dispatch } = this.props;
-    const { firstName, lastName, email, password } = this.state;
-    dispatch(userActions.register(firstName, lastName, email, password));
   }
 
   render() {
-    const { t } = this.props;
+    const { t, user } = this.props;
+    const { firstName, email } = user;
 
     return (
+      // (user.email && user.firstName) ? <Container> : null
       <Container fluid>
         <Row>
           <Col xs={{span: 4, offset: 4}}>
-            <Form onSubmit={this.onSubmit}>
-              <Form.Group>
-                <Form.Label>{t('firstName')}</Form.Label>
-                <Form.Control name="firstName" onChange={this.onChange} placeholder={t('firstName')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>{t('lastName')}</Form.Label>
-                <Form.Control name="lastName" onChange={this.onChange} placeholder={t('lastName')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>{t('email')}</Form.Label>
-                <Form.Control name="email" type="email" onChange={this.onChange} placeholder={t('email')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>{t('password')}</Form.Label>
-                <Form.Control name="password" type="password" onChange={this.onChange} placeholder={t('password')} />
-              </Form.Group>
-              <Button variant="primary" type="submit">{t('submit')}</Button>
-            </Form>
+            {t('thanksForRegistering', {firstName, email})}
           </Col>
         </Row>
       </Container>
@@ -89,11 +42,14 @@ class NewUserSuccess extends Component {
 
 NewUserSuccess.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {
+    user: state.user
+  }
 }
 
 export default compose(

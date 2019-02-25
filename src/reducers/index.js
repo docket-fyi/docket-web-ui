@@ -13,10 +13,13 @@ import authentication from './authentication';
 import errors from './errors';
 import event from './event';
 import events from './events';
+import google from './google';
 import i18n from './i18n';
 import me from './me';
+import microsoft from './microsoft';
 import notifications from './notifications';
 import sdk from './sdk';
+import user from './user';
 
 /**
  * [reducers description]
@@ -27,10 +30,13 @@ const reducers = {
   errors,
   event,
   events,
+  google,
   i18n,
   me,
+  microsoft,
   notifications,
-  sdk
+  sdk,
+  user
 }
 
 /**

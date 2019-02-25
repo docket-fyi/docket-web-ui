@@ -1,9 +1,9 @@
 /**
- * @module actions/google
+ * @module actions/microsoft
  */
 
-import { googleTypes } from '../types';
-import { googleApi } from '../api';
+import { microsoftTypes } from '../types';
+import { microsoftApi } from '../api';
 import history from '../history';
 
 /**
@@ -13,7 +13,7 @@ import history from '../history';
  */
 export function oauthUrlRequested() {
   return {
-    type: googleTypes.OAUTH_URL_REQUESTED,
+    type: microsoftTypes.OAUTH_URL_REQUESTED,
     oAuthUrlIsLoading: true
   };
 }
@@ -27,7 +27,7 @@ export function oauthUrlRequested() {
  */
 export function oauthUrlRequestSucceeded() {
   return {
-    type: googleTypes.OAUTH_URL_REQUEST_SUCCEEDED,
+    type: microsoftTypes.OAUTH_URL_REQUEST_SUCCEEDED,
     oAuthUrlIsLoading: false
   };
 }
@@ -39,7 +39,7 @@ export function oauthUrlRequestSucceeded() {
  */
 export function oauthUrlRequestFailed() {
   return {
-    type: googleTypes.OAUTH_URL_REQUEST_FAILED,
+    type: microsoftTypes.OAUTH_URL_REQUEST_FAILED,
     oAuthUrlIsLoading: false
   };
 }
@@ -51,7 +51,7 @@ export function oauthUrlRequestFailed() {
  */
 export function tokensRequested() {
   return {
-    type: googleTypes.TOKENS_REQUESTED,
+    type: microsoftTypes.TOKENS_REQUESTED,
     tokensIsLoading: true
   }
 }
@@ -63,7 +63,7 @@ export function tokensRequested() {
  */
 export function tokensRequestFailed() {
   return {
-    type: googleTypes.TOKENS_REQUEST_FAILED,
+    type: microsoftTypes.TOKENS_REQUEST_FAILED,
     tokensIsLoading: false,
     hasTokens: false
   }
@@ -78,35 +78,11 @@ export function tokensRequestFailed() {
  */
 export function tokensRequestSucceeded() {
   return {
-    type: googleTypes.TOKENS_REQUEST_SUCCEEDED,
+    type: microsoftTypes.TOKENS_REQUEST_SUCCEEDED,
     tokensIsLoading: false,
     hasTokens: true
   }
 }
-
-export function calendarListRequested() {
-  return {
-    type: googleTypes.CALENDARS_REQUESTED,
-    calendarsIsLoading: true
-  }
-}
-
-export function calendarListRequestSucceeded(responseBody) {
-  return {
-    type: googleTypes.CALENDARS_REQUEST_SUCCEEDED,
-    calendarsIsLoading: false,
-    responseBody
-  }
-}
-
-export function calendarListRequestFailed() {
-  return {
-    type: googleTypes.CALENDARS_REQUEST_FAILED,
-    calendarsIsLoading: false
-  }
-}
-
-
 
 /**
  * [getOAuthUrl description]
@@ -117,7 +93,7 @@ export function getAuthUrl() {
   return async dispatch => {
     dispatch(oauthUrlRequested());
     try {
-      const response = await googleApi.getGoogleOAuthUrl()
+      const response = await microsoftApi.getMicrosoftOAuthUrl()
       if (response && response.data) {
         dispatch(oauthUrlRequestSucceeded());
         window.location = response.data.url
@@ -143,36 +119,15 @@ export function getTokens(code = '') {
       return
     }
     try {
-      const response = await googleApi.getGoogleAuthTokens(code)
+      const response = await microsoftApi.getMicrosoftAuthTokens(code)
       if (response.response.ok) {
         dispatch(tokensRequestSucceeded());
-        history.push(`/google/calendars`)
+        history.push(`/microsoft/calendars`)
       } else {
         dispatch(tokensRequestFailed());
       }
     } catch (err) {
       dispatch(tokensRequestFailed());
-    }
-  };
-}
-
-/**
- * [getTokens description]
- *
- * @return {Function}
- */
-export function getCalendarList() {
-  return async dispatch => {
-    dispatch(calendarListRequested());
-    try {
-      const response = await googleApi.getAllGoogleCalendarLists()
-      if (response && response.data) {
-        dispatch(calendarListRequestSucceeded(response.data));
-      } else {
-        dispatch(calendarListRequestFailed());
-      }
-    } catch (err) {
-      dispatch(calendarListRequestFailed());
     }
   };
 }

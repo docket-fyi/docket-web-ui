@@ -21,7 +21,9 @@ import {
   RegistrationConfirmation,
   ForgotPassword,
   ResetPassword,
-  OAuthCallback
+  OAuthGoogleCallback,
+  OAuthMicrosoftCallback,
+  GoogleCalendarsList
 } from '../../components';
 import { sdkActions } from '../../actions';
 
@@ -36,8 +38,8 @@ const AppRouter = props => {
     <Switch>
       <UnauthenticatedRoute path="/login" component={Login} />
       <UnauthenticatedRoute path="/logout" component={Logout} />
-      <UnauthenticatedRoute path="/register" component={NewUser} />
       <UnauthenticatedRoute path="/register/success" component={NewUserSuccess} />
+      <UnauthenticatedRoute path="/register" component={NewUser} />
       <UnauthenticatedRoute path="/users/confirm/:code" component={RegistrationConfirmation} />
       <UnauthenticatedRoute path="/forgot-password" component={ForgotPassword} />
       <UnauthenticatedRoute path="/reset-password/:code" component={ResetPassword} />
@@ -45,9 +47,11 @@ const AppRouter = props => {
       <AuthenticatedRoute path="/event/:id" component={EventDetail} />
       <AuthenticatedRoute path="/events" component={EventsList} />
       <AuthenticatedRoute path="/profile" component={Profile} />
-      <AuthenticatedRoute path="/oauth/callback" component={OAuthCallback} />
+      <AuthenticatedRoute path="/oauth/google/callback" component={OAuthGoogleCallback} />
+      <AuthenticatedRoute path="/oauth/microsoft/callback" component={OAuthMicrosoftCallback} />
+      <AuthenticatedRoute path="/google/calendars" component={GoogleCalendarsList} />
 
-      <Redirect to='/login' />
+      <Redirect to="/login" />
     </Switch>
   );
 

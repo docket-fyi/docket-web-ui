@@ -15,13 +15,15 @@ import EventsList from './EventsList/EventsList';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import ResetPassword from './ResetPassword/ResetPassword';
 import GlobalError from './GlobalError/GlobalError';
+import GoogleCalendarsList from './GoogleCalendarsList/GoogleCalendarsList';
 import Login from './Login/Login';
 import Logout from './Logout/Logout';
 import Navbar from './Navbar/Navbar';
 import NewEvent from './NewEvent/NewEvent';
 import NewUser from './NewUser/NewUser'; // @todo Register
 import NewUserSuccess from './NewUserSuccess/NewUserSuccess'; // @todo RegistrationSuccess
-import OAuthCallback from './OAuthCallback/OAuthCallback'; // @todo RegistrationSuccess
+import OAuthGoogleCallback from './OAuthGoogleCallback/OAuthGoogleCallback';
+import OAuthMicrosoftCallback from './OAuthMicrosoftCallback/OAuthMicrosoftCallback';
 import Profile from './Profile/Profile';
 import QueryParams from './QueryParams/QueryParams';
 import RegistrationConfirmation from './RegistrationConfirmation/RegistrationConfirmation';
@@ -37,13 +39,15 @@ export {
   ForgotPassword,
   ResetPassword,
   GlobalError,
+  GoogleCalendarsList,
   Login,
   Logout,
   Navbar,
   NewEvent,
   NewUser,
   NewUserSuccess,
-  OAuthCallback,
+  OAuthGoogleCallback,
+  OAuthMicrosoftCallback,
   Profile,
   QueryParams,
   RegistrationConfirmation,

@@ -17,11 +17,12 @@ import {
 } from 'react-bootstrap'
 import { withNamespaces } from 'react-i18next';
 
-import { meActions, googleActions } from '../../actions';
+import { meActions, googleActions, microsoftActions } from '../../actions';
 import history from '../../history';
 import './Navbar.css'
 // import googleLogo from './google-logo.png'
 import googleCalendarLogo from './google-calendar-logo.png'
+import microsoftOutlookLogo from './microsoft-outlook-logo.png'
 
 class Navbar2 extends Component {
 
@@ -31,6 +32,7 @@ class Navbar2 extends Component {
     this.getInitials = this.getInitials.bind(this);
     this.goToProfile = this.goToProfile.bind(this);
     this.onGoogleCalendarClick = this.onGoogleCalendarClick.bind(this);
+    this.onMicrosoftOutlookClick = this.onMicrosoftOutlookClick.bind(this);
   }
 
   goToProfile(event) {
@@ -57,7 +59,13 @@ class Navbar2 extends Component {
   onGoogleCalendarClick(event) {
     event.preventDefault();
     const { dispatch } = this.props;
-    dispatch(googleActions.getAuthUrl())
+    dispatch(googleActions.getAuthUrl());
+  }
+
+  onMicrosoftOutlookClick(event) {
+    event.preventDefault();
+    const { dispatch } = this.props;
+    dispatch(microsoftActions.getAuthUrl())
   }
 
   render() {
@@ -76,6 +84,9 @@ class Navbar2 extends Component {
           <Nav className="ml-auto">
             <Button variant="link" onClick={this.onGoogleCalendarClick}>
               <Image src={googleCalendarLogo} height="30" width="30" />
+            </Button>
+            <Button variant="link" onClick={this.onMicrosoftOutlookClick}>
+              <Image src={microsoftOutlookLogo} height="30" width="30" />
             </Button>
             <NavDropdown title={this.getInitials()} id="basic-nav-dropdown">
               <NavDropdown.Item onClick={this.goToProfile}>{t('profile')}</NavDropdown.Item>

@@ -12,6 +12,7 @@ import _googleTypes from './google';
 // import _eventTypes from './event';
 import _i18nTypes from './i18n';
 import _meTypes from './me';
+import _microsoftTypes from './microsoft';
 import _notificationTypes from './notification';
 import _sdkTypes from './sdk';
 import _userTypes from './user';
@@ -22,6 +23,7 @@ export default {
   // event: _eventTypes,
   i18n: _i18nTypes,
   me: _meTypes,
+  microsoft: _microsoftTypes,
   notification: _notificationTypes,
   sdk: _sdkTypes,
   user: _userTypes
@@ -33,6 +35,7 @@ export const googleTypes = _googleTypes;
 // export const eventTypes = _eventTypes;
 export const i18nTypes = _i18nTypes;
 export const meTypes = _meTypes;
+export const microsoftTypes = _microsoftTypes;
 export const notificationTypes = _notificationTypes;
 export const sdkTypes = _sdkTypes;
 export const userTypes = _userTypes;

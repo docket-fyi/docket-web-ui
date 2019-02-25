@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container, Button, Form } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
+import moment from 'moment';
 
 import { meActions } from '../../actions';
 
@@ -16,18 +17,18 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: props.me.firstName || '',
-      lastName: props.me.lastName || '',
-      email: props.me.email || '',
-      createdAt: props.me.createdAt || new Date()
+      firstName: '',
+      lastName: '',
+      email: '',
+      preferredMeasurementUnit: '',
+      createdAt: moment().format('YYYY-MM-DD')
     }
     this.onDelete = this.onDelete.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
   }
 
   onDelete(event) {
-    // event.preventDefault()
+    event.preventDefault();
     const { dispatch } = this.props;
     dispatch(meActions.destroy());
   }
@@ -37,8 +38,27 @@ class Profile extends Component {
     dispatch(meActions.getProfile());
   }
 
-  onChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.me.firstName && this.props.me.firstName !== prevState.firstName) {
+      this.setState({
+        firstName: this.props.me.firstName
+      });
+    }
+    if (this.props.me.lastName && this.props.me.lastName !== prevState.lastName) {
+      this.setState({
+        lastName: this.props.me.lastName
+      });
+    }
+    if (this.props.me.email && this.props.me.email !== prevState.email) {
+      this.setState({
+        email: this.props.me.email
+      });
+    }
+    if (this.props.me.preferredMeasurementUnit && this.props.me.preferredMeasurementUnit !== prevState.preferredMeasurementUnit) {
+      this.setState({
+        preferredMeasurementUnit: this.props.me.preferredMeasurementUnit
+      });
+    }
   }
 
   onSubmit(event) {
@@ -49,26 +69,34 @@ class Profile extends Component {
   }
 
   render() {
-    // const { firstName, lastName, email, createdAt = '' } = me;
-    const { firstName, lastName, email, createdAt } = this.state;
     const { t } = this.props;
+    const { firstName, lastName, email, preferredMeasurementUnit, createdAt } = this.state;
 
     return (
       <Container>
         <Form onSubmit={this.onSubmit}>
           <Form.Group>
             <Form.Label>{t('firstName')}</Form.Label>
-            <Form.Control name="firstName" value={firstName} onChange={this.onChange} placeholder={t('firstName')} />
+            <Form.Control name="firstName" key={firstName} defaultValue={firstName} placeholder={t('firstName')} />
           </Form.Group>
           <Form.Group>
             <Form.Label>{t('lastName')}</Form.Label>
-            <Form.Control name="lastName" value={lastName} onChange={this.onChange} placeholder={t('lastName')} />
+            <Form.Control name="lastName" key={lastName} defaultValue={lastName} placeholder={t('lastName')} />
           </Form.Group>
           <Form.Group>
             <Form.Label>{t('email')}</Form.Label>
-            <Form.Control name="email" type="email" value={email} onChange={this.onChange} placeholder={t('email')} />
+            <Form.Control name="email" type="email" key={email} defaultValue={email} placeholder={t('email')} />
           </Form.Group>
-          <h3>{t('memberSince', {date: createdAt.toString()})}</h3>
+          <Form.Group>
+            <Form.Label>{t('preferredMeasurementUnit')}</Form.Label>
+            <Form.Control as="select" name="preferredMeasurementUnit" default={preferredMeasurementUnit}>
+              <option>{t('daysPlural')}</option>
+              <option>{t('weeksPlural')}</option>
+              <option>{t('monthsPlural')}</option>
+              <option>{t('yearsPlural')}</option>
+            </Form.Control>
+          </Form.Group>
+          <h3>{t('memberSince', {date: moment(createdAt).format('YYYY-MM-DD')})}</h3>
           <Button variant="outline-light" size="lg" type="submit">{t('submit')}</Button>
           <Button variant="link" size="lg" onClick={ this.onDelete }>{t('delete')}</Button>
         </Form>
@@ -79,7 +107,8 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  me: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {

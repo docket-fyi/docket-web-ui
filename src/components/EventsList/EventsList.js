@@ -35,8 +35,8 @@ class EventsList extends Component {
     const { events, match } = this.props
     return (
       <Container>
-        {events.all.map((event, index) => (
-          <EventListItem key={index} {...event} />
+        {events.all.map(event => (
+          <EventListItem key={event._id} {...event} />
         ))}
         <Route path={`${match.url}/new`} component={NewEvent} />
         <Button className="add-new-event" variant="outline-light" size="lg" onClick={this.onAddNewEvent}>+</Button>

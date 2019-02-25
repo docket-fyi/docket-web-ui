@@ -182,7 +182,7 @@ export function register(firstName = '', lastName = '', email = '', password = '
       const usersPostRequestBody = UsersPostRequestBody.constructFromObject({ firstName, lastName, email, password});
       const usersResponse = await userApi.createUser(usersPostRequestBody)
       if (usersResponse && usersResponse.data) {
-        dispatch(createUserSucceeded(usersResponse));
+        dispatch(createUserSucceeded(usersResponse.data));
         history.push('/register/success')
       } else {
         dispatch(createUserFailed());
