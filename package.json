@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@docket/docket.js": "0.17.0",
-    "history": "4.7.2",
+    "history": "4.9.0",
     "i18next": "15.0.4",
     "i18next-browser-languagedetector": "3.0.1",
     "i18next-xhr-backend": "2.0.1",
