@@ -72,7 +72,6 @@ function google(state = initialState, action) {
         calendars: action.responseBody
       });
 
-
     default:
       return state
   }

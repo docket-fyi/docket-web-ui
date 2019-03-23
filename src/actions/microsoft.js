@@ -84,6 +84,28 @@ export function tokensRequestSucceeded() {
   }
 }
 
+export function calendarListRequested() {
+  return {
+    type: microsoftTypes.CALENDARS_REQUESTED,
+    calendarsIsLoading: true
+  }
+}
+
+export function calendarListRequestSucceeded(responseBody) {
+  return {
+    type: microsoftTypes.CALENDARS_REQUEST_SUCCEEDED,
+    calendarsIsLoading: false,
+    responseBody
+  }
+}
+
+export function calendarListRequestFailed() {
+  return {
+    type: microsoftTypes.CALENDARS_REQUEST_FAILED,
+    calendarsIsLoading: false
+  }
+}
+
 /**
  * [getOAuthUrl description]
  *
@@ -128,6 +150,27 @@ export function getTokens(code = '') {
       }
     } catch (err) {
       dispatch(tokensRequestFailed());
+    }
+  };
+}
+
+/**
+ * [getCalendarList description]
+ *
+ * @return {Function}
+ */
+export function getCalendarList() {
+  return async dispatch => {
+    dispatch(calendarListRequested());
+    try {
+      const response = await microsoftApi.getAllMicrosoftCalendarLists()
+      if (response && response.data) {
+        dispatch(calendarListRequestSucceeded(response.data));
+      } else {
+        dispatch(calendarListRequestFailed());
+      }
+    } catch (err) {
+      dispatch(calendarListRequestFailed());
     }
   };
 }

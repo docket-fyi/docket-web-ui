@@ -5,6 +5,7 @@
 import { AuthPostRequestBody } from "@docket/docket.js";
 import jwtDecode from 'jwt-decode';
 
+import history from '../history';
 import { sdkActions, meActions, errorActions } from './index';
 import { authenticationTypes } from '../types';
 import { setJwt, removeJwt } from '../local-storage/jwt';
@@ -108,5 +109,6 @@ export function logout() {
   return dispatch => {
     dispatch(authenticationRevoked());
     dispatch(sdkActions.teardownSdkAuthentication());
+    history.push('/logout');
   };
 }

@@ -18,10 +18,12 @@ import GlobalError from './GlobalError/GlobalError';
 import GoogleCalendarsList from './GoogleCalendarsList/GoogleCalendarsList';
 import Login from './Login/Login';
 import Logout from './Logout/Logout';
+import MicrosoftCalendarsList from './MicrosoftCalendarsList/MicrosoftCalendarsList';
 import Navbar from './Navbar/Navbar';
 import NewEvent from './NewEvent/NewEvent';
 import NewUser from './NewUser/NewUser'; // @todo Register
 import NewUserSuccess from './NewUserSuccess/NewUserSuccess'; // @todo RegistrationSuccess
+import Notification from './Notification/Notification';
 import OAuthGoogleCallback from './OAuthGoogleCallback/OAuthGoogleCallback';
 import OAuthMicrosoftCallback from './OAuthMicrosoftCallback/OAuthMicrosoftCallback';
 import Profile from './Profile/Profile';
@@ -42,10 +44,12 @@ export {
   GoogleCalendarsList,
   Login,
   Logout,
+  MicrosoftCalendarsList,
   Navbar,
   NewEvent,
   NewUser,
   NewUserSuccess,
+  Notification,
   OAuthGoogleCallback,
   OAuthMicrosoftCallback,
   Profile,

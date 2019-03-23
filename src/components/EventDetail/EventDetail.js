@@ -7,7 +7,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container, Button, Form } from 'react-bootstrap';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 
 import { meActions } from '../../actions';
@@ -93,6 +93,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withNamespaces(),
+  withTranslation(),
   connect(mapStateToProps)
 )(EventDetail);

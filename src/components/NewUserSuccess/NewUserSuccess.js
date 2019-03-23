@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Container, Row, Col} from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import './NewUserSuccess.css'
 
@@ -53,7 +53,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withNamespaces(),
+  withTranslation(),
   connect(mapStateToProps)
 )(NewUserSuccess);
 

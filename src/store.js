@@ -7,7 +7,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger'
 
-import reducer from './reducers'
+import environment from './environment';
+import reducer from './reducers';
 
 const initialState = {};
 
@@ -16,7 +17,12 @@ const middleware = [
   logger
 ]
 
-/* TODO: if (env !== 'production)' */
-const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
+let store;
+
+if (environment.environment !== 'production') {
+  store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
+} else {
+  store = createStore(reducer, initialState, applyMiddleware(...middleware));
+}
 
 export default store;

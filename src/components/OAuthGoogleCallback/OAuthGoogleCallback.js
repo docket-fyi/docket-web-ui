@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { googleActions } from '../../actions';
 import withQueryParams from '../QueryParams/QueryParams';
@@ -43,6 +43,6 @@ function mapStateToProps(state) {
 export default compose(
   // withRouter,
   withQueryParams,
-  withNamespaces(),
+  withTranslation(),
   connect(mapStateToProps)
 )(OAuthGoogleCallback);

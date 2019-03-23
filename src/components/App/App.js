@@ -2,7 +2,7 @@
  * @module components/App
  */
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { compose } from 'redux';
 import { Router } from 'react-router';
@@ -12,10 +12,12 @@ import store from '../../store';
 import history from '../../history';
 import {
   AppRouter,
-  GlobalError
+  GlobalError,
+  Notification
 } from '../../components';
 import './App.css'
 // import i18n from '../../i18n';
+import '../../i18n';
 
 function App(props) {
 
@@ -41,10 +43,13 @@ function App(props) {
           <Router history={history}>
             {/* <I18nextProvider i18n={i18n}> */}
               {/* TODO: Move center-styling to <UnauthenticatedRoute> layout */}
-              <div>
-                <GlobalError />
-                <AppRouter />
-              </div>
+              <Suspense fallback={<div>Loading...</div>}>
+                <div>
+                  <Notification />
+                  <GlobalError />
+                  <AppRouter />
+                </div>
+              </Suspense>
             {/* </I18nextProvider> */}
           </Router>
         {/* </MuiPickersUtilsProvider> */}

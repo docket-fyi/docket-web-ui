@@ -1,5 +1,5 @@
 /**
- * @module components/GoogleCalendarsList
+ * @module components/MicrosoftCalendarsList
  */
 
 import React, { Component } from 'react';
@@ -9,11 +9,11 @@ import PropTypes from 'prop-types';
 import { Container, Button, ListGroup, Form, Row, Col } from 'react-bootstrap';
 import moment from 'moment';
 
-import { googleActions, meActions } from '../../actions';
-// import { GoogleCalendarListItem } from '../index'
+import { microsoftActions, meActions } from '../../actions';
+// import { MicrosoftCalendarListItem } from '../index'
 import './styles.css'
 
-class GoogleCalendarsList extends Component {
+class MicrosoftCalendarsList extends Component {
 
   constructor(props) {
     super(props);
@@ -28,13 +28,13 @@ class GoogleCalendarsList extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(googleActions.getCalendarList());
+    dispatch(microsoftActions.getCalendarList());
   }
 
   import(event) {
     event.preventDefault()
-    const { dispatch, google } = this.props;
-    const { calendars } = google
+    const { dispatch, microsoft } = this.props;
+    const { calendars } = microsoft
     const formData = new window.FormData(event.target);
     const events = [];
     const allEvents = calendars.map(calendar => calendar.events).reduce((a, b) => a.concat(b), [])
@@ -68,21 +68,21 @@ class GoogleCalendarsList extends Component {
   // isEventChecked(id) {}
 
   render() {
-    const { google } = this.props;
+    const { microsoft } = this.props;
     // const { allCheckedCalendars } = this.state
-    const { calendars } = google;
+    const { calendars } = microsoft;
     return (
       <Container>
         <Form onSubmit={this.import}>
           {/* <GoogleCalendarListItem key={calendar.id} {...calendar} /> */}
           {
             calendars.map(calendar => {
-              const { id, summary, backgroundColor, foregroundColor, events } = calendar;
+              const { id, name, color, events } = calendar;
               return (
                 <ListGroup key={id} style={{marginBottom: '20px'}}>
-                  <ListGroup.Item style={{backgroundColor, color: foregroundColor}}>
+                  <ListGroup.Item style={{backgroundColor: color}}>
                     <Form.Group>
-                      <Form.Check type="checkbox" label={`${summary} (${events.length} events)`} onChange={event => this.selectAllForCalendar(event, id)} defaultChecked={this.isCalendarChecked(id)} />
+                      <Form.Check type="checkbox" label={`${name} (${events.length} events)`} onChange={event => this.selectAllForCalendar(event, id)} defaultChecked={this.isCalendarChecked(id)} />
                     </Form.Group>
                   </ListGroup.Item>
                   <ListGroup.Item>
@@ -90,12 +90,12 @@ class GoogleCalendarsList extends Component {
                       {
                         events.length
                           ? events.map(event => {
-                            const { summary, id, start } = event
-                            const date = moment(start.date || start.dateTime).format('MMM D, YYYY')
+                            const { subject, id, start } = event
+                            const date = moment(start.dateTime).format('MMM D, YYYY')
                               return (
                                 <Col xs={4} key={id}>
                                   <Form.Group style={{color: 'black'}}>
-                                    <Form.Check type="checkbox" label={summary} name={event.id} id={event.id} /> {/*checked={this.isCalendarChecked(calendar.id)}*/}
+                                    <Form.Check type="checkbox" label={subject} name={event.id} id={event.id} /> {/*checked={this.isCalendarChecked(calendar.id)}*/}
                                     <small style={{opacity: '0.5'}}>{date}</small>
                                   </Form.Group>
                                 </Col>
@@ -116,17 +116,17 @@ class GoogleCalendarsList extends Component {
   }
 }
 
-GoogleCalendarsList.propTypes = {
+MicrosoftCalendarsList.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  google: PropTypes.object.isRequired
+  microsoft: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    google: state.google
+    microsoft: state.microsoft
   }
 }
 
 export default compose(
   connect(mapStateToProps)
-)(GoogleCalendarsList);
+)(MicrosoftCalendarsList);

@@ -2,11 +2,17 @@
  * @module actions/me
  */
 
+ import status from 'http-status';
 import { meTypes } from '../types';
 import { meApi } from '../api';
 import history from '../history';
 import { authenticationActions } from './index';
-import { MePutRequestBody, MeEventPutRequestBody, MeEventsPostRequestBody } from '@docket/docket.js';
+import {
+  MePutRequestBody,
+  MeEventPutRequestBody,
+  MeEventsPostRequestBody,
+  ImportEventsMePostRequestBody
+} from '@docket/docket.js';
 
 /**
  * [myEventsRequested description]
@@ -304,6 +310,43 @@ export function updateMeFailed() {
 }
 
 /**
+ * [updateMeRequested description]
+ *
+ * @return {Object}
+ */
+export function importMyEventsRequested() {
+  return {
+    type: meTypes.IMPORT_MY_EVENTS_REQUESTED,
+    isLoading: true
+  };
+}
+
+/**
+ * [updateMeSucceeded description]
+ *
+ * @return {Object}
+ */
+export function importMyEventsSucceeded(responseBody) {
+  return {
+    type: meTypes.IMPORT_MY_EVENTS_REQUEST_SUCCEEDED,
+    responseBody,
+    isLoading: false
+  };
+}
+
+/**
+ * [updateMeFailed description]
+ *
+ * @return {Object}
+ */
+export function importMyEventsFailed() {
+  return {
+    type: meTypes.IMPORT_MY_EVENTS_REQUEST_FAILED,
+    isLoading: false
+  };
+}
+
+/**
  * [destroy description]
  *
  * @return {Function}
@@ -316,7 +359,6 @@ export function destroy() {
       if (response) {
         dispatch(destroyMeSucceeded())
         dispatch(authenticationActions.logout())
-        history.push('/logout');
       } else {
         dispatch(destroyMeFailed())
       }
@@ -456,6 +498,41 @@ export function createEvent(formData) {
       }
     } catch (err) {
       dispatch(createMyEventFailed());
+    }
+  };
+}
+
+/**
+ * [importEvents description]
+ *
+ * @param  {FormData} formData
+ * @return {Function}
+ */
+export function importEvents(events) {
+  return async dispatch => {
+    dispatch(importMyEventsRequested());
+    try {
+      const transformedEvents = events.map(event => ({
+        name: event.summary || event.subject,
+        date: event.start.date
+      }))
+      const requestBody = ImportEventsMePostRequestBody.constructFromObject({events: transformedEvents});
+      const importMyEventsResponse = await meApi.importMyEvents(requestBody)
+      debugger
+      if (importMyEventsResponse && importMyEventsResponse.data) {
+        const events = importMyEventsResponse.data
+        dispatch(importMyEventsSucceeded(events))
+      } else {
+        dispatch(importMyEventsFailed());
+      }
+    } catch (err) {
+      console.log(err)
+      debugger
+      // if (importMyEventsResponse.response.status === status.FORBIDDEN) {
+        dispatch(importMyEventsFailed());
+      //   dispatch(authenticationActions.logout());
+      //   return
+      // }
     }
   };
 }

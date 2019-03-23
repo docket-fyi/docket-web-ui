@@ -15,7 +15,7 @@ import {
   FormControl,
   Button
 } from 'react-bootstrap'
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { meActions, googleActions, microsoftActions } from '../../actions';
 import history from '../../history';
@@ -114,6 +114,6 @@ function mapStateToProps(state) {
 
 export default compose(
   // withRouter,
-  withNamespaces(),
+  withTranslation(),
   connect(mapStateToProps)
 )(Navbar2);

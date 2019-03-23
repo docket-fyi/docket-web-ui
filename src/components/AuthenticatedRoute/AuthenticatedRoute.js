@@ -8,11 +8,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router';
 import { Container } from 'react-bootstrap';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { Navbar } from '../index';
 import { sdkActions, authenticationActions, errorActions, notificationActions } from '../../actions';
-import { hasJwt, isJwtExpired, getJwt } from '../../local-storage/jwt'
+import { hasJwt, isJwtExpired, getJwt } from '../../local-storage/jwt';
+import socket from '../../socket-io';
 
 function AuthenticatedRoute(props) {
 
@@ -26,8 +27,10 @@ function AuthenticatedRoute(props) {
     props.dispatch(errorActions.enqueued({translationKey: 'loginExpired'}));
     return <Redirect to="/login" />;
   }
-  dispatch(sdkActions.setupSdkAuthentication(getJwt()));
-  dispatch(authenticationActions.authenticationSucceeded(getJwt()));
+  const jwt = getJwt()
+  socket.emit('docket_user_connected', { jwt })
+  dispatch(sdkActions.setupSdkAuthentication(jwt));
+  dispatch(authenticationActions.authenticationSucceeded(jwt));
   return (
     <Container fluid>
       {/* TODO: <AuthenticatedLayout /> */}
@@ -45,6 +48,6 @@ AuthenticatedRoute.propTypes = {
 }
 
 export default compose(
-  withNamespaces(),
+  withTranslation(),
   connect(),
 )(AuthenticatedRoute);

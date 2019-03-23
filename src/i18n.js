@@ -1,16 +1,22 @@
 import i18n from 'i18next';
 import XHR from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { reactI18nextModule } from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
+
+import environment from './environment';
 
 i18n
   .use(XHR)
   .use(LanguageDetector)
-  .use(reactI18nextModule) // if not using I18nextProvider
+  /*
+   * The following is only needed if not using the I18nextProvider component.
+   * @see https://react.i18next.com/latest/i18nextprovider#when-to-use
+  */
+  .use(initReactI18next)
   .init({
     backend: {
       loadPath: (languages, namespaces) => {
-        return `${process.env.REACT_APP_API_BASE_PATH}/${process.env.REACT_APP_API_VERSION}/i18n/${languages}`;
+        return `${environment.apiBasePath}/${environment.apiVersion}/i18n/${languages}`;
       }
     },
     ns: ['docket.ui.web'],

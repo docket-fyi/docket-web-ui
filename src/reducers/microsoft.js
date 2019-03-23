@@ -33,6 +33,45 @@ function microsoft(state = initialState, action) {
         oAuthUrlIsLoading: action.oAuthUrlIsLoading
       });
 
+      case microsoftTypes.TOKENS_REQUESTED:
+      return Object.assign({}, state, {
+        ...state,
+        tokensIsLoading: action.tokensIsLoading
+      });
+
+    case microsoftTypes.TOKENS_REQUEST_FAILED:
+      return Object.assign({}, state, {
+        ...state,
+        tokensIsLoading: action.tokensIsLoading,
+        hasTokens: action.hasTokens
+      });
+
+    case microsoftTypes.TOKENS_REQUEST_SUCCEEDED:
+      return Object.assign({}, state, {
+        ...state,
+        tokensIsLoading: action.tokensIsLoading,
+        hasTokens: action.hasTokens
+      });
+
+    case microsoftTypes.CALENDARS_REQUESTED:
+      return Object.assign({}, state, {
+        ...state,
+        calendarsIsLoading: action.calendarsIsLoading
+      });
+
+    case microsoftTypes.CALENDARS_REQUEST_FAILED:
+      return Object.assign({}, state, {
+        ...state,
+        calendarsIsLoading: action.calendarsIsLoading
+      });
+
+    case microsoftTypes.CALENDARS_REQUEST_SUCCEEDED:
+      return Object.assign({}, state, {
+        ...state,
+        calendarsIsLoading: action.calendarsIsLoading,
+        calendars: action.responseBody
+      });
+
     default:
       return state
   }

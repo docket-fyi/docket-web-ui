@@ -106,8 +106,6 @@ export function calendarListRequestFailed() {
   }
 }
 
-
-
 /**
  * [getOAuthUrl description]
  *
@@ -157,7 +155,7 @@ export function getTokens(code = '') {
 }
 
 /**
- * [getTokens description]
+ * [getCalendarList description]
  *
  * @return {Function}
  */

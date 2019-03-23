@@ -23,7 +23,8 @@ import {
   ResetPassword,
   OAuthGoogleCallback,
   OAuthMicrosoftCallback,
-  GoogleCalendarsList
+  GoogleCalendarsList,
+  MicrosoftCalendarsList
 } from '../../components';
 import { sdkActions } from '../../actions';
 
@@ -50,6 +51,7 @@ const AppRouter = props => {
       <AuthenticatedRoute path="/oauth/google/callback" component={OAuthGoogleCallback} />
       <AuthenticatedRoute path="/oauth/microsoft/callback" component={OAuthMicrosoftCallback} />
       <AuthenticatedRoute path="/google/calendars" component={GoogleCalendarsList} />
+      <AuthenticatedRoute path="/microsoft/calendars" component={MicrosoftCalendarsList} />
 
       <Redirect to="/login" />
     </Switch>

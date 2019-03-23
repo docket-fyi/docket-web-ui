@@ -7,7 +7,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Alert } from 'react-bootstrap'
 import PropTypes from 'prop-types';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { errorActions } from '../../actions';
 
@@ -62,6 +62,6 @@ function mapStateToProps(state) {
 
 export default compose(
   // withStyles(styles),
-  withNamespaces(),
+  withTranslation(),
   connect(mapStateToProps)
 )(GlobalError);
