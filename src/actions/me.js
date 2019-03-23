@@ -2,7 +2,6 @@
  * @module actions/me
  */
 
- import status from 'http-status';
 import { meTypes } from '../types';
 import { meApi } from '../api';
 import history from '../history';
