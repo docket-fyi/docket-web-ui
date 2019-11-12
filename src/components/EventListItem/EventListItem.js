@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import moment from 'moment';
 
+import routes from '../../routes'
 import history from '../../history';
 
 class EventListItem extends Component {
@@ -18,7 +19,7 @@ class EventListItem extends Component {
   }
 
   goToEvent(id, slug) {
-    history.push(`/event/${id}/${slug}`);
+    history.push(routes.events.show(id, slug));
   }
 
   render() {

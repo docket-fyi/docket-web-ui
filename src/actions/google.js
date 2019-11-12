@@ -5,6 +5,7 @@
 import { googleTypes } from '../types';
 import { googleApi } from '../api';
 import history from '../history';
+import routes from '../routes'
 
 /**
  * [oauthUrlRequested description]
@@ -144,7 +145,7 @@ export function getTokens(code = '') {
       const response = await googleApi.getGoogleAuthTokens(code)
       if (response.response.ok) {
         dispatch(tokensRequestSucceeded());
-        history.push(`/google/calendars`)
+        history.push(routes.google.calendars.list)
       } else {
         dispatch(tokensRequestFailed());
       }

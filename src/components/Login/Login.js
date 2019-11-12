@@ -19,6 +19,7 @@ import {
   withStyles
 } from '@material-ui/core';
 
+import routes from '../../routes'
 import { authenticationActions } from '../../actions';
 import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
 import styles from './styles'
@@ -39,14 +40,14 @@ class Login extends Component {
 
   componentWillMount() {
     if (hasJwt() && !isJwtExpired()) {
-      this.props.history.push('/events');
+      this.props.history.push(routes.events.list);
       return;
     }
   }
 
   componentDidUpdate() {
     if (hasJwt() && !isJwtExpired()) {
-      this.props.history.push('/events');
+      this.props.history.push(routes.events.list);
       return;
     }
   }
@@ -63,11 +64,11 @@ class Login extends Component {
   }
 
   onRegister(event) {
-    this.props.history.push('/register');
+    this.props.history.push(routes.register);
   }
 
   onForgotPassword(event) {
-    this.props.history.push('/forgot-password');
+    this.props.history.push(routes.forgotPassword);
   }
 
   render() {

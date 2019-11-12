@@ -11,6 +11,7 @@ import { Route } from 'react-router-dom';
 import { meActions } from '../../actions';
 import { NewEvent, EventListItem } from '../index'
 import './styles.css'
+import routes from '../../routes'
 
 class EventsList extends Component {
 
@@ -27,7 +28,7 @@ class EventsList extends Component {
   onAddNewEvent(event) {
     event.preventDefault()
     const { history } = this.props
-    history.push(`/events/new`)
+    history.push(routes.events.new)
   }
 
   render() {

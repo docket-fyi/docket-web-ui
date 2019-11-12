@@ -5,10 +5,25 @@
 const routes = {
   login: '/login',
   logout: '/logout',
-  events: '/events',
-  eventDetail: id => `/events/${id}`,
+  register: '/register',
+  registerSuccess: '/register/success',
+  events: {
+    list: '/events',
+    show: (id, slug) => `/events/${id}/${slug}`,
+    new: '/events/new'
+  },
   profile: '/profile',
-  newEvent: '/events/new'
+  forgotPassword: '/forgot-password',
+  google: {
+    calendars: {
+      list: '/google/calendars'
+    }
+  },
+  microsoft: {
+    calendars: {
+      list: '/microsoft/calendars'
+    }
+  }
 }
 
 export default routes;

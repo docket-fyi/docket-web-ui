@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GlobalError from './GlobalError';
+import SocketNotification from './SocketNotification';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<GlobalError />, div);
+  ReactDOM.render(<SocketNotification />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

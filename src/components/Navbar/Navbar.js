@@ -14,6 +14,7 @@ import './Navbar.css'
 // import googleLogo from './google-logo.png'
 import googleCalendarLogo from './google-calendar-logo.png'
 import microsoftOutlookLogo from './microsoft-outlook-logo.png'
+import routes from '../../routes'
 
 class Navbar2 extends Component {
 
@@ -28,7 +29,7 @@ class Navbar2 extends Component {
 
   goToProfile(event) {
     event.preventDefault();
-    history.push('/profile');
+    history.push(routes.profile);
   }
 
   componentDidMount() {
@@ -44,7 +45,7 @@ class Navbar2 extends Component {
 
   onBrandClick(event) {
     event.preventDefault();
-    history.push('/events')
+    history.push(routes.events.list)
   }
 
   onGoogleCalendarClick(event) {

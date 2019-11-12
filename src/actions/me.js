@@ -12,6 +12,7 @@ import {
   MeEventsPostRequestBody,
   ImportEventsMePostRequestBody
 } from '@docket/docket.js';
+import routes from '../routes'
 
 /**
  * [myEventsRequested description]
@@ -466,11 +467,11 @@ export function getEventById(id) {
         const event = myEventResponse.data
         dispatch(myEventSucceeded(event))
       } else {
-        history.push('/events');
+        history.push(routes.events.list);
         dispatch(myEventFailed())
       }
     } catch (err) {
-      history.push('/events');
+      history.push(routes.events.list);
       dispatch(myEventFailed());
     }
   };
@@ -613,6 +614,6 @@ export function destroyEventById(id) {
     } catch (err) {
       dispatch(destroyMyEventFailed());
     }
-    history.push('/events');
+    history.push(routes.events.list);
   };
 }

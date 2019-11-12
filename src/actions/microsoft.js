@@ -5,6 +5,7 @@
 import { microsoftTypes } from '../types';
 import { microsoftApi } from '../api';
 import history from '../history';
+import routes from '../routes'
 
 /**
  * [oauthUrlRequested description]
@@ -144,7 +145,7 @@ export function getTokens(code = '') {
       const response = await microsoftApi.getMicrosoftAuthTokens(code)
       if (response.response.ok) {
         dispatch(tokensRequestSucceeded());
-        history.push(`/microsoft/calendars`)
+        history.push(routes.microsoft.calendars.list)
       } else {
         dispatch(tokensRequestFailed());
       }

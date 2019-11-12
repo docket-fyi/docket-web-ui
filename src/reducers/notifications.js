@@ -1,35 +1,49 @@
 /**
- * @module reducers/notifications
+ * @module reducers/errors
  */
 
 import { notificationTypes } from '../types';
 
 const initialState = {
-  permission: window.Notification.permission || 'default'
+  all: [],
+  isOpen: false,
+  // count: 0,
+  current: {}
 };
 
 function notifications(state = initialState, action) {
   switch (action.type) {
 
-    case notificationTypes.NOTIFICATION_PERMISSION_REQUESTED:
-      return Object.assign({}, state, {
-        ...state
-      });
-
-    case notificationTypes.NOTIFICATION_PERMISSION_GRANTED:
+    case notificationTypes.NOTIFICATION_ENQUEUED:
       return Object.assign({}, state, {
         ...state,
-        permission: action.permission // 'granted'
+        isOpen: true,
+        // all: state.all.concat(action.response.response.body.errors[0].title),
+        all: state.all.concat({
+          ...action.notification,
+          // variant: action.variant || 'danger'
+          // autoHide: action.autoHide,
+          // autoHideDuration: action.autoHideDuration
+        }),
+        // count: state.count + 1
       });
 
-    case notificationTypes.NOTIFICATION_PERMISSION_DENIED:
+    case notificationTypes.NOTIFICATION_DEQUEUED:
       return Object.assign({}, state, {
         ...state,
-        permission: action.permission // 'denied'
+        isOpen: !!state.all.slice(1).length,
+        all: state.all.slice(1),
+        // count: state.count - 1
+      });
+
+    case notificationTypes.NOTIFICATION_CLOSED:
+      return Object.assign({}, state, {
+        ...state,
+        isOpen: false
       });
 
     default:
-      return state
+      return state;
   }
 }
 
