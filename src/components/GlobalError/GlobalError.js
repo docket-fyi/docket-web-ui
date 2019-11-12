@@ -5,7 +5,6 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Alert } from 'react-bootstrap'
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
@@ -39,7 +38,7 @@ class GlobalError extends Component {
           errors.all.map((error, index) => {
             const variant = error.variant || 'danger';
             return (
-              <Alert style={{width: '400px', position: 'absolute', top: 10, right: 10}} dismissible key={index} variant={variant}>{t(error.translationKey)}</Alert>
+              <div style={{width: '400px', position: 'absolute', top: 10, right: 10}} dismissible key={index} variant={variant}>{t(error.translationKey)}</div>
             );
           })
         }

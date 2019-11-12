@@ -6,7 +6,7 @@
 // import { reactI18nextModule } from 'react-i18next';
 
 import { i18nTypes } from '../types';
-import { i18nApi } from '../api';
+import { localesApi, translationsApi } from '../api';
 import * as localStorage from '../local-storage/locale';
 
 /**
@@ -72,7 +72,7 @@ export function getTranslations(locale = localStorage.getLocale()) {
       return;
     }
     try {
-      const i18nResponse = await i18nApi.getLocale(locale)
+      const i18nResponse = await translationsApi.listTranslationsByLocale(locale)
       if (i18nResponse && i18nResponse.data) {
         dispatch(i18nSucceeded(i18nResponse.data));
         // i18n

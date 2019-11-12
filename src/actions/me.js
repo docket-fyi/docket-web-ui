@@ -3,7 +3,7 @@
  */
 
 import { meTypes } from '../types';
-import { meApi } from '../api';
+import { usersApi } from '../api';
 import history from '../history';
 import { authenticationActions } from './index';
 import {
@@ -354,7 +354,7 @@ export function destroy() {
   return async dispatch => {
     dispatch(destroyMeRequested());
     try {
-      const response = await meApi.deleteMe()
+      const response = await usersApi.destroyMyProfile()
       if (response) {
         dispatch(destroyMeSucceeded())
         dispatch(authenticationActions.logout())
@@ -376,7 +376,7 @@ export function getProfile() {
   return async dispatch => {
     dispatch(myProfileRequested());
     try {
-      const meResponse = await meApi.getMe()
+      const meResponse = await usersApi.getMyProfile()
       if (meResponse && meResponse.data) {
         const profile = meResponse.data
         dispatch(myProfileSucceeded(profile))
@@ -405,8 +405,14 @@ export function update(formData) {
         const value = entry[1];
         user[key] = value;
       }
-      const requestBody = MePutRequestBody.constructFromObject(user);
-      const meResponse = await meApi.updateMe(requestBody)
+      const requestBody = {
+        data: {
+          attributes: {
+            ...user
+          }
+        }
+      }
+      const meResponse = await usersApi.updateMyProfile(requestBody)
       if (meResponse && meResponse.data) {
         const profile = meResponse.data
         dispatch(updateMeSucceeded(profile))
@@ -428,7 +434,7 @@ export function getEvents() {
   return async dispatch => {
     dispatch(myEventsRequested());
     try {
-      const myEventsResponse = await meApi.getMyEvents()
+      const myEventsResponse = await usersApi.listMyEvents()
       if (myEventsResponse && myEventsResponse.data) {
         const events = myEventsResponse.data
         dispatch(myEventsSucceeded(events))
@@ -455,7 +461,7 @@ export function getEventById(id) {
       return
     }
     try {
-      const myEventResponse = await meApi.getMyEventById(id)
+      const myEventResponse = await usersApi.getMyEventById(id)
       if (myEventResponse && myEventResponse.data) {
         const event = myEventResponse.data
         dispatch(myEventSucceeded(event))
@@ -487,11 +493,17 @@ export function createEvent(formData) {
         event[key] = value;
       }
       // const requestBody = new MeEventsPostRequestBody(event);
-      const requestBody = MeEventsPostRequestBody.constructFromObject(event);
-      const myEventResponse = await meApi.createMyEvent(requestBody)
+      const requestBody = {
+        data: {
+          attributes: {
+            ...event
+          }
+        }
+      };
+      const myEventResponse = await usersApi.createMyEvent(requestBody);
       if (myEventResponse && myEventResponse.data) {
-        const event = myEventResponse.data
-        dispatch(createMyEventSucceeded(event))
+        const event = myEventResponse.data;
+        dispatch(createMyEventSucceeded(event));
       } else {
         dispatch(createMyEventFailed());
       }
@@ -515,8 +527,10 @@ export function importEvents(events) {
         name: event.summary || event.subject,
         date: event.start.date
       }))
-      const requestBody = ImportEventsMePostRequestBody.constructFromObject({events: transformedEvents});
-      const importMyEventsResponse = await meApi.importMyEvents(requestBody)
+      const requestBody = {
+        data: transformedEvents
+      };
+      const importMyEventsResponse = await usersApi.importMyEvents(requestBody)
       debugger
       if (importMyEventsResponse && importMyEventsResponse.data) {
         const events = importMyEventsResponse.data
@@ -525,7 +539,6 @@ export function importEvents(events) {
         dispatch(importMyEventsFailed());
       }
     } catch (err) {
-      console.log(err)
       debugger
       // if (importMyEventsResponse.response.status === status.FORBIDDEN) {
         dispatch(importMyEventsFailed());
@@ -557,8 +570,14 @@ export function updateEventById(id, formData) {
         const value = entry[1];
         event[key] = value;
       }
-      const requestBody = MeEventPutRequestBody.constructFromObject(event);
-      const myEventResponse = await meApi.updateMyEventById(id, requestBody)
+      const requestBody = {
+        data: {
+          attributes: {
+            ...event
+          }
+        }
+      };
+      const myEventResponse = await usersApi.updateMyEventById(id, requestBody)
       if (myEventResponse && myEventResponse.data) {
         const event = myEventResponse.data
         dispatch(updateMyEventSucceeded(event))
@@ -585,7 +604,7 @@ export function destroyEventById(id) {
       return
     }
     try {
-      const response = await meApi.deleteMyEventById(id)
+      const response = await usersApi.deleteMyEventById(id)
       if (response) {
         dispatch(destroyMyEventSucceeded())
       } else {

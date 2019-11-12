@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Container, Button, Form } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 
@@ -73,34 +72,34 @@ class Profile extends Component {
     const { firstName, lastName, email, preferredMeasurementUnit, createdAt } = this.state;
 
     return (
-      <Container>
-        <Form onSubmit={this.onSubmit}>
-          <Form.Group>
-            <Form.Label>{t('firstName')}</Form.Label>
-            <Form.Control name="firstName" key={firstName} defaultValue={firstName} placeholder={t('firstName')} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>{t('lastName')}</Form.Label>
-            <Form.Control name="lastName" key={lastName} defaultValue={lastName} placeholder={t('lastName')} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>{t('email')}</Form.Label>
-            <Form.Control name="email" type="email" key={email} defaultValue={email} placeholder={t('email')} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>{t('preferredMeasurementUnit')}</Form.Label>
-            <Form.Control as="select" name="preferredMeasurementUnit" default={preferredMeasurementUnit}>
+      <div>
+        <form onSubmit={this.onSubmit}>
+          {/* <Form.Group> */}
+            <label>{t('firstName')}</label>
+            <input name="firstName" key={firstName} defaultValue={firstName} placeholder={t('firstName')} />
+          {/* </Form.Group> */}
+          {/* <Form.Group> */}
+            <label>{t('lastName')}</label>
+            <input name="lastName" key={lastName} defaultValue={lastName} placeholder={t('lastName')} />
+          {/* </Form.Group> */}
+          {/* <Form.Group> */}
+            <label>{t('email')}</label>
+            <input name="email" type="email" key={email} defaultValue={email} placeholder={t('email')} />
+          {/* </Form.Group> */}
+          {/* <Form.Group> */}
+            <label>{t('preferredMeasurementUnit')}</label>
+            <select as="select" name="preferredMeasurementUnit" default={preferredMeasurementUnit}>
               <option>{t('daysPlural')}</option>
               <option>{t('weeksPlural')}</option>
               <option>{t('monthsPlural')}</option>
               <option>{t('yearsPlural')}</option>
-            </Form.Control>
-          </Form.Group>
+            </select>
+          {/* </Form.Group> */}
           <h3>{t('memberSince', {date: moment(createdAt).format('YYYY-MM-DD')})}</h3>
-          <Button variant="outline-light" size="lg" type="submit">{t('submit')}</Button>
-          <Button variant="link" size="lg" onClick={ this.onDelete }>{t('delete')}</Button>
-        </Form>
-      </Container>
+          <button variant="outline-light" size="lg" type="submit">{t('submit')}</button>
+          <button variant="link" size="lg" onClick={ this.onDelete }>{t('delete')}</button>
+        </form>
+      </div>
     );
   }
 

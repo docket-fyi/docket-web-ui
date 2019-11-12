@@ -16,7 +16,13 @@ i18n
   .init({
     backend: {
       loadPath: (languages, namespaces) => {
-        return `${environment.apiBasePath}/${environment.apiVersion}/i18n/${languages}`;
+        return `${environment.apiBasePath}/${environment.apiVersion}/locales/${languages}/translations`;
+      },
+      parse: data => {
+        return JSON.parse(data).data.reduce((acc, cur) => {
+          acc[cur.attributes.key] = cur.attributes.text
+          return acc
+        }, {})
       }
     },
     ns: ['docket.ui.web'],

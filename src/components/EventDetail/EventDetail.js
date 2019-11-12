@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Container, Button, Form } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 
@@ -63,20 +62,20 @@ class EventDetail extends Component {
     const { name, date } = this.state;
 
     return (
-      <Container>
-        <Form onSubmit={this.onSubmit}>
-          <Form.Group>
-            <Form.Label>{t('name')}</Form.Label>
-            <Form.Control name="name" key={name} defaultValue={name} placeholder={t('name')} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>{t('date')}</Form.Label>
-            <Form.Control name="date" type="date" key={date} defaultValue={date} placeholder={t('date')} />
-          </Form.Group>
-          <Button variant="outline-light" size="lg" type="submit">{t('submit')}</Button>
-          <Button variant="link" size="lg" onClick={ this.onDelete }>{t('delete')}</Button>
-        </Form>
-      </Container>
+      <div>
+        <form onSubmit={this.onSubmit}>
+          {/* <Form.Group> */}
+            <label>{t('name')}</label>
+            <input name="name" key={name} defaultValue={name} placeholder={t('name')} />
+          {/* </Form.Group> */}
+          {/* <Form.Group> */}
+            <label>{t('date')}</label>
+            <input name="date" type="date" key={date} defaultValue={date} placeholder={t('date')} />
+          {/* </Form.Group> */}
+          <button variant="outline-light" size="lg" type="submit">{t('submit')}</button>
+          <button variant="link" size="lg" onClick={ this.onDelete }>{t('delete')}</button>
+        </form>
+      </div>
     )
   }
 }

@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router';
-import { Container } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 
 import { Navbar } from '../index';
@@ -32,13 +31,13 @@ function AuthenticatedRoute(props) {
   dispatch(sdkActions.setupSdkAuthentication(jwt));
   dispatch(authenticationActions.authenticationSucceeded(jwt));
   return (
-    <Container fluid>
+    <div>
       {/* TODO: <AuthenticatedLayout /> */}
       <Navbar />
       <main>
         <Route {...props} />
       </main>
-    </Container>
+    </div>
   );
 
 }

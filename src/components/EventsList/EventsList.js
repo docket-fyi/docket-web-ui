@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Container, Button } from 'react-bootstrap';
 import { Route } from 'react-router-dom';
 
 import { meActions } from '../../actions';
@@ -34,13 +33,13 @@ class EventsList extends Component {
   render() {
     const { events, match } = this.props
     return (
-      <Container>
+      <div>
         {events.all.map(event => (
           <EventListItem key={event._id} {...event} />
         ))}
         <Route path={`${match.url}/new`} component={NewEvent} />
-        <Button className="add-new-event" variant="outline-light" size="lg" onClick={this.onAddNewEvent}>+</Button>
-      </Container>
+        <button className="add-new-event" variant="outline-light" size="lg" onClick={this.onAddNewEvent}>+</button>
+      </div>
     )
   }
 }

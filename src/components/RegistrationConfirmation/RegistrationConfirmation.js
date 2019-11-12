@@ -4,13 +4,11 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col} from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { userActions } from '../../actions';
-import './RegistrationConfirmation.css'
 
 class RegistrationConfirmation extends Component {
 
@@ -24,13 +22,13 @@ class RegistrationConfirmation extends Component {
     const { t } = this.props;
 
     return (
-      <Container fluid>
-        <Row>
-          <Col xs={{span: 4, offset: 4}}>
+      <div>
+        <tr>
+          <td xs={{span: 4, offset: 4}}>
             {t('loading')}
-          </Col>
-        </Row>
-      </Container>
+          </td>
+        </tr>
+      </div>
     )
   }
 
@@ -49,4 +47,3 @@ export default compose(
   withTranslation(),
   connect(mapStateToProps)
 )(RegistrationConfirmation);
-

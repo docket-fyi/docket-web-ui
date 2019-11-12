@@ -6,15 +6,6 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  Image,
-  Navbar,
-  NavDropdown,
-  Nav,
-  Form,
-  FormControl,
-  Button
-} from 'react-bootstrap'
 import { withTranslation } from 'react-i18next';
 
 import { meActions, googleActions, microsoftActions } from '../../actions';
@@ -72,31 +63,31 @@ class Navbar2 extends Component {
     const { t } = this.props;
 
     return (
-      <Navbar expand="lg">
+      <div expand="lg">
         {/* <Navbar.Brand as="button" onClick={this.onBrandClick}>Docket</Navbar.Brand> */}
-        <Button variant="link" className="navbar-brand" onClick={this.onBrandClick}>Docket</Button>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Form className="ml-auto" inline>
-            <FormControl size="lg" type="text" placeholder={t('search')} className="mr-sm-2" />
+        <button variant="link" className="navbar-brand" onClick={this.onBrandClick}>Docket</button>
+        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+        {/* <Navbar.Collapse id="basic-navbar-nav"> */}
+          <form className="ml-auto" inline>
+            <input size="lg" type="text" placeholder={t('search')} className="mr-sm-2" />
             {/* <Button variant="outline-success">{t('search')}</Button> */}
-          </Form>
-          <Nav className="ml-auto">
-            <Button variant="link" onClick={this.onGoogleCalendarClick}>
-              <Image src={googleCalendarLogo} height="30" width="30" />
-            </Button>
-            <Button variant="link" onClick={this.onMicrosoftOutlookClick}>
-              <Image src={microsoftOutlookLogo} height="30" width="30" />
-            </Button>
-            <NavDropdown title={this.getInitials()} id="basic-nav-dropdown">
-              <NavDropdown.Item onClick={this.goToProfile}>{t('profile')}</NavDropdown.Item>
+          </form>
+          <div className="ml-auto">
+            <button variant="link" onClick={this.onGoogleCalendarClick}>
+              <img src={googleCalendarLogo} height="30" width="30" />
+            </button>
+            <button variant="link" onClick={this.onMicrosoftOutlookClick}>
+              <img src={microsoftOutlookLogo} height="30" width="30" />
+            </button>
+            {/* <NavDropdown title={this.getInitials()} id="basic-nav-dropdown"> */}
+              {/* <NavDropdown.Item onClick={this.goToProfile}>{t('profile')}</NavDropdown.Item> */}
               {/* <Button variant="primary" onClick={this.onBrandClick}>Docket</Button> */}
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/logout">{t('logout')}</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+              {/* <NavDropdown.Divider /> */}
+              {/* <NavDropdown.Item href="/logout">{t('logout')}</NavDropdown.Item> */}
+            {/* </NavDropdown> */}
+          </div>
+        {/* </Navbar.Collapse> */}
+      </div>
     );
   }
 
