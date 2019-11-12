@@ -19,24 +19,24 @@ import * as _userActions from './user';
 
 export default {
   authentication: _authenticationActions,
-  error: _notificationActions,
+  notification: _notificationActions,
   // event: _eventActions,
   google: _googleActions,
   i18n: _i18nActions,
   me: _meActions,
   microsoft: _microsoftActions,
-  notification: _nativeNotificationActions,
+  nativeNotification: _nativeNotificationActions,
   sdk: _sdkActions,
   user: _userActions
 };
 
 export const authenticationActions = _authenticationActions;
-export const errorActions = _notificationActions;
+export const notificationActions = _notificationActions;
 export const googleActions = _googleActions;
 // export const eventActions = _eventActions;
 export const i18nActions = _i18nActions;
 export const meActions = _meActions;
 export const microsoftActions = _microsoftActions;
-export const notificationActions = _nativeNotificationActions;
+export const nativeNotificationActions = _nativeNotificationActions;
 export const sdkActions = _sdkActions;
 export const userActions = _userActions;

@@ -6,7 +6,7 @@
 // import { reactI18nextModule } from 'react-i18next';
 
 import { i18nTypes } from '../types';
-import { localesApi, translationsApi } from '../api';
+import { translationsApi } from '../api';
 import * as localStorage from '../local-storage/locale';
 
 /**

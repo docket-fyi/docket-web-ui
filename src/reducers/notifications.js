@@ -20,10 +20,11 @@ function notifications(state = initialState, action) {
         isOpen: true,
         // all: state.all.concat(action.response.response.body.errors[0].title),
         all: state.all.concat({
-          ...action.notification,
-          // variant: action.variant || 'danger'
-          // autoHide: action.autoHide,
-          // autoHideDuration: action.autoHideDuration
+          message: action.message,
+          translationKey: action.translationKey,
+          autoHide: action.options.autoHide,
+          autoHideDuration: action.options.autoHideDuration,
+          variant: action.options.variant
         }),
         // count: state.count + 1
       });

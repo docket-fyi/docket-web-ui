@@ -38,7 +38,7 @@ class Login extends Component {
     this.onForgotPassword = this.onForgotPassword.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (hasJwt() && !isJwtExpired()) {
       this.props.history.push(routes.events.list);
       return;
@@ -54,9 +54,9 @@ class Login extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    const { dispatch } = this.props;
+    const { authenticate } = this.props;
     const { email, password } = this.state;
-    dispatch(authenticationActions.authenticate(email, password));
+    authenticate(email, password);
   }
 
   onChange(event) {
@@ -73,6 +73,7 @@ class Login extends Component {
 
   render() {
     const { t, classes, authentication } = this.props;
+    const isDisabled = authentication.isLoading || !this.state.email || !this.state.password
 
     return (
       <>
@@ -97,7 +98,7 @@ class Login extends Component {
                             type="email"
                             autoFocus={true}
                             value={this.state.email}
-                            onChange={this.onChangeEmail}
+                            onChange={this.onChange}
                           />
                         </Grid>
                         <Grid item xs={12}>
@@ -109,14 +110,14 @@ class Login extends Component {
                             type="password"
                             margin="normal"
                             value={this.state.password}
-                            onChange={this.onChangePassword}
+                            onChange={this.onChange}
                             InputProps={{
                               endAdornment: <Link component={RouterLink} to="/forgot-password" underline="none" variant="button">{t('forgot')}</Link>
                             }}
                           />
                         </Grid>
                         <Grid item xs={12}>
-                          <Button fullWidth type="submit" variant="contained" color="primary" disabled={authentication.isLoading}>{t('login')}</Button>
+                          <Button fullWidth type="submit" variant="contained" color="primary" disabled={isDisabled}>{t('login')}</Button>
                         </Grid>
                       </Grid>
                     </form>
@@ -144,7 +145,6 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   authentication: PropTypes.object.isRequired
 }
@@ -155,8 +155,14 @@ function mapStateToProps(state) {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    authenticate: (email, password) => dispatch(authenticationActions.authenticate(email, password))
+  }
+}
+
 export default compose(
   withTranslation(),
   withStyles(styles),
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(Login);

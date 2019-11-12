@@ -4,15 +4,36 @@
 
 import { notificationTypes } from '../types';
 
+const NOTIFICATION_VARIANTS = [
+  'info',
+  'error',
+  'warning',
+  'success'
+]
+
 /**
  * [enqueued description]
  * @return {Object}
  */
-export function enqueued(error) {
+export function enqueued(message = 'An unknown error occurred', options = {}) {
+  const defaultOptions = {
+    autoHide: false,
+    autoHideDuration: null,
+    variant: 'error'
+  }
+  const mergedOptions = Object.assign({}, defaultOptions, options)
+  if (!NOTIFICATION_VARIANTS.includes(mergedOptions.variant)) {
+    mergedOptions.variant = defaultOptions.variant
+  }
+  if (mergedOptions.autoHide && !mergedOptions.autoHideDuration) {
+    // Set a sensible duration (in milliseconds) based on the number of
+    // words in the message, plus a little buffer.
+    mergedOptions.autoHideDuration = ((message.split(' ').length * 1000) / 2) + 500;
+  }
   return {
     type: notificationTypes.NOTIFICATION_ENQUEUED,
-    error,
-    // variant: error.variant
+    message,
+    options: mergedOptions
   }
 }
 

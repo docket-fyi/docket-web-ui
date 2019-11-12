@@ -5,11 +5,12 @@
 import jwtDecode from 'jwt-decode';
 
 import history from '../history';
-import { sdkActions, meActions, errorActions } from './index';
+import { sdkActions, meActions, notificationActions } from './index';
 import { authenticationTypes } from '../types';
 import { setJwt, removeJwt } from '../local-storage/jwt';
 import { sessionsApi } from '../api';
 import routes from '../routes'
+import i18next from '../i18n'
 
 /**
  * [authenticationRequested description]
@@ -71,9 +72,9 @@ export function authenticationRevoked() {
 export function authenticate(email = '', password = '') {
   return async dispatch => {
     dispatch(authenticationRequested());
-    if (!email || !password) {
+    if (email || !password) {
       dispatch(authenticationFailed());
-      dispatch(errorActions.enqueued({translationKey: 'authenticationFailed'}))
+      dispatch(notificationActions.enqueued(i18next.t('login')))
       dispatch(sdkActions.teardownSdkAuthentication());
       return;
     }
@@ -91,16 +92,16 @@ export function authenticate(email = '', password = '') {
         const { jwt } = authResponse.data
         dispatch(authenticationSucceeded(jwt));
         // dispatch(sdkActions.setupSdkAuthentication());
-        dispatch(errorActions.enqueued({translationKey: 'welcomeBack', variant: 'primary'}))
+        dispatch(notificationActions.enqueued({translationKey: 'welcomeBack', variant: 'primary'}))
         dispatch(meActions.getProfile())
       } else {
         dispatch(authenticationFailed());
-        dispatch(errorActions.enqueued(authResponse.errors[0]))
+        dispatch(notificationActions.enqueued(authResponse.errors[0]))
         dispatch(sdkActions.teardownSdkAuthentication());
       }
     } catch (authErrorResponse) {
       dispatch(authenticationFailed());
-      dispatch(errorActions.enqueued(authErrorResponse.response.body.errors[0]))
+      dispatch(notificationActions.enqueued(authErrorResponse.response.body.errors[0]))
       dispatch(sdkActions.teardownSdkAuthentication());
     }
   };

@@ -6,12 +6,6 @@ import { meTypes } from '../types';
 import { usersApi } from '../api';
 import history from '../history';
 import { authenticationActions } from './index';
-import {
-  MePutRequestBody,
-  MeEventPutRequestBody,
-  MeEventsPostRequestBody,
-  ImportEventsMePostRequestBody
-} from '@docket/docket.js';
 import routes from '../routes'
 
 /**
@@ -532,7 +526,6 @@ export function importEvents(events) {
         data: transformedEvents
       };
       const importMyEventsResponse = await usersApi.importMyEvents(requestBody)
-      debugger
       if (importMyEventsResponse && importMyEventsResponse.data) {
         const events = importMyEventsResponse.data
         dispatch(importMyEventsSucceeded(events))
@@ -540,7 +533,6 @@ export function importEvents(events) {
         dispatch(importMyEventsFailed());
       }
     } catch (err) {
-      debugger
       // if (importMyEventsResponse.response.status === status.FORBIDDEN) {
         dispatch(importMyEventsFailed());
       //   dispatch(authenticationActions.logout());
