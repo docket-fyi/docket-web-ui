@@ -4,14 +4,24 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
+import {
+  Button,
+  Link,
+  Grid,
+  Paper,
+  TextField,
+  Box,
+  Typography,
+  withStyles
+} from '@material-ui/core';
 
 import { authenticationActions } from '../../actions';
 import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
-import './Login.css'
+import styles from './styles'
 
 class Login extends Component {
 
@@ -61,29 +71,71 @@ class Login extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, classes, authentication } = this.props;
 
     return (
-      <Container fluid>
-        <Row>
-          <Col xs={{span: 4, offset: 4}}>
-            <Form onSubmit={this.onSubmit}>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>{t('email')}</Form.Label>
-                <Form.Control name="email" type="email" placeholder={t('email')} onChange={this.onChange} />
-              </Form.Group>
-
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>{t('password')}</Form.Label>
-                <Form.Control name="password" type="password" placeholder={t('password')} onChange={this.onChange} />
-              </Form.Group>
-              <Button variant="primary" type="submit">{t('login')}</Button>
-              <Button variant="link" onClick={this.onRegister}>{t('register')}</Button>
-              <Button variant="link" onClick={this.onForgotPassword}>{t('forgotPassword')}</Button>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+      <>
+        <Grid container justify="center">
+          <Grid item xs={12} sm={8} md={6} lg={4}>
+            <Paper>
+              <Box p={4}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <Typography variant="h5" component="h1" className={classes.title}>{ t('login') }</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <form action="" onSubmit={this.onSubmit}>
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            id="email"
+                            name="email"
+                            label={t('email')}
+                            margin="normal"
+                            type="email"
+                            autoFocus={true}
+                            value={this.state.email}
+                            onChange={this.onChangeEmail}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            id="password"
+                            name="password"
+                            label={t('password')}
+                            type="password"
+                            margin="normal"
+                            value={this.state.password}
+                            onChange={this.onChangePassword}
+                            InputProps={{
+                              endAdornment: <Link component={RouterLink} to="/forgot-password" underline="none" variant="button">{t('forgot')}</Link>
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Button fullWidth type="submit" variant="contained" color="primary" disabled={authentication.isLoading}>{t('login')}</Button>
+                        </Grid>
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Paper>
+            <Box p={3}>
+              <Grid container align="center">
+                <Grid item xs={6}>
+                  <Link component={RouterLink} to={'/privacy-policy'}>{t('privacyPolicy')}</Link>
+                </Grid>
+                <Grid item xs={6}>
+                  <Link component={RouterLink} to={'/terms'}>{t('termsOfUse')}</Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
+      </>
     )
   }
 
@@ -104,6 +156,6 @@ function mapStateToProps(state) {
 
 export default compose(
   withTranslation(),
+  withStyles(styles),
   connect(mapStateToProps)
 )(Login);
-

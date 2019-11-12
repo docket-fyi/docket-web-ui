@@ -2,14 +2,13 @@
  * @module actions/authentication
  */
 
-import { AuthPostRequestBody } from "@docket/docket.js";
 import jwtDecode from 'jwt-decode';
 
 import history from '../history';
 import { sdkActions, meActions, errorActions } from './index';
 import { authenticationTypes } from '../types';
 import { setJwt, removeJwt } from '../local-storage/jwt';
-import { authApi } from '../api';
+import { sessionsApi } from '../api';
 
 /**
  * [authenticationRequested description]
@@ -78,10 +77,15 @@ export function authenticate(email = '', password = '') {
       return;
     }
     try {
-      const authPostRequestBody = new AuthPostRequestBody();
-      authPostRequestBody.setEmail(email)
-      authPostRequestBody.setPassword(password)
-      const authResponse = await authApi.auth(authPostRequestBody)
+      const body = {
+        data: {
+          attributes: {
+            email,
+            password
+          }
+        }
+      }
+      const authResponse = await sessionsApi.createSession(body)
       if (authResponse && authResponse.data.jwt) {
         const { jwt } = authResponse.data
         dispatch(authenticationSucceeded(jwt));

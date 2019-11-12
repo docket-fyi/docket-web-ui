@@ -4,13 +4,11 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { userActions } from '../../actions';
-import './ResetPassword.css'
 
 class ResetPassword extends Component {
 
@@ -40,23 +38,23 @@ class ResetPassword extends Component {
     const { t } = this.props;
 
     return (
-      <Container fluid>
-        <Row>
-          <Col xs={{span: 4, offset: 4}}>
-            <Form onSubmit={this.onSubmit}>
-              <Form.Group>
-                <Form.Label>{t('password')}</Form.Label>
-                <Form.Control name="password" type="password" onChange={this.onChange} placeholder={t('password')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>{t('passwordConfirmation')}</Form.Label>
-                <Form.Control name="passwordConfirmation" type="password" onChange={this.onChange} placeholder={t('passwordConfirmation')} />
-              </Form.Group>
-              <Button variant="primary" type="submit">{t('submit')}</Button>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+      <div>
+        <tr>
+          <td xs={{span: 4, offset: 4}}>
+            <form onSubmit={this.onSubmit}>
+              {/* <Form.Group> */}
+                <label>{t('password')}</label>
+                <input name="password" type="password" onChange={this.onChange} placeholder={t('password')} />
+              {/* </Form.Group> */}
+              {/* <Form.Group> */}
+                <label>{t('passwordConfirmation')}</label>
+                <input name="passwordConfirmation" type="password" onChange={this.onChange} placeholder={t('passwordConfirmation')} />
+              {/* </Form.Group> */}
+              <button variant="primary" type="submit">{t('submit')}</button>
+            </form>
+          </td>
+        </tr>
+      </div>
     )
   }
 
@@ -76,4 +74,3 @@ export default compose(
   withTranslation(),
   connect(mapStateToProps)
 )(ResetPassword);
-

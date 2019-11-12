@@ -2,14 +2,8 @@
  * @module actions/user
  */
 
-import {
-  UsersPostRequestBody,
-  ForgotPasswordPostRequestBody,
-  ResetPasswordPostRequestBody
-} from '@docket/docket.js';
-
 import { userTypes } from '../types';
-import { userApi } from '../api';
+import { usersApi } from '../api';
 import history from '../history';
 
 /**
@@ -171,16 +165,24 @@ export function resetPasswordSucceeded(responseBody) {
  * @param  {String} password
  * @return {Function}
  */
-export function register(firstName = '', lastName = '', email = '', password = '') {
+export function register(firstName = '', lastName = '', email = '') {
   return async dispatch => {
     dispatch(createUserRequested());
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !lastName || !email) {
       dispatch(createUserFailed());
       return;
     }
     try {
-      const usersPostRequestBody = UsersPostRequestBody.constructFromObject({ firstName, lastName, email, password});
-      const usersResponse = await userApi.createUser(usersPostRequestBody)
+      const usersPostRequestBody = {
+        data: {
+          attributes: {
+            firstName,
+            lastName,
+            email
+          }
+        }
+      };
+      const usersResponse = await usersApi.createUser(usersPostRequestBody);
       if (usersResponse && usersResponse.data) {
         dispatch(createUserSucceeded(usersResponse.data));
         history.push('/register/success')
@@ -208,7 +210,15 @@ export function confirm(code = '') {
       return;
     }
     try {
-      const confirmResponse = await userApi.confirmUser(code);
+      const body = {
+        data: {
+          attributes: {
+            password: '',
+            passwordConfirmation: ''
+          }
+        }
+      }
+      const confirmResponse = await usersApi.confirmRegistration(code, body);
       if (confirmResponse && confirmResponse.response.ok) {
         dispatch(confirmUserSucceeded(confirmResponse));
         history.push('/login');
@@ -236,8 +246,14 @@ export function forgotPassword(email = '') {
       return;
     }
     try {
-      const forgotPasswordPostRequestBody = ForgotPasswordPostRequestBody.constructFromObject({ email });
-      const forgotPasswordResponse = await userApi.forgotPassword(forgotPasswordPostRequestBody);
+      const forgotPasswordPostRequestBody = {
+        data: {
+          attributes: {
+            email
+          }
+        }
+      };
+      const forgotPasswordResponse = await usersApi.forgotPassword(forgotPasswordPostRequestBody);
       if (forgotPasswordResponse && forgotPasswordResponse.response.ok) {
         dispatch(forgotPasswordSucceeded(forgotPasswordResponse));
         history.push('/login');
@@ -273,8 +289,15 @@ export function resetPassword(code = '', password = '', passwordConfirmation = '
       return;
     }
     try {
-      const resetPasswordPostRequestBody = ResetPasswordPostRequestBody.constructFromObject({ code, password, passwordConfirmation });
-      const resetPasswordResponse = await userApi.resetPassword(resetPasswordPostRequestBody);
+      const resetPasswordPostRequestBody = {
+        data: {
+          attributes: {
+            password,
+            passwordConfirmation
+          }
+        }
+      };
+      const resetPasswordResponse = await usersApi.resetPassword(code, resetPasswordPostRequestBody);
       if (resetPasswordResponse && resetPasswordResponse.response.ok) {
         dispatch(resetPasswordSucceeded(resetPasswordResponse));
         history.push('/login');

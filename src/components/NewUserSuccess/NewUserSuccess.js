@@ -4,12 +4,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col} from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-
-import './NewUserSuccess.css'
 
 class NewUserSuccess extends Component {
 
@@ -27,13 +24,13 @@ class NewUserSuccess extends Component {
 
     return (
       // (user.email && user.firstName) ? <Container> : null
-      <Container fluid>
-        <Row>
-          <Col xs={{span: 4, offset: 4}}>
+      <div fluid>
+        <tr>
+          <td xs={{span: 4, offset: 4}}>
             {t('thanksForRegistering', {firstName, email})}
-          </Col>
-        </Row>
-      </Container>
+          </td>
+        </tr>
+      </div>
     )
   }
 
@@ -56,4 +53,3 @@ export default compose(
   withTranslation(),
   connect(mapStateToProps)
 )(NewUserSuccess);
-

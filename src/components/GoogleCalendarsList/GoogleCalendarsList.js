@@ -6,12 +6,10 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Container, Button, ListGroup, Form, Row, Col } from 'react-bootstrap';
 import moment from 'moment';
 
 import { googleActions, meActions } from '../../actions';
 // import { GoogleCalendarListItem } from '../index'
-import './styles.css'
 
 class GoogleCalendarsList extends Component {
 
@@ -72,46 +70,46 @@ class GoogleCalendarsList extends Component {
     // const { allCheckedCalendars } = this.state
     const { calendars } = google;
     return (
-      <Container>
-        <Form onSubmit={this.import}>
+      <div>
+        <form onSubmit={this.import}>
           {/* <GoogleCalendarListItem key={calendar.id} {...calendar} /> */}
           {
             calendars.map(calendar => {
               const { id, summary, backgroundColor, foregroundColor, events } = calendar;
               return (
-                <ListGroup key={id} style={{marginBottom: '20px'}}>
-                  <ListGroup.Item style={{backgroundColor, color: foregroundColor}}>
-                    <Form.Group>
-                      <Form.Check type="checkbox" label={`${summary} (${events.length} events)`} onChange={event => this.selectAllForCalendar(event, id)} defaultChecked={this.isCalendarChecked(id)} />
-                    </Form.Group>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
+                <ul key={id} style={{marginBottom: '20px'}}>
+                  <li style={{backgroundColor, color: foregroundColor}}>
+                    {/* <Form.Group> */}
+                      <input type="checkbox" label={`${summary} (${events.length} events)`} onChange={event => this.selectAllForCalendar(event, id)} defaultChecked={this.isCalendarChecked(id)} />
+                    {/* </Form.Group> */}
+                  </li>
+                  <li>
+                    <tr>
                       {
                         events.length
                           ? events.map(event => {
                             const { summary, id, start } = event
                             const date = moment(start.date || start.dateTime).format('MMM D, YYYY')
                               return (
-                                <Col xs={4} key={id}>
-                                  <Form.Group style={{color: 'black'}}>
-                                    <Form.Check type="checkbox" label={summary} name={event.id} id={event.id} /> {/*checked={this.isCalendarChecked(calendar.id)}*/}
+                                <td xs={4} key={id}>
+                                  {/* <Form.Group style={{color: 'black'}}> */}
+                                    <input type="checkbox" label={summary} name={event.id} id={event.id} /> {/*checked={this.isCalendarChecked(calendar.id)}*/}
                                     <small style={{opacity: '0.5'}}>{date}</small>
-                                  </Form.Group>
-                                </Col>
+                                  {/* </Form.Group> */}
+                                </td>
                               );
                             })
                           : <p style={{color: 'black'}}>No events</p>
                       }
-                    </Row>
-                  </ListGroup.Item>
-                </ListGroup>
+                    </tr>
+                  </li>
+                </ul>
               );
             })
           }
-          <Button variant="outline-light" size="lg" type="submit">Import</Button>
-        </Form>
-      </Container>
+          <button variant="outline-light" size="lg" type="submit">Import</button>
+        </form>
+      </div>
     )
   }
 }

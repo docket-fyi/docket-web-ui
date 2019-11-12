@@ -10,10 +10,9 @@ export default DocketSdk;
 /* Keep this list alphabetized! */
 /********************************/
 
-export const authApi = new DocketSdk.AuthApi();
+export const sessionsApi = new DocketSdk.SessionsApi();
 export const googleApi = new DocketSdk.GoogleApi();
-export const i18nApi = new DocketSdk.I18nApi();
-export const meApi = new DocketSdk.MeApi();
+export const localesApi = new DocketSdk.LocalesApi();
+export const translationsApi = new DocketSdk.TranslationsApi();
+export const usersApi = new DocketSdk.UsersApi();
 export const microsoftApi = new DocketSdk.MicrosoftApi();
-// export const notificationApi = new DocketSdk.NotificationApi();
-export const userApi = new DocketSdk.UserApi();

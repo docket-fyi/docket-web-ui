@@ -4,14 +4,12 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { userActions } from '../../actions';
 import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
-import './NewUser.css'
 
 class NewUser extends Component {
 
@@ -56,31 +54,31 @@ class NewUser extends Component {
     const { t } = this.props;
 
     return (
-      <Container fluid>
-        <Row>
-          <Col xs={{span: 4, offset: 4}}>
-            <Form onSubmit={this.onSubmit}>
-              <Form.Group>
-                <Form.Label>{t('firstName')}</Form.Label>
-                <Form.Control name="firstName" onChange={this.onChange} placeholder={t('firstName')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>{t('lastName')}</Form.Label>
-                <Form.Control name="lastName" onChange={this.onChange} placeholder={t('lastName')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>{t('email')}</Form.Label>
-                <Form.Control name="email" type="email" onChange={this.onChange} placeholder={t('email')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>{t('password')}</Form.Label>
-                <Form.Control name="password" type="password" onChange={this.onChange} placeholder={t('password')} />
-              </Form.Group>
-              <Button variant="primary" type="submit">{t('submit')}</Button>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+      <div fluid>
+        <tr>
+          <td xs={{span: 4, offset: 4}}>
+            <form onSubmit={this.onSubmit}>
+              {/* <Form.Group> */}
+                <label>{t('firstName')}</label>
+                <input name="firstName" onChange={this.onChange} placeholder={t('firstName')} />
+              {/* </Form.Group> */}
+              {/* <Form.Group> */}
+                <label>{t('lastName')}</label>
+                <input name="lastName" onChange={this.onChange} placeholder={t('lastName')} />
+              {/* </Form.Group> */}
+              {/* <Form.Group> */}
+                <label>{t('email')}</label>
+                <input name="email" type="email" onChange={this.onChange} placeholder={t('email')} />
+              {/* </Form.Group> */}
+              {/* <Form.Group> */}
+                <label>{t('password')}</label>
+                <input name="password" type="password" onChange={this.onChange} placeholder={t('password')} />
+              {/* </Form.Group> */}
+              <button variant="primary" type="submit">{t('submit')}</button>
+            </form>
+          </td>
+        </tr>
+      </div>
     )
   }
 
@@ -100,4 +98,3 @@ export default compose(
   withTranslation(),
   connect(mapStateToProps)
 )(NewUser);
-
