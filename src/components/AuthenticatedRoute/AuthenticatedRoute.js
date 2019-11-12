@@ -10,7 +10,7 @@ import { Route, Redirect } from 'react-router';
 import { withTranslation } from 'react-i18next';
 
 import { Navbar } from '../index';
-import { sdkActions, authenticationActions, errorActions, notificationActions } from '../../actions';
+import { sdkActions, authenticationActions, notificationActions } from '../../actions';
 import { hasJwt, isJwtExpired, getJwt } from '../../local-storage/jwt';
 import socket from '../../socket-io';
 
@@ -19,11 +19,11 @@ function AuthenticatedRoute(props) {
   const { dispatch } = props;
   dispatch(notificationActions.requestPermission());
   if (!hasJwt()) {
-    props.dispatch(errorActions.enqueued({translationKey: 'pleaseLoginToContinue'}));
+    props.dispatch(notificationActions.enqueued({translationKey: 'pleaseLoginToContinue'}));
     return <Redirect to="/login" />;
   }
   if (isJwtExpired()) {
-    props.dispatch(errorActions.enqueued({translationKey: 'loginExpired'}));
+    props.dispatch(notificationActions.enqueued({translationKey: 'loginExpired'}));
     return <Redirect to="/login" />;
   }
   const jwt = getJwt()

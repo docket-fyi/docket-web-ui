@@ -26,7 +26,7 @@ class NewUser extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (hasJwt() && !isJwtExpired()) {
       this.props.history.push(routes.events.list);
       return;

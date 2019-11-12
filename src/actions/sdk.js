@@ -8,7 +8,7 @@ import { sdkTypes } from '../types';
 import environment from '../environment';
 
 const defaultClient = DocketSdk.ApiClient.instance;
-const jwtAuth = defaultClient.authentications['bearerAuth'];
+const jwtAuth = defaultClient.authentications['jwt'];
 
 /**
  * [configureSdkBasePath description]

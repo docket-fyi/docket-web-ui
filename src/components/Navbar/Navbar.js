@@ -75,10 +75,10 @@ class Navbar2 extends Component {
           </form>
           <div className="ml-auto">
             <button variant="link" onClick={this.onGoogleCalendarClick}>
-              <img src={googleCalendarLogo} height="30" width="30" />
+              <img alt="" src={googleCalendarLogo} height="30" width="30" />
             </button>
             <button variant="link" onClick={this.onMicrosoftOutlookClick}>
-              <img src={microsoftOutlookLogo} height="30" width="30" />
+              <img alt="" src={microsoftOutlookLogo} height="30" width="30" />
             </button>
             {/* <NavDropdown title={this.getInitials()} id="basic-nav-dropdown"> */}
               {/* <NavDropdown.Item onClick={this.goToProfile}>{t('profile')}</NavDropdown.Item> */}
