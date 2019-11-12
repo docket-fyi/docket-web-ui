@@ -5,6 +5,7 @@
 import { userTypes } from '../types';
 import { usersApi } from '../api';
 import history from '../history';
+import routes from '../routes'
 
 /**
  * [createUserRequested description]
@@ -185,7 +186,7 @@ export function register(firstName = '', lastName = '', email = '') {
       const usersResponse = await usersApi.createUser(usersPostRequestBody);
       if (usersResponse && usersResponse.data) {
         dispatch(createUserSucceeded(usersResponse.data));
-        history.push('/register/success')
+        history.push(routes.registerSuccess)
       } else {
         dispatch(createUserFailed());
       }
@@ -221,7 +222,7 @@ export function confirm(code = '') {
       const confirmResponse = await usersApi.confirmRegistration(code, body);
       if (confirmResponse && confirmResponse.response.ok) {
         dispatch(confirmUserSucceeded(confirmResponse));
-        history.push('/login');
+        history.push(routes.login);
       } else {
         dispatch(confirmUserFailed());
       }
@@ -256,7 +257,7 @@ export function forgotPassword(email = '') {
       const forgotPasswordResponse = await usersApi.forgotPassword(forgotPasswordPostRequestBody);
       if (forgotPasswordResponse && forgotPasswordResponse.response.ok) {
         dispatch(forgotPasswordSucceeded(forgotPasswordResponse));
-        history.push('/login');
+        history.push(routes.login);
       } else {
         dispatch(forgotPasswordFailed());
       }
@@ -300,7 +301,7 @@ export function resetPassword(code = '', password = '', passwordConfirmation = '
       const resetPasswordResponse = await usersApi.resetPassword(code, resetPasswordPostRequestBody);
       if (resetPasswordResponse && resetPasswordResponse.response.ok) {
         dispatch(resetPasswordSucceeded(resetPasswordResponse));
-        history.push('/login');
+        history.push(routes.login);
       } else {
         dispatch(resetPasswordFailed());
       }

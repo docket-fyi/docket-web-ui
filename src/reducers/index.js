@@ -10,14 +10,14 @@ import { combineReducers } from 'redux';
 /**********************************/
 
 import authentication from './authentication';
-import errors from './errors';
+import notifications from './notifications';
 import event from './event';
 import events from './events';
 import google from './google';
 import i18n from './i18n';
 import me from './me';
 import microsoft from './microsoft';
-import notifications from './notifications';
+import nativeNotifications from './native-notifications';
 import sdk from './sdk';
 import user from './user';
 
@@ -27,14 +27,14 @@ import user from './user';
  */
 const reducers = {
   authentication,
-  errors,
+  notifications,
   event,
   events,
   google,
   i18n,
   me,
   microsoft,
-  notifications,
+  nativeNotifications,
   sdk,
   user
 }

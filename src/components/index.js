@@ -14,7 +14,7 @@ import EventListItem from './EventListItem/EventListItem';
 import EventsList from './EventsList/EventsList';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import ResetPassword from './ResetPassword/ResetPassword';
-import GlobalError from './GlobalError/GlobalError';
+import Notification from './Notification/Notification';
 import GoogleCalendarsList from './GoogleCalendarsList/GoogleCalendarsList';
 import Login from './Login/Login';
 import Logout from './Logout/Logout';
@@ -23,7 +23,7 @@ import Navbar from './Navbar/Navbar';
 import NewEvent from './NewEvent/NewEvent';
 import NewUser from './NewUser/NewUser'; // @todo Register
 import NewUserSuccess from './NewUserSuccess/NewUserSuccess'; // @todo RegistrationSuccess
-import Notification from './Notification/Notification';
+import SocketNotification from './SocketNotification/SocketNotification';
 import OAuthGoogleCallback from './OAuthGoogleCallback/OAuthGoogleCallback';
 import OAuthMicrosoftCallback from './OAuthMicrosoftCallback/OAuthMicrosoftCallback';
 import Profile from './Profile/Profile';
@@ -40,7 +40,7 @@ export {
   EventsList,
   ForgotPassword,
   ResetPassword,
-  GlobalError,
+  Notification,
   GoogleCalendarsList,
   Login,
   Logout,
@@ -49,7 +49,7 @@ export {
   NewEvent,
   NewUser,
   NewUserSuccess,
-  Notification,
+  SocketNotification,
   OAuthGoogleCallback,
   OAuthMicrosoftCallback,
   Profile,

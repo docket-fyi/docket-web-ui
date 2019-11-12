@@ -9,6 +9,7 @@ import { sdkActions, meActions, errorActions } from './index';
 import { authenticationTypes } from '../types';
 import { setJwt, removeJwt } from '../local-storage/jwt';
 import { sessionsApi } from '../api';
+import routes from '../routes'
 
 /**
  * [authenticationRequested description]
@@ -113,6 +114,6 @@ export function logout() {
   return dispatch => {
     dispatch(authenticationRevoked());
     dispatch(sdkActions.teardownSdkAuthentication());
-    history.push('/logout');
+    history.push(routes.logout);
   };
 }

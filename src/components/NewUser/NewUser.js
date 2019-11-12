@@ -10,6 +10,7 @@ import { withTranslation } from 'react-i18next';
 
 import { userActions } from '../../actions';
 import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
+import routes from '../../routes'
 
 class NewUser extends Component {
 
@@ -27,14 +28,14 @@ class NewUser extends Component {
 
   componentWillMount() {
     if (hasJwt() && !isJwtExpired()) {
-      this.props.history.push('/events');
+      this.props.history.push(routes.events.list);
       return;
     }
   }
 
   componentDidUpdate() {
     if (hasJwt() && !isJwtExpired()) {
-      this.props.history.push('/events');
+      this.props.history.push(routes.events.list);
       return;
     }
   }

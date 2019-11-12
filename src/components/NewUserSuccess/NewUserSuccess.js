@@ -8,12 +8,14 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
+import routes from '../../routes'
+
 class NewUserSuccess extends Component {
 
   componentDidUpdate() {
     const { user, history } = this.props;
     if (!user.email || !user.firstName) {
-      history.push('/register');
+      history.push(routes.register);
       return;
     }
   }

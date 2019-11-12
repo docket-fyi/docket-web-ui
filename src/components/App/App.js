@@ -12,8 +12,8 @@ import store from '../../store';
 import history from '../../history';
 import {
   AppRouter,
-  GlobalError,
-  Notification
+  Notification,
+  SocketNotification
 } from '../../components';
 import './App.css'
 // import i18n from '../../i18n';
@@ -45,8 +45,8 @@ function App(props) {
               {/* TODO: Move center-styling to <UnauthenticatedRoute> layout */}
               <Suspense fallback={<div>Loading...</div>}>
                 <div>
+                  <SocketNotification />
                   <Notification />
-                  <GlobalError />
                   <AppRouter />
                 </div>
               </Suspense>
