@@ -6,14 +6,17 @@ const routes = {
   login: '/login',
   logout: '/logout',
   register: '/register',
-  registerSuccess: '/register/success',
+  confirmRegistration: '/confirm-registration',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
+  privacyPolicy: '/privacy-policy',
+  termsOfUse: '/terms-of-use',
   events: {
     list: '/events',
     show: (id, slug) => `/events/${id}/${slug}`,
     new: '/events/new'
   },
   profile: '/profile',
-  forgotPassword: '/forgot-password',
   google: {
     calendars: {
       list: '/google/calendars'

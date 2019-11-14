@@ -7,6 +7,25 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import {
+  AppBar,
+  Badge,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Grid,
+  withStyles,
+  Typography,
+  InputBase,
+  Fab,
+  Avatar,
+  Button
+} from '@material-ui/core';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import SearchIcon from '@material-ui/icons/Search';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 
 import { meActions, googleActions, microsoftActions } from '../../actions';
 import history from '../../history';
@@ -15,32 +34,37 @@ import './Navbar.css'
 import googleCalendarLogo from './google-calendar-logo.png'
 import microsoftOutlookLogo from './microsoft-outlook-logo.png'
 import routes from '../../routes'
+import styles from './styles'
 
 class Navbar2 extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      anchorEl: null,
+      openMenu: false
+    }
     this.onBrandClick = this.onBrandClick.bind(this);
-    this.getInitials = this.getInitials.bind(this);
     this.goToProfile = this.goToProfile.bind(this);
     this.onGoogleCalendarClick = this.onGoogleCalendarClick.bind(this);
     this.onMicrosoftOutlookClick = this.onMicrosoftOutlookClick.bind(this);
+
+    this.handleProfileMenu = this.handleProfileMenu.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.goToLogout = this.goToLogout.bind(this);
+    this.goToProfile = this.goToProfile.bind(this);
+    this.onUpgradeClick = this.onUpgradeClick.bind(this);
   }
 
   goToProfile(event) {
     event.preventDefault();
     history.push(routes.profile);
+    this.handleClose()
   }
 
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(meActions.getProfile())
-  }
-
-  getInitials() {
-    const { me } = this.props;
-    const { firstName = '', lastName = '' } = me
-    return `${firstName[0]}${lastName[0]}`
   }
 
   onBrandClick(event) {
@@ -60,35 +84,90 @@ class Navbar2 extends Component {
     dispatch(microsoftActions.getAuthUrl())
   }
 
+  goToLogout() {
+    history.push(routes.logout);
+  }
+
+  handleProfileMenu(event) {
+    this.setState({ anchorEl: event.currentTarget });
+  }
+
+  handleClose() {
+    this.setState({ anchorEl: null });
+  }
+
+  onUpgradeClick() {}
+
   render() {
-    const { t } = this.props;
+    const { t, classes, me } = this.props;
+    const { openMenu } = this.state;
+    const profileMenuOpen = Boolean(this.state.anchorEl);
+    const notification = {
+      all: []
+    }
 
     return (
-      <div expand="lg">
-        {/* <Navbar.Brand as="button" onClick={this.onBrandClick}>Docket</Navbar.Brand> */}
-        <button variant="link" className="navbar-brand" onClick={this.onBrandClick}>Docket</button>
-        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-        {/* <Navbar.Collapse id="basic-navbar-nav"> */}
-          <form className="ml-auto" inline>
-            <input size="lg" type="text" placeholder={t('search')} className="mr-sm-2" />
-            {/* <Button variant="outline-success">{t('search')}</Button> */}
-          </form>
-          <div className="ml-auto">
-            <button variant="link" onClick={this.onGoogleCalendarClick}>
-              <img alt="" src={googleCalendarLogo} height="30" width="30" />
-            </button>
-            <button variant="link" onClick={this.onMicrosoftOutlookClick}>
-              <img alt="" src={microsoftOutlookLogo} height="30" width="30" />
-            </button>
-            {/* <NavDropdown title={this.getInitials()} id="basic-nav-dropdown"> */}
-              {/* <NavDropdown.Item onClick={this.goToProfile}>{t('profile')}</NavDropdown.Item> */}
-              {/* <Button variant="primary" onClick={this.onBrandClick}>Docket</Button> */}
-              {/* <NavDropdown.Divider /> */}
-              {/* <NavDropdown.Item href="/logout">{t('logout')}</NavDropdown.Item> */}
-            {/* </NavDropdown> */}
-          </div>
-        {/* </Navbar.Collapse> */}
-      </div>
+      <>
+        <AppBar position="fixed" className={`${classes.appBar} ${openMenu ? classes.appBarShift : ''}`} elevation={0}>
+          <Toolbar>
+            <Grid container alignItems="center" spacing={1} justify="space-between">
+              <Grid container item alignItems="center" xs={4}>
+                <Typography variant="h6" className={classes.title}>Docket</Typography>
+              </Grid>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder={t('searchEllipsis')}
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': t('search') }}
+                />
+              </div>
+              <Grid container item xs={4} justify="flex-end">
+                {
+                  !(me.attributes || {}).isPremium &&
+                  <Button color="secondary" onClick={this.onUpgradeClick}>{t('upgrade')}</Button>
+                }
+                <IconButton color="inherit">
+                  <Badge badgeContent={notification.all.length} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  aria-owns={profileMenuOpen ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleProfileMenu}
+                  color="inherit"
+                >
+                  <Avatar className={classes.avatar}>{(me.attributes || {}).initials}</Avatar>
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={this.state.anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={profileMenuOpen}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem onClick={this.goToProfile}>Profile</MenuItem>
+                  <MenuItem onClick={this.goToLogout}>Logout</MenuItem>
+                </Menu>
+              </Grid>
+            </Grid>
+          </Toolbar>
+        </AppBar>
+        {/* <NavMenu openMenu={openMenu} handleDrawerClose={this.handleDrawerClose} /> */}
+      </>
     );
   }
 
@@ -107,5 +186,6 @@ function mapStateToProps(state) {
 export default compose(
   // withRouter,
   withTranslation(),
+  withStyles(styles),
   connect(mapStateToProps)
 )(Navbar2);

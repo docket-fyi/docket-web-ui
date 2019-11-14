@@ -20,7 +20,7 @@ function user(state = initialState, action) {
     case userTypes.CREATE_USER_REQUEST_SUCCEEDED:
       return Object.assign({}, state, {
         ...state,
-        ...action.responseBody,
+        ...action.attributes,
         isLoading: state.isLoading
       });
 

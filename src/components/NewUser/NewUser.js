@@ -7,10 +7,25 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
+import {
+  Button,
+  Link,
+  Grid,
+  Paper,
+  TextField,
+  Box,
+  Typography,
+  withStyles,
+  Divider
+} from '@material-ui/core';
+import LeftIcon from '@material-ui/icons/KeyboardArrowLeftRounded';
 
 import { userActions } from '../../actions';
 import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
 import routes from '../../routes'
+import styles from './styles'
+import history from '../../history'
 
 class NewUser extends Component {
 
@@ -18,12 +33,15 @@ class NewUser extends Component {
     super(props);
     this.state = {
       firstName: '',
-      lastName: '',
-      email: '',
-      password: ''
+      email: ''
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.goToLogin = this.goToLogin.bind(this);
+  }
+
+  goToLogin() {
+    history.push(routes.login)
   }
 
   componentDidMount() {
@@ -46,40 +64,86 @@ class NewUser extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    const { dispatch } = this.props;
-    const { firstName, lastName, email, password } = this.state;
-    dispatch(userActions.register(firstName, lastName, email, password));
+    const { register } = this.props;
+    const { firstName, email } = this.state;
+    register(firstName, email);
   }
 
   render() {
-    const { t } = this.props;
+    const { t, classes } = this.props;
+    const isDisabled = !this.state.firstName || !this.state.email // || this.props.something.isLoading
 
     return (
-      <div fluid>
-        <tr>
-          <td xs={{span: 4, offset: 4}}>
-            <form onSubmit={this.onSubmit}>
-              {/* <Form.Group> */}
-                <label>{t('firstName')}</label>
-                <input name="firstName" onChange={this.onChange} placeholder={t('firstName')} />
-              {/* </Form.Group> */}
-              {/* <Form.Group> */}
-                <label>{t('lastName')}</label>
-                <input name="lastName" onChange={this.onChange} placeholder={t('lastName')} />
-              {/* </Form.Group> */}
-              {/* <Form.Group> */}
-                <label>{t('email')}</label>
-                <input name="email" type="email" onChange={this.onChange} placeholder={t('email')} />
-              {/* </Form.Group> */}
-              {/* <Form.Group> */}
-                <label>{t('password')}</label>
-                <input name="password" type="password" onChange={this.onChange} placeholder={t('password')} />
-              {/* </Form.Group> */}
-              <button variant="primary" type="submit">{t('submit')}</button>
-            </form>
-          </td>
-        </tr>
-      </div>
+      <>
+        <Grid container item justify="center" spacing={0} xs={4}>
+          <Grid container item xs={12}>
+            <Button className={classes.button} startIcon={<LeftIcon />} onClick={this.goToLogin}>{t('login')}</Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper>
+              <Box p={4}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <Typography variant="h5" component="h1" className={classes.title}>{ t('register') }</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <form action="" onSubmit={this.onSubmit}>
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            id="firstName"
+                            name="firstName"
+                            label={t('firstName')}
+                            margin="normal"
+                            autoFocus={true}
+                            value={this.state.firstName}
+                            onChange={this.onChange}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            id="email"
+                            name="email"
+                            label={t('email')}
+                            type="email"
+                            margin="normal"
+                            value={this.state.email}
+                            onChange={this.onChange}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Button fullWidth type="submit" variant="contained" color="primary" disabled={isDisabled}>{t('register')}</Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Divider style={{marginTop: 10, marginBottom: 10}} />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Button fullWidth variant="contained" color="primary">{t('google')}</Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Button fullWidth variant="contained" color="primary">{t('microsoft')}</Button>
+                        </Grid>
+                      </Grid>
+                    </form>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Paper>
+            <Box p={3}>
+              <Grid container align="center">
+                <Grid item xs={6}>
+                  <Link component={RouterLink} to={routes.privacyPolicy}>{t('privacyPolicy')}</Link>
+                </Grid>
+                <Grid item xs={6}>
+                  <Link component={RouterLink} to={routes.termsOfUse}>{t('termsOfUse')}</Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
+      </>
     )
   }
 
@@ -87,15 +151,19 @@ class NewUser extends Component {
 }
 
 NewUser.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  register: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state) {
-  return {}
+function mapDispatchToProps(dispatch) {
+  return {
+    register: (firstName, email) => dispatch(userActions.register(firstName, email))
+  }
 }
 
 export default compose(
   withTranslation(),
-  connect(mapStateToProps)
+  withStyles(styles),
+  connect(null, mapDispatchToProps)
 )(NewUser);

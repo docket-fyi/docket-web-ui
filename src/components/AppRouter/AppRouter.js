@@ -17,7 +17,7 @@ import {
   EventDetail,
   Profile,
   NewUser,
-  NewUserSuccess,
+  // NewUserSuccess,
   RegistrationConfirmation,
   ForgotPassword,
   ResetPassword,
@@ -27,11 +27,14 @@ import {
   MicrosoftCalendarsList
 } from '../../components';
 import { sdkActions } from '../../actions';
+// import routes from '../../routes'
 
 const AppRouter = props => {
 
-  const { dispatch } = props;
-  dispatch(sdkActions.configureSdkBasePath());
+  const { dispatch, sdk } = props;
+  if (!sdk.basePath) {
+    dispatch(sdkActions.configureSdkBasePath());
+  }
   // dispatch(i18nActions.setLocale());
   // dispatch(i18nActions.getTranslations());
 
@@ -39,11 +42,11 @@ const AppRouter = props => {
     <Switch>
       <UnauthenticatedRoute path="/login" component={Login} />
       <UnauthenticatedRoute path="/logout" component={Logout} />
-      <UnauthenticatedRoute path="/register/success" component={NewUserSuccess} />
+      {/* <UnauthenticatedRoute path="/register/success" component={NewUserSuccess} /> */}
       <UnauthenticatedRoute path="/register" component={NewUser} />
-      <UnauthenticatedRoute path="/users/confirm/:code" component={RegistrationConfirmation} />
+      <UnauthenticatedRoute path="/confirm-registration" component={RegistrationConfirmation} />
       <UnauthenticatedRoute path="/forgot-password" component={ForgotPassword} />
-      <UnauthenticatedRoute path="/reset-password/:code" component={ResetPassword} />
+      <UnauthenticatedRoute path="/reset-password" component={ResetPassword} />
 
       <AuthenticatedRoute path="/event/:id" component={EventDetail} />
       <AuthenticatedRoute path="/events" component={EventsList} />
@@ -63,7 +66,13 @@ AppRouter.propTypes = {
   history: PropTypes.object.isRequired
 }
 
+function mapStateToProps(state) {
+  return {
+    sdk: state.sdk
+  }
+}
+
 export default compose(
   withRouter, // This is important: https://stackoverflow.com/a/45036930/992285
-  connect()
+  connect(mapStateToProps)
 )(AppRouter);

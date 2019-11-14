@@ -29,7 +29,7 @@ i18n
     defaultNS: 'docket.ui.web',
     fallbackLng: 'en-US',
     load: 'currentOnly',
-    debug: true,
+    debug: environment.environment !== 'production',
     interpolation: {
       escapeValue: false,
     },

@@ -112,12 +112,15 @@ class Login extends Component {
                             value={this.state.password}
                             onChange={this.onChange}
                             InputProps={{
-                              endAdornment: <Link component={RouterLink} to="/forgot-password" underline="none" variant="button">{t('forgot')}</Link>
+                              endAdornment: <Link component={RouterLink} to={routes.forgotPassword} underline="none" variant="button">{t('forgot')}</Link>
                             }}
                           />
                         </Grid>
                         <Grid item xs={12}>
                           <Button fullWidth type="submit" variant="contained" color="primary" disabled={isDisabled}>{t('login')}</Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                        <Link component={RouterLink} to={routes.register}>{t('register')}</Link>
                         </Grid>
                       </Grid>
                     </form>
@@ -128,10 +131,10 @@ class Login extends Component {
             <Box p={3}>
               <Grid container align="center">
                 <Grid item xs={6}>
-                  <Link component={RouterLink} to={'/privacy-policy'}>{t('privacyPolicy')}</Link>
+                  <Link component={RouterLink} to={routes.privacyPolicy}>{t('privacyPolicy')}</Link>
                 </Grid>
                 <Grid item xs={6}>
-                  <Link component={RouterLink} to={'/terms'}>{t('termsOfUse')}</Link>
+                  <Link component={RouterLink} to={routes.termsOfUse}>{t('termsOfUse')}</Link>
                 </Grid>
               </Grid>
             </Box>

@@ -7,11 +7,17 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
+import {
+  Fab
+} from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
+import AddIcon from '@material-ui/icons/Add';
 
 import { meActions } from '../../actions';
 import { NewEvent, EventListItem } from '../index'
-import './styles.css'
 import routes from '../../routes'
+import styles from './styles'
 
 class EventsList extends Component {
 
@@ -32,15 +38,18 @@ class EventsList extends Component {
   }
 
   render() {
-    const { events, match } = this.props
+    const { events, match, t, classes } = this.props
     return (
-      <div>
+      <>
         {events.all.map(event => (
           <EventListItem key={event._id} {...event} />
         ))}
         <Route path={`${match.url}/new`} component={NewEvent} />
-        <button className="add-new-event" variant="outline-light" size="lg" onClick={this.onAddNewEvent}>+</button>
-      </div>
+        <Fab variant="extended" size="large" color="secondary" aria-label={t('newEvent')} onClick={this.onAddNewEvent} className={classes.fab}>
+          <AddIcon />
+          {t('newEvent')}
+        </Fab>
+      </>
     )
   }
 }
@@ -57,5 +66,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withTranslation(),
+  withStyles(styles),
   connect(mapStateToProps)
 )(EventsList);
