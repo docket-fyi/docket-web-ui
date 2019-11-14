@@ -18,21 +18,18 @@ import {
   withStyles,
   Typography,
   InputBase,
-  Fab,
-  Avatar,
   Button
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 
 import { meActions, googleActions, microsoftActions } from '../../actions';
 import history from '../../history';
 import './Navbar.css'
 // import googleLogo from './google-logo.png'
-import googleCalendarLogo from './google-calendar-logo.png'
-import microsoftOutlookLogo from './microsoft-outlook-logo.png'
+// import googleCalendarLogo from './google-calendar-logo.png'
+// import microsoftOutlookLogo from './microsoft-outlook-logo.png'
 import routes from '../../routes'
 import styles from './styles'
 
@@ -100,15 +97,14 @@ class Navbar2 extends Component {
 
   render() {
     const { t, classes, me } = this.props;
-    const { openMenu } = this.state;
     const profileMenuOpen = Boolean(this.state.anchorEl);
     const notification = {
-      all: []
+      all: [{}]
     }
 
     return (
       <>
-        <AppBar position="fixed" className={`${classes.appBar} ${openMenu ? classes.appBarShift : ''}`} elevation={0}>
+        <AppBar position="fixed" elevation={0}>
           <Toolbar>
             <Grid container alignItems="center" spacing={1} justify="space-between">
               <Grid container item alignItems="center" xs={4}>
@@ -143,7 +139,8 @@ class Navbar2 extends Component {
                   onClick={this.handleProfileMenu}
                   color="inherit"
                 >
-                  <Avatar className={classes.avatar}>{(me.attributes || {}).initials}</Avatar>
+                  <AccountCircle />
+                  {/* <Avatar className={classes.avatar}>{(me.attributes || {}).initials}</Avatar> */}
                 </IconButton>
                 <Menu
                   id="menu-appbar"
@@ -159,14 +156,14 @@ class Navbar2 extends Component {
                   open={profileMenuOpen}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.goToProfile}>Profile</MenuItem>
-                  <MenuItem onClick={this.goToLogout}>Logout</MenuItem>
+                  <MenuItem onClick={this.goToProfile}>{t('profile')}</MenuItem>
+                  <MenuItem onClick={this.goToLogout}>{t('logout')}</MenuItem>
                 </Menu>
               </Grid>
             </Grid>
           </Toolbar>
         </AppBar>
-        {/* <NavMenu openMenu={openMenu} handleDrawerClose={this.handleDrawerClose} /> */}
+        <div className={classes.offset} />
       </>
     );
   }

@@ -2,11 +2,15 @@
  * @module actions/me
  */
 
+import { Deserializer } from 'jsonapi-serializer';
+
 import { meTypes } from '../types';
-import { usersApi } from '../api';
+import { eventsApi, usersApi } from '../api';
 import history from '../history';
-import { authenticationActions } from './index';
-import routes from '../routes'
+import { authenticationActions, notificationActions } from './index';
+import routes from '../routes';
+import i18next from '../i18n';
+import serializers from '../serializers';
 
 /**
  * [myEventsRequested description]
@@ -429,14 +433,17 @@ export function getEvents() {
   return async dispatch => {
     dispatch(myEventsRequested());
     try {
-      const myEventsResponse = await usersApi.listMyEvents()
-      if (myEventsResponse && myEventsResponse.data) {
-        const events = myEventsResponse.data
-        dispatch(myEventsSucceeded(events))
+      const response = await eventsApi.listMyEvents()
+      if (response && response.data) {
+        const deserializedResponse = await new Deserializer({keyForAttribute: attr => attr}).deserialize(response)
+        dispatch(myEventsSucceeded(deserializedResponse))
       } else {
         dispatch(myEventsFailed())
       }
-    } catch (err) {
+    } catch (response) {
+      response.body.errors.forEach(error => {
+        dispatch(notificationActions.enqueued(i18next.t(error.translationKey) || error.message));
+      })
       dispatch(myEventsFailed());
     }
   };
@@ -477,32 +484,26 @@ export function getEventById(id) {
  * @param  {FormData} formData
  * @return {Function}
  */
-export function createEvent(formData) {
+export function createEvent(name, date) {
   return async dispatch => {
     dispatch(createMyEventRequested());
+    if (!name || !date) {
+      dispatch(createMyEventFailed())
+      return
+    }
     try {
-      const event = {};
-      for (let entry of formData.entries()) {
-        const key = entry[0];
-        const value = entry[1];
-        event[key] = value;
-      }
-      // const requestBody = new MeEventsPostRequestBody(event);
-      const requestBody = {
-        data: {
-          attributes: {
-            ...event
-          }
-        }
-      };
-      const myEventResponse = await usersApi.createMyEvent(requestBody);
-      if (myEventResponse && myEventResponse.data) {
-        const event = myEventResponse.data;
-        dispatch(createMyEventSucceeded(event));
+      const requestBody = serializers.events.createMyEvent.serialize({ name, date })
+      const response = await eventsApi.createMyEvent(requestBody);
+      if (response && response.data) {
+        const deserializedResponse = await new Deserializer({keyForAttribute: attr => attr}).deserialize(response)
+        dispatch(createMyEventSucceeded(deserializedResponse));
       } else {
         dispatch(createMyEventFailed());
       }
-    } catch (err) {
+    } catch (response) {
+      response.body.errors.forEach(error => {
+        dispatch(notificationActions.enqueued(i18next.t(error.translationKey) || error.message));
+      })
       dispatch(createMyEventFailed());
     }
   };

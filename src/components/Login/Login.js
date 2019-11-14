@@ -16,7 +16,8 @@ import {
   TextField,
   Box,
   Typography,
-  withStyles
+  withStyles,
+  Divider
 } from '@material-ui/core';
 
 import routes from '../../routes'
@@ -120,7 +121,16 @@ class Login extends Component {
                           <Button fullWidth type="submit" variant="contained" color="primary" disabled={isDisabled}>{t('login')}</Button>
                         </Grid>
                         <Grid item xs={12}>
-                        <Link component={RouterLink} to={routes.register}>{t('register')}</Link>
+                          <Divider style={{marginTop: 10, marginBottom: 10}} />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Button fullWidth variant="contained" color="primary">{t('loginUsingThirdParty', {thirdPartyName: 'Google'})}</Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Button fullWidth variant="contained" color="primary">{t('loginUsingThirdParty', {thirdPartyName: 'Microsoft'})}</Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Link component={RouterLink} to={routes.register}>{t('noAccountSignUp')}</Link>
                         </Grid>
                       </Grid>
                     </form>

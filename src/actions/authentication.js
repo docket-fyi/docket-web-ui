@@ -6,7 +6,7 @@ import jwtDecode from 'jwt-decode';
 import { Deserializer } from 'jsonapi-serializer'
 
 import history from '../history';
-import { sdkActions, meActions, notificationActions } from './index';
+import { sdkActions, /*meActions,*/ notificationActions } from './index';
 import { authenticationTypes } from '../types';
 import { setJwt, removeJwt } from '../local-storage/jwt';
 import { sessionsApi } from '../api';
@@ -90,7 +90,7 @@ export function authenticate(email = '', password = '') {
         // dispatch(sdkActions.setupSdkAuthentication());
         // dispatch(meActions.getProfile());
         dispatch(notificationActions.cleared());
-        dispatch(notificationActions.enqueued(i18next.t('welcomeBack', {firstName: 'john'}), {variant: 'success', autoHide: true}));
+        dispatch(notificationActions.enqueued(i18next.t('welcomeBack', {firstName: ''}), {variant: 'success', autoHide: true}));
       // } else {
       //   dispatch(authenticationFailed());
       //   dispatch(notificationActions.enqueued(response.errors[0]));

@@ -1,6 +1,22 @@
 import { fade } from '@material-ui/core/styles';
 
 const styles = theme => ({
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  offset: theme.mixins.toolbar,
+  // appBarShift: {
+  //   marginLeft: drawerWidth,
+  //   width: `calc(100% - ${drawerWidth}px)`,
+  //   transition: theme.transitions.create(['width', 'margin'], {
+  //     easing: theme.transitions.easing.sharp,
+  //     duration: theme.transitions.duration.enteringScreen,
+  //   }),
+  // },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,

@@ -27,8 +27,8 @@ class EventsList extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(meActions.getEvents());
+    const { getEvents } = this.props;
+    getEvents();
   }
 
   onAddNewEvent(event) {
@@ -42,8 +42,9 @@ class EventsList extends Component {
     return (
       <>
         {events.all.map(event => (
-          <EventListItem key={event._id} {...event} />
+          <EventListItem key={event.id} {...event} />
         ))}
+        {/* <EventListEmpty /> */}
         <Route path={`${match.url}/new`} component={NewEvent} />
         <Fab variant="extended" size="large" color="secondary" aria-label={t('newEvent')} onClick={this.onAddNewEvent} className={classes.fab}>
           <AddIcon />
@@ -55,8 +56,9 @@ class EventsList extends Component {
 }
 
 EventsList.propTypes = {
-  dispatch: PropTypes.func.isRequired
-  // match: PropTypes.object.isRequired
+  t: PropTypes.func.isRequired,
+  events: PropTypes.arrayOf(PropTypes.object).isRequired,
+  getEvents: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -65,8 +67,14 @@ function mapStateToProps(state) {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    getEvents: () => dispatch(meActions.getEvents())
+  }
+}
+
 export default compose(
   withTranslation(),
   withStyles(styles),
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(EventsList);

@@ -120,10 +120,10 @@ class NewUser extends Component {
                           <Divider style={{marginTop: 10, marginBottom: 10}} />
                         </Grid>
                         <Grid item xs={12}>
-                          <Button fullWidth variant="contained" color="primary">{t('google')}</Button>
+                          <Button fullWidth variant="contained" color="primary">{t('registerUsingThirdParty', {thirdPartyName: 'Google'})}</Button>
                         </Grid>
                         <Grid item xs={12}>
-                          <Button fullWidth variant="contained" color="primary">{t('microsoft')}</Button>
+                          <Button fullWidth variant="contained" color="primary">{t('registerUsingThirdParty', {thirdPartyName: 'Microsoft'})}</Button>
                         </Grid>
                       </Grid>
                     </form>
