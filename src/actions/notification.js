@@ -28,7 +28,7 @@ export function enqueued(message = 'An unknown error occurred', options = {}) {
   if (mergedOptions.autoHide && !mergedOptions.autoHideDuration) {
     // Set a sensible duration (in milliseconds) based on the number of
     // words in the message, plus a little buffer.
-    mergedOptions.autoHideDuration = ((message.split(' ').length * 1000) / 2) + 500;
+    mergedOptions.autoHideDuration = ((message.split(' ').length * 1000) / 2) + 1000;
   }
   return {
     type: notificationTypes.NOTIFICATION_ENQUEUED,
@@ -51,5 +51,11 @@ export function dequeued(response) {
 export function closed() {
   return {
     type: notificationTypes.NOTIFICATION_CLOSED
+  }
+}
+
+export function cleared() {
+  return {
+    type: notificationTypes.NOTIFICATIONS_CLEARED
   }
 }

@@ -22,6 +22,8 @@ import { withTranslation } from 'react-i18next';
 
 import { userActions } from '../../actions';
 import styles from './styles';
+import routes from '../../routes'
+import history from '../../history'
 
 class ForgotPassword extends Component {
 
@@ -32,6 +34,11 @@ class ForgotPassword extends Component {
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.goToLogin = this.goToLogin.bind(this);
+  }
+
+  goToLogin() {
+    history.push(routes.login)
   }
 
   onChangeEmail(event) {
@@ -47,18 +54,17 @@ class ForgotPassword extends Component {
 
   render() {
     const { classes, t } = this.props;
+    const isDisabled = !this.state.email
 
     return (
       <Grid container item justify="center" spacing={0} xs={4}>
         <Grid container item xs={12}>
-          <Link component={RouterLink} to="/login" variant="button" underline="none">
-              <LeftIcon size="small"/> {t('back')}
-          </Link>
+          <Button className={classes.button} startIcon={<LeftIcon />} onClick={this.goToLogin}>{t('login')}</Button>
         </Grid>
         <Grid item xs={12}>
           <Paper>
             <Box p={4}>
-            <Grid container spacing={1}>
+              <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <Typography variant="h5" component="h1" className={classes.title}>{t('forgotPassword')}</Typography>
                 </Grid>
@@ -70,7 +76,7 @@ class ForgotPassword extends Component {
                           fullWidth
                           id="email"
                           name="email"
-                          label="Email"
+                          label={t('email')}
                           type="email"
                           margin="normal"
                           autoFocus={true}
@@ -79,7 +85,7 @@ class ForgotPassword extends Component {
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        <Button fullWidth type="submit" variant="contained" color="primary">{t('submit')}</Button>
+                        <Button fullWidth type="submit" variant="contained" disabled={isDisabled} color="primary">{t('submit')}</Button>
                       </Grid>
                     </Grid>
                   </form>

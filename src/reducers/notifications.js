@@ -43,6 +43,9 @@ function notifications(state = initialState, action) {
         isOpen: false
       });
 
+    case notificationTypes.NOTIFICATIONS_CLEARED:
+      return Object.assign({}, state, initialState);
+
     default:
       return state;
   }

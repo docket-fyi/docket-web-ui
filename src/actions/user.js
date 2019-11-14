@@ -2,10 +2,15 @@
  * @module actions/user
  */
 
+import { Deserializer } from 'jsonapi-serializer'
+
 import { userTypes } from '../types';
 import { usersApi } from '../api';
 import history from '../history';
 import routes from '../routes'
+import serializers from '../serializers'
+import { notificationActions } from '../actions'
+import i18next from '../i18n'
 
 /**
  * [createUserRequested description]
@@ -20,14 +25,16 @@ export function createUserRequested() {
 
 /**
  * [createUserSucceeded description]
- * @param  {String} jwt
+ * @param  {Object} attributes
+ * @param  {String} attributes.email
+ * @param  {String} attributes.firstName
  * @return {Object}
  */
-export function createUserSucceeded(responseBody) {
+export function createUserSucceeded(attributes) {
   return {
     type: userTypes.CREATE_USER_REQUEST_SUCCEEDED,
     isLoading: false,
-    responseBody
+    attributes
   };
 }
 
@@ -161,32 +168,24 @@ export function resetPasswordSucceeded(responseBody) {
  * [register description]
  *
  * @param  {String} firstName
- * @param  {String} lastName
  * @param  {String} email
- * @param  {String} password
  * @return {Function}
  */
-export function register(firstName = '', lastName = '', email = '') {
+export function register(firstName = '', email = '') {
   return async dispatch => {
     dispatch(createUserRequested());
-    if (!firstName || !lastName || !email) {
+    if (!firstName || !email) {
       dispatch(createUserFailed());
       return;
     }
     try {
-      const usersPostRequestBody = {
-        data: {
-          attributes: {
-            firstName,
-            lastName,
-            email
-          }
-        }
-      };
-      const usersResponse = await usersApi.createUser(usersPostRequestBody);
-      if (usersResponse && usersResponse.data) {
-        dispatch(createUserSucceeded(usersResponse.data));
-        history.push(routes.registerSuccess)
+      const requestBody = serializers.users.create.serialize({ firstName, email })
+      const response = await usersApi.createUser(requestBody);
+      if (response && response.data) {
+        const deserializedResponse = await new Deserializer({keyForAttribute: attr => attr}).deserialize(response)
+        dispatch(createUserSucceeded(deserializedResponse));
+        dispatch(notificationActions.enqueued(i18next.t('thanksForRegistering', {firstName: deserializedResponse.firstName}), {variant: 'success'}));
+        history.push(routes.login)
       } else {
         dispatch(createUserFailed());
       }
@@ -203,30 +202,28 @@ export function register(firstName = '', lastName = '', email = '') {
  *
  * @return  {Function} [return description]
  */
-export function confirm(code = '') {
+export function confirm(code = '', password = '', passwordConfirmation = '') {
   return async dispatch => {
     dispatch(confirmUserRequested());
-    if (!code) {
+    if (!code || !password || !passwordConfirmation) {
       dispatch(confirmUserFailed());
       return;
     }
     try {
-      const body = {
-        data: {
-          attributes: {
-            password: '',
-            passwordConfirmation: ''
-          }
-        }
-      }
-      const confirmResponse = await usersApi.confirmRegistration(code, body);
-      if (confirmResponse && confirmResponse.response.ok) {
-        dispatch(confirmUserSucceeded(confirmResponse));
-        history.push(routes.login);
-      } else {
+      const requestBody = serializers.users.confirmRegistration.serialize({password, passwordConfirmation})
+      const response = await usersApi.confirmRegistration(code, requestBody);
+      if (response && response.errors) {
         dispatch(confirmUserFailed());
+      } else {
+        const deserializedResponse = await new Deserializer({keyForAttribute: attr => attr}).deserialize(response)
+        dispatch(confirmUserSucceeded(deserializedResponse));
+        dispatch(notificationActions.enqueued(i18next.t('thanksForConfirming', {firstName: ''}), {variant: 'success'}))
+        history.push(routes.login);
       }
-    } catch (err) {
+    } catch (response) {
+      response.body.errors.forEach(error => {
+        dispatch(notificationActions.enqueued(i18next.t(error.translationKey) || error.message))
+      })
       dispatch(confirmUserFailed());
     }
   }
@@ -247,21 +244,20 @@ export function forgotPassword(email = '') {
       return;
     }
     try {
-      const forgotPasswordPostRequestBody = {
-        data: {
-          attributes: {
-            email
-          }
-        }
-      };
-      const forgotPasswordResponse = await usersApi.forgotPassword(forgotPasswordPostRequestBody);
-      if (forgotPasswordResponse && forgotPasswordResponse.response.ok) {
-        dispatch(forgotPasswordSucceeded(forgotPasswordResponse));
+      const requestBody = serializers.users.forgotPassword.serialize({ email });
+      const response = await usersApi.forgotPassword(requestBody);
+      if (response && response.response.ok) {
+        const deserializedResponse = await new Deserializer({keyForAttribute: attr => attr}).deserialize(response)
+        dispatch(forgotPasswordSucceeded(deserializedResponse));
+        dispatch(notificationActions.enqueued(i18next.t('forgotPasswordCheckEmail'), {variant: 'success'}));
         history.push(routes.login);
       } else {
         dispatch(forgotPasswordFailed());
       }
-    } catch (err) {
+    } catch (response) {
+      response.body.errors.forEach(error => {
+        dispatch(notificationActions.enqueued(i18next.t(error.translationKey) || error.message))
+      })
       dispatch(forgotPasswordFailed());
     }
   }
@@ -277,35 +273,25 @@ export function forgotPassword(email = '') {
 export function resetPassword(code = '', password = '', passwordConfirmation = '') {
   return async dispatch => {
     dispatch(resetPasswordRequested());
-    if (!code) {
-      dispatch(resetPasswordFailed());
-      return;
-    }
-    if (!password || !passwordConfirmation) {
-      dispatch(resetPasswordFailed());
-      return;
-    }
-    if (password !== passwordConfirmation) {
+    if (!code || !password || !passwordConfirmation) {
       dispatch(resetPasswordFailed());
       return;
     }
     try {
-      const resetPasswordPostRequestBody = {
-        data: {
-          attributes: {
-            password,
-            passwordConfirmation
-          }
-        }
-      };
-      const resetPasswordResponse = await usersApi.resetPassword(code, resetPasswordPostRequestBody);
-      if (resetPasswordResponse && resetPasswordResponse.response.ok) {
-        dispatch(resetPasswordSucceeded(resetPasswordResponse));
-        history.push(routes.login);
-      } else {
+      const requestBody = serializers.users.resetPassword.serialize({ password, passwordConfirmation})
+      const response = await usersApi.resetPassword(code, requestBody);
+      if (response && response.errors) {
         dispatch(resetPasswordFailed());
+      } else {
+        const deserializedResponse = await new Deserializer({keyForAttribute: attr => attr}).deserialize(response)
+        dispatch(resetPasswordSucceeded(deserializedResponse));
+        dispatch(notificationActions.enqueued(i18next.t('passwordSuccessfullyReset', {firstName: ''}), {variant: 'success'}))
+        history.push(routes.login);
       }
-    } catch (err) {
+    } catch (response) {
+      response.body.errors.forEach(error => {
+        dispatch(notificationActions.enqueued(i18next.t(error.translationKey) || error.message))
+      })
       dispatch(resetPasswordFailed());
     }
   }

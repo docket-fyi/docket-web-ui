@@ -3,6 +3,7 @@
  */
 
 import jwtDecode from 'jwt-decode';
+import { Deserializer } from 'jsonapi-serializer'
 
 import history from '../history';
 import { sdkActions, meActions, notificationActions } from './index';
@@ -11,6 +12,7 @@ import { setJwt, removeJwt } from '../local-storage/jwt';
 import { sessionsApi } from '../api';
 import routes from '../routes'
 import i18next from '../i18n'
+import serializers from '../serializers'
 
 /**
  * [authenticationRequested description]
@@ -72,36 +74,33 @@ export function authenticationRevoked() {
 export function authenticate(email = '', password = '') {
   return async dispatch => {
     dispatch(authenticationRequested());
-    if (email || !password) {
+    if (!email || !password) {
       dispatch(authenticationFailed());
-      dispatch(notificationActions.enqueued(i18next.t('login')))
+      dispatch(notificationActions.enqueued(i18next.t('pleaseProvidValidEmailAndPassword'), {autoHide: true}));
       dispatch(sdkActions.teardownSdkAuthentication());
       return;
     }
     try {
-      const body = {
-        data: {
-          attributes: {
-            email,
-            password
-          }
-        }
-      }
-      const authResponse = await sessionsApi.createSession(body)
-      if (authResponse && authResponse.data.jwt) {
-        const { jwt } = authResponse.data
+      const requestBody = serializers.sessions.create.serialize({ email, password });
+      const response = await sessionsApi.createSession(requestBody);
+      const deserializedResponse = await new Deserializer({keyForAttribute: attr => attr}).deserialize(response)
+      // if (response && response.data.jwt) {
+        const { jwt } = deserializedResponse;
         dispatch(authenticationSucceeded(jwt));
         // dispatch(sdkActions.setupSdkAuthentication());
-        dispatch(notificationActions.enqueued({translationKey: 'welcomeBack', variant: 'primary'}))
-        dispatch(meActions.getProfile())
-      } else {
-        dispatch(authenticationFailed());
-        dispatch(notificationActions.enqueued(authResponse.errors[0]))
-        dispatch(sdkActions.teardownSdkAuthentication());
-      }
-    } catch (authErrorResponse) {
+        // dispatch(meActions.getProfile());
+        dispatch(notificationActions.cleared());
+        dispatch(notificationActions.enqueued(i18next.t('welcomeBack', {firstName: 'john'}), {variant: 'success', autoHide: true}));
+      // } else {
+      //   dispatch(authenticationFailed());
+      //   dispatch(notificationActions.enqueued(response.errors[0]));
+      //   dispatch(sdkActions.teardownSdkAuthentication());
+      // }
+    } catch (response) {
       dispatch(authenticationFailed());
-      dispatch(notificationActions.enqueued(authErrorResponse.response.body.errors[0]))
+      response.body.errors.forEach(error => {
+        dispatch(notificationActions.enqueued(i18next.t(error.translationKey) || error.message));
+      })
       dispatch(sdkActions.teardownSdkAuthentication());
     }
   };

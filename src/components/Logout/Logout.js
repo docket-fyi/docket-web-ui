@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 
 import { authenticationActions } from '../../actions';
+import routes from '../../routes'
 
 class Logout extends Component {
 
@@ -17,7 +18,7 @@ class Logout extends Component {
   }
 
   render() {
-    return <Redirect to="/login" />;
+    return <Redirect to={routes.login} />;
   }
 
 }
