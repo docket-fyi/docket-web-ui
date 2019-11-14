@@ -89,10 +89,10 @@ class Profile extends Component {
           {/* <Form.Group> */}
             <label>{t('preferredMeasurementUnit')}</label>
             <select as="select" name="preferredMeasurementUnit" default={preferredMeasurementUnit}>
-              <option>{t('daysPlural')}</option>
-              <option>{t('weeksPlural')}</option>
-              <option>{t('monthsPlural')}</option>
-              <option>{t('yearsPlural')}</option>
+              <option>{t('days')}</option>
+              <option>{t('weeks')}</option>
+              <option>{t('months')}</option>
+              <option>{t('years')}</option>
             </select>
           {/* </Form.Group> */}
           <h3>{t('memberSince', {date: moment(createdAt).format('YYYY-MM-DD')})}</h3>

@@ -3,10 +3,8 @@
  */
 
 import React, { Component } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import moment from 'moment';
+import moment from 'moment';
 
 import routes from '../../routes'
 import history from '../../history';
@@ -23,18 +21,18 @@ class EventListItem extends Component {
   }
 
   render() {
-    const { _id, name, slug, /*date,*/ diff } = this.props;
-    // const now = moment()
-    // const eventDate = moment(date)
-    // const diff = eventDate.diff(now)
-    // const duration = moment.duration(diff).as(diff.unit || 'd') //.humanize(false)
-    // const result = Math.floor(duration)
+    const { id, name, slug, date } = this.props;
+    const now = moment()
+    const eventDate = moment(date)
+    const diff = eventDate.diff(now)
+    const duration = moment.duration(diff).as('d') //.humanize(false)
+    const result = Math.floor(duration)
     return (
       <div>
         <h2>
-          <button variant="link" size="lg" onClick={() => this.goToEvent(_id, slug)}>{ name }</button>
+          <button variant="link" size="lg" onClick={() => this.goToEvent(id, slug)}>{ name }</button>
         </h2>
-        <h3>{ diff.value }</h3>
+        <h3>{ result } days</h3>
       </div>
     );
   }
@@ -45,10 +43,4 @@ EventListItem.propTypes = {
   dispatch: PropTypes.func.isRequired,
 }
 
-function mapStateToProps(state) {
-  return {}
-}
-
-export default compose(
-  connect(mapStateToProps)
-)(EventListItem);
+export default EventListItem;

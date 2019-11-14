@@ -215,8 +215,7 @@ export function confirm(code = '', password = '', passwordConfirmation = '') {
       if (response && response.errors) {
         dispatch(confirmUserFailed());
       } else {
-        const deserializedResponse = await new Deserializer({keyForAttribute: attr => attr}).deserialize(response)
-        dispatch(confirmUserSucceeded(deserializedResponse));
+        dispatch(confirmUserSucceeded());
         dispatch(notificationActions.enqueued(i18next.t('thanksForConfirming', {firstName: ''}), {variant: 'success'}))
         history.push(routes.login);
       }

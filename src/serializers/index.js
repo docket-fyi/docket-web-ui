@@ -1,7 +1,9 @@
-import users from './users'
+import events from './events'
 import sessions from './sessions'
+import users from './users'
 
 export default {
-  users,
-  sessions
+  events,
+  sessions,
+  users
 }

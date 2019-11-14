@@ -7,54 +7,85 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { DatePicker } from "@material-ui/pickers";
 
-import { meActions } from '../../actions'
+import { meActions } from '../../actions';
 
 class NewEvent extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      name: '',
+      date: new Date()
+    }
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
+  }
+
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  onDateChange(date) {
+    this.setState({ date });
   }
 
   onSubmit(event) {
     event.preventDefault()
-    const { dispatch } = this.props;
-    const formData = new window.FormData(event.target);
-    dispatch(meActions.createEvent(formData));
+    const { createEvent } = this.props;
+    const { name, date } = this.state
+    // const formData = new window.FormData(event.target);
+    createEvent(name, date);
   }
 
   render() {
     const { t } = this.props;
+    const isDisabled = !this.state.name || !this.state.date
 
     return (
-      <div>
+      <Box>
         <form onSubmit={this.onSubmit}>
-          {/* <Form.Group> */}
-            <label>{t('name')}</label>
-            <input name="name" placeholder={t('name')} />
-          {/* </Form.Group> */}
-          {/* <Form.Group> */}
-            <label>{t('date')}</label>
-            <input name="date" type="date" placeholder={t('date')} />
-          {/* </Form.Group> */}
-          <button variant="outline-light" size="lg" type="submit">{t('submit')}</button>
+          <TextField
+            fullWidth
+            id="name"
+            name="name"
+            label={t('name')}
+            margin="normal"
+            type="text"
+            autoFocus={true}
+            value={this.state.name}
+            onChange={this.onChange}
+          />
+          <DatePicker
+            label={t('date')}
+            value={this.state.date}
+            onChange={this.onDateChange}
+          />
+          <Button fullWidth type="submit" variant="contained" color="primary" disabled={isDisabled}>{t('add event')}</Button>
         </form>
-      </div>
+      </Box>
     );
   }
 
 }
 
 NewEvent.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  createEvent: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 }
 
-function mapStateToProps(state) {
-  return {}
+function mapDispatchToProps(dispatch) {
+  return {
+    createEvent: (name, date) => dispatch(meActions.createEvent(name, date))
+  }
 }
 
 export default compose(
   withTranslation(),
-  connect(mapStateToProps)
+  connect(null, mapDispatchToProps)
 )(NewEvent);
