@@ -10,26 +10,26 @@ import { Route, Redirect } from 'react-router';
 import { withTranslation } from 'react-i18next';
 
 import { Navbar } from '../index';
-import { sdkActions, /*authenticationActions,*/ notificationActions, nativeNotificationActions } from '../../actions';
+import { sdkActions, /*authenticationActions,*/ notificationActions, nativeNotificationActions, socketIoActions } from '../../actions';
 import { hasJwt, isJwtExpired, getJwt } from '../../local-storage/jwt';
 // import socket from '../../socket-io';
 import routes from '../../routes'
 
 class AuthenticatedRoute extends Component {
+
   constructor(props) {
     super(props)
     const { dispatch } = props
     dispatch(sdkActions.setupSdkAuthentication(getJwt()));
-    // dispatch(socketIoActions.connect(getJwt()));
-    // dispatch(myActions.getMyPermissions());
+    dispatch(socketIoActions.connect(getJwt()));
     dispatch(nativeNotificationActions.requestPermission());
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { dispatch, /*socketIo,*/ sdk, nativeNotifications } = this.props
-    // if (prevProps.socketIo.connected !== socketIo.connected && !socketIo.connected) {
-    //   dispatch(socketIoActions.connect());
-    // }
+    const { dispatch, socketIo, sdk, nativeNotifications } = this.props
+    if (prevProps.socketIo.connected !== socketIo.connected && !socketIo.connected) {
+      dispatch(socketIoActions.connect(getJwt()));
+    }
     if (prevProps.sdk.isAuthenticationConfigured !== sdk.isAuthenticationConfigured && !sdk.isAuthenticationConfigured) {
       dispatch(sdkActions.setupSdkAuthentication(getJwt()));
     }
@@ -59,44 +59,15 @@ class AuthenticatedRoute extends Component {
   }
 }
 
-/*
-function AuthenticatedRoute(props) {
-
-  const { dispatch, t } = props;
-  dispatch(notificationActions.requestPermission());
-  if (!hasJwt()) {
-    props.dispatch(notificationActions.enqueued(t('pleaseLoginToContinue')));
-    return <Redirect to={routes.login} />;
-  }
-  if (isJwtExpired()) {
-    props.dispatch(notificationActions.enqueued(t('loginExpired')));
-    return <Redirect to={routes.login} />;
-  }
-  const jwt = getJwt()
-  socket.emit('docket_user_connected', { jwt })
-  dispatch(sdkActions.setupSdkAuthentication(jwt));
-  dispatch(.authenticationSucceeded(jwt));
-  return (
-    <div>
-      <Navbar />
-      <main>
-        <Route {...props} />
-      </main>
-    </div>
-  );
-
-}
-*/
-
 AuthenticatedRoute.propTypes = {
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    // socketIo: state.socketIo,
     nativeNotifications: state.nativeNotifications,
-    sdk: state.sdk
+    sdk: state.sdk,
+    socketIo: state.socketIo
   }
 }
 

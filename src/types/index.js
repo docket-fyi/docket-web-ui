@@ -16,6 +16,7 @@ import _microsoftTypes from './microsoft';
 import _nativeNotificationTypes from './native-notification';
 import _sdkTypes from './sdk';
 import _userTypes from './user';
+import _socketIoTypes from './socket-io';
 
 export default {
   authentication: _authenticationTypes,
@@ -26,7 +27,8 @@ export default {
   microsoft: _microsoftTypes,
   nativeNotification: _nativeNotificationTypes,
   sdk: _sdkTypes,
-  user: _userTypes
+  user: _userTypes,
+  socket: _socketIoTypes
 };
 
 export const authenticationTypes = _authenticationTypes;
@@ -39,3 +41,4 @@ export const microsoftTypes = _microsoftTypes;
 export const nativeNotificationTypes = _nativeNotificationTypes;
 export const sdkTypes = _sdkTypes;
 export const userTypes = _userTypes;
+export const socketIoTypes = _socketIoTypes;
