@@ -20,6 +20,7 @@ import microsoft from './microsoft';
 import nativeNotifications from './native-notifications';
 import sdk from './sdk';
 import user from './user';
+import socketIo from './socket-io';
 
 /**
  * [reducers description]
@@ -36,7 +37,8 @@ const reducers = {
   microsoft,
   nativeNotifications,
   sdk,
-  user
+  user,
+  socketIo
 }
 
 /**

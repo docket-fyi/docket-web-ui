@@ -57,7 +57,7 @@ class EventsList extends Component {
 
 EventsList.propTypes = {
   t: PropTypes.func.isRequired,
-  events: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // events: PropTypes.arrayOf(PropTypes.object).isRequired,
   getEvents: PropTypes.func.isRequired
 }
 

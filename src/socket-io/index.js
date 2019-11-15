@@ -12,22 +12,23 @@ import ping from './ping';
 import pong from './pong';
 import eventExpired from './event-expired';
 import logout from './logout';
+import socketEventKeys from './socket-event-keys'
 
 const socketIOEventHandlerMapping = new Map([
-  ['connect', connect],
-  ['connect_error', connectError],
-  ['connect_timeout', connectTimeout],
-  ['error', error],
-  ['disconnect', disconnect],
-  ['reconnect', reconnect],
-  ['reconnect_attempt', reconnectAttempt],
-  ['reconnecting', reconnecting],
-  ['reconnect_error', reconnectError],
-  ['reconnect_failed', reconnectFailed],
-  ['ping', ping],
-  ['pong', pong],
-  ['docket_event_expired', eventExpired],
-  ['docket_logout', logout]
+  [socketEventKeys.connect, connect],
+  [socketEventKeys.connectError, connectError],
+  [socketEventKeys.connectTimeout, connectTimeout],
+  [socketEventKeys.error, error],
+  [socketEventKeys.disconnect, disconnect],
+  [socketEventKeys.reconnect, reconnect],
+  [socketEventKeys.reconnectAttempt, reconnectAttempt],
+  [socketEventKeys.reconnecting, reconnecting],
+  [socketEventKeys.reconnectError, reconnectError],
+  [socketEventKeys.reconnectFailed, reconnectFailed],
+  [socketEventKeys.ping, ping],
+  [socketEventKeys.pong, pong],
+  [socketEventKeys.event.expired, eventExpired],
+  [socketEventKeys.user.logout, logout]
 ])
 
 export default socketIOEventHandlerMapping;

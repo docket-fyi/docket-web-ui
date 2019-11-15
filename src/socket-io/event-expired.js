@@ -1,7 +1,7 @@
-import { notificationActions } from '../actions';
+import { nativeNotificationActions } from '../actions';
 
 function eventExpired(dispatch, data) {
-  dispatch(notificationActions.eventExpired(data))
+  dispatch(nativeNotificationActions.eventExpired(data))
 }
 
 export default eventExpired;
