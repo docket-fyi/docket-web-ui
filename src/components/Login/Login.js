@@ -21,7 +21,7 @@ import {
 } from '@material-ui/core';
 
 import routes from '../../routes'
-import { authenticationActions } from '../../actions';
+import { authenticationActions, googleActions, microsoftActions } from '../../actions';
 import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
 import styles from './styles'
 
@@ -37,6 +37,8 @@ class Login extends Component {
     this.onChange = this.onChange.bind(this);
     this.onRegister = this.onRegister.bind(this);
     this.onForgotPassword = this.onForgotPassword.bind(this);
+    this.onGoogleLogin = this.onGoogleLogin.bind(this);
+    this.onMicrosoftLogin = this.onMicrosoftLogin.bind(this);
   }
 
   componentDidMount() {
@@ -66,6 +68,16 @@ class Login extends Component {
 
   onRegister(event) {
     this.props.history.push(routes.register);
+  }
+
+  onGoogleLogin() {
+    const { getGoogleAuthUrl } = this.props
+    getGoogleAuthUrl()
+  }
+
+  onMicrosoftLogin() {
+    const { getMicrosoftAuthUrl } = this.props
+    getMicrosoftAuthUrl()
   }
 
   onForgotPassword(event) {
@@ -124,10 +136,10 @@ class Login extends Component {
                           <Divider style={{marginTop: 10, marginBottom: 10}} />
                         </Grid>
                         <Grid item xs={12}>
-                          <Button fullWidth variant="contained" color="primary">{t('loginUsingThirdParty', {thirdPartyName: 'Google'})}</Button>
+                          <Button fullWidth variant="contained" color="primary" onClick={this.onGoogleLogin}>{t('loginUsingThirdParty', {thirdPartyName: 'Google'})}</Button>
                         </Grid>
                         <Grid item xs={12}>
-                          <Button fullWidth variant="contained" color="primary">{t('loginUsingThirdParty', {thirdPartyName: 'Microsoft'})}</Button>
+                          <Button fullWidth variant="contained" color="primary" onClick={this.onMicrosoftLogin}>{t('loginUsingThirdParty', {thirdPartyName: 'Microsoft'})}</Button>
                         </Grid>
                         <Grid item xs={12}>
                           <Link component={RouterLink} to={routes.register}>{t('noAccountSignUp')}</Link>
@@ -159,7 +171,9 @@ class Login extends Component {
 
 Login.propTypes = {
   history: PropTypes.object.isRequired,
-  authentication: PropTypes.object.isRequired
+  authentication: PropTypes.object.isRequired,
+  getGoogleAuthUrl: PropTypes.func.isRequired,
+  getMicrosoftAuthUrl: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -170,7 +184,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    authenticate: (email, password) => dispatch(authenticationActions.authenticate(email, password))
+    authenticate: (email, password) => dispatch(authenticationActions.authenticate(email, password)),
+    getGoogleAuthUrl: () => dispatch(googleActions.getAuthUrl()),
+    getMicrosoftAuthUrl: () => dispatch(microsoftActions.getAuthUrl())
   }
 }
 

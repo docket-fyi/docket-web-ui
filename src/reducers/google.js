@@ -15,57 +15,57 @@ const initialState = {
 function google(state = initialState, action) {
   switch (action.type) {
 
-    case googleTypes.OAUTH_URL_REQUESTED:
+    case googleTypes.GOOGLE_OAUTH_URL_REQUESTED:
       return Object.assign({}, state, {
         ...state,
         oAuthUrlIsLoading: action.oAuthUrlIsLoading
       });
 
-    case googleTypes.OAUTH_URL_REQUEST_FAILED:
+    case googleTypes.GOOGLE_OAUTH_URL_REQUEST_FAILED:
       return Object.assign({}, state, {
         ...state,
         oAuthUrlIsLoading: action.oAuthUrlIsLoading
       });
 
-    case googleTypes.OAUTH_URL_REQUEST_SUCCEEDED:
+    case googleTypes.GOOGLE_OAUTH_URL_REQUEST_SUCCEEDED:
       return Object.assign({}, state, {
         ...state,
         oAuthUrlIsLoading: action.oAuthUrlIsLoading
       });
 
-    case googleTypes.TOKENS_REQUESTED:
+    case googleTypes.GOOGLE_TOKENS_REQUESTED:
       return Object.assign({}, state, {
         ...state,
         tokensIsLoading: action.tokensIsLoading
       });
 
-    case googleTypes.TOKENS_REQUEST_FAILED:
+    case googleTypes.GOOGLE_TOKENS_REQUEST_FAILED:
       return Object.assign({}, state, {
         ...state,
         tokensIsLoading: action.tokensIsLoading,
         hasTokens: action.hasTokens
       });
 
-    case googleTypes.TOKENS_REQUEST_SUCCEEDED:
+    case googleTypes.GOOGLE_TOKENS_REQUEST_SUCCEEDED:
       return Object.assign({}, state, {
         ...state,
         tokensIsLoading: action.tokensIsLoading,
         hasTokens: action.hasTokens
       });
 
-    case googleTypes.CALENDARS_REQUESTED:
+    case googleTypes.GOOGLE_CALENDARS_REQUESTED:
       return Object.assign({}, state, {
         ...state,
         calendarsIsLoading: action.calendarsIsLoading
       });
 
-    case googleTypes.CALENDARS_REQUEST_FAILED:
+    case googleTypes.GOOGLE_CALENDARS_REQUEST_FAILED:
       return Object.assign({}, state, {
         ...state,
         calendarsIsLoading: action.calendarsIsLoading
       });
 
-    case googleTypes.CALENDARS_REQUEST_SUCCEEDED:
+    case googleTypes.GOOGLE_CALENDARS_REQUEST_SUCCEEDED:
       return Object.assign({}, state, {
         ...state,
         calendarsIsLoading: action.calendarsIsLoading,

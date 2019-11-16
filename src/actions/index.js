@@ -16,6 +16,7 @@ import * as _microsoftActions from './microsoft';
 import * as _nativeNotificationActions from './native-notification';
 import * as _sdkActions from './sdk';
 import * as _userActions from './user';
+import * as _searchActions from './search';
 import * as _socketIoActions from './socket-io';
 
 export default {
@@ -29,6 +30,7 @@ export default {
   nativeNotification: _nativeNotificationActions,
   sdk: _sdkActions,
   user: _userActions,
+  search: _searchActions,
   socket: _socketIoActions
 };
 
@@ -42,4 +44,5 @@ export const microsoftActions = _microsoftActions;
 export const nativeNotificationActions = _nativeNotificationActions;
 export const sdkActions = _sdkActions;
 export const userActions = _userActions;
+export const searchActions = _searchActions;
 export const socketIoActions = _socketIoActions;

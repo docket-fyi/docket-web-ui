@@ -4,8 +4,6 @@
 
 import * as DocketSdk from '@docket/docket.js';
 
-export default DocketSdk;
-
 /********************************/
 /* Keep this list alphabetized! */
 /********************************/
@@ -17,3 +15,15 @@ export const microsoftApi = new DocketSdk.MicrosoftApi();
 export const sessionsApi = new DocketSdk.SessionsApi();
 export const translationsApi = new DocketSdk.TranslationsApi();
 export const usersApi = new DocketSdk.UsersApi();
+export const searchApi = new DocketSdk.SearchApi();
+
+export default {
+  events: eventsApi,
+  google: googleApi,
+  locales: localesApi,
+  microsoft: microsoftApi,
+  sessions: sessionsApi,
+  translations: translationsApi,
+  users: usersApi,
+  search: searchApi
+};
