@@ -21,7 +21,7 @@ import {
 } from '@material-ui/core';
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeftRounded';
 
-import { userActions } from '../../actions';
+import { userActions, microsoftActions, googleActions } from '../../actions';
 import { hasJwt, isJwtExpired } from '../../local-storage/jwt';
 import routes from '../../routes'
 import styles from './styles'
@@ -38,6 +38,8 @@ class NewUser extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.goToLogin = this.goToLogin.bind(this);
+    this.onGoogleLogin = this.onGoogleLogin.bind(this);
+    this.onMicrosoftLogin = this.onMicrosoftLogin.bind(this);
   }
 
   goToLogin() {
@@ -67,6 +69,16 @@ class NewUser extends Component {
     const { register } = this.props;
     const { firstName, email } = this.state;
     register(firstName, email);
+  }
+
+  onGoogleLogin() {
+    const { getGoogleAuthUrl } = this.props
+    getGoogleAuthUrl()
+  }
+
+  onMicrosoftLogin() {
+    const { getMicrosoftAuthUrl } = this.props
+    getMicrosoftAuthUrl()
   }
 
   render() {
@@ -120,10 +132,10 @@ class NewUser extends Component {
                           <Divider style={{marginTop: 10, marginBottom: 10}} />
                         </Grid>
                         <Grid item xs={12}>
-                          <Button fullWidth variant="contained" color="primary">{t('registerUsingThirdParty', {thirdPartyName: 'Google'})}</Button>
+                          <Button fullWidth variant="contained" color="primary" onClick={this.onGoogleLogin}>{t('registerUsingThirdParty', {thirdPartyName: 'Google'})}</Button>
                         </Grid>
                         <Grid item xs={12}>
-                          <Button fullWidth variant="contained" color="primary">{t('registerUsingThirdParty', {thirdPartyName: 'Microsoft'})}</Button>
+                          <Button fullWidth variant="contained" color="primary" onClick={this.onMicrosoftLogin}>{t('registerUsingThirdParty', {thirdPartyName: 'Microsoft'})}</Button>
                         </Grid>
                       </Grid>
                     </form>
@@ -158,7 +170,9 @@ NewUser.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    register: (firstName, email) => dispatch(userActions.register(firstName, email))
+    register: (firstName, email) => dispatch(userActions.register(firstName, email)),
+    getGoogleAuthUrl: () => dispatch(googleActions.getAuthUrl()),
+    getMicrosoftAuthUrl: () => dispatch(microsoftActions.getAuthUrl())
   }
 }
 

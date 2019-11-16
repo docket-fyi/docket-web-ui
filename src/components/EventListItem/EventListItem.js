@@ -40,7 +40,10 @@ class EventListItem extends Component {
 }
 
 EventListItem.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired
 }
 
 export default EventListItem;

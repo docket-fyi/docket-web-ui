@@ -47,12 +47,12 @@ const AppRouter = props => {
       <UnauthenticatedRoute path="/confirm-registration" component={RegistrationConfirmation} />
       <UnauthenticatedRoute path="/forgot-password" component={ForgotPassword} />
       <UnauthenticatedRoute path="/reset-password" component={ResetPassword} />
+      <UnauthenticatedRoute path="/oauth/google/callback" component={OAuthGoogleCallback} />
+      <UnauthenticatedRoute path="/oauth/microsoft/callback" component={OAuthMicrosoftCallback} />
 
       <AuthenticatedRoute path="/events" component={EventsList} />
       <AuthenticatedRoute path="/events/:id/:slug" component={EventDetail} />
       <AuthenticatedRoute path="/profile" component={Profile} />
-      <AuthenticatedRoute path="/oauth/google/callback" component={OAuthGoogleCallback} />
-      <AuthenticatedRoute path="/oauth/microsoft/callback" component={OAuthMicrosoftCallback} />
       <AuthenticatedRoute path="/google/calendars" component={GoogleCalendarsList} />
       <AuthenticatedRoute path="/microsoft/calendars" component={MicrosoftCalendarsList} />
 

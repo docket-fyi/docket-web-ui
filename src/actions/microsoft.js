@@ -2,6 +2,8 @@
  * @module actions/microsoft
  */
 
+import { Deserializer } from 'jsonapi-serializer'
+
 import { microsoftTypes } from '../types';
 import { microsoftApi } from '../api';
 import history from '../history';
@@ -14,7 +16,7 @@ import routes from '../routes'
  */
 export function oauthUrlRequested() {
   return {
-    type: microsoftTypes.OAUTH_URL_REQUESTED,
+    type: microsoftTypes.MICROSOFT_OAUTH_URL_REQUESTED,
     oAuthUrlIsLoading: true
   };
 }
@@ -28,7 +30,7 @@ export function oauthUrlRequested() {
  */
 export function oauthUrlRequestSucceeded() {
   return {
-    type: microsoftTypes.OAUTH_URL_REQUEST_SUCCEEDED,
+    type: microsoftTypes.MICROSOFT_OAUTH_URL_REQUEST_SUCCEEDED,
     oAuthUrlIsLoading: false
   };
 }
@@ -40,7 +42,7 @@ export function oauthUrlRequestSucceeded() {
  */
 export function oauthUrlRequestFailed() {
   return {
-    type: microsoftTypes.OAUTH_URL_REQUEST_FAILED,
+    type: microsoftTypes.MICROSOFT_OAUTH_URL_REQUEST_FAILED,
     oAuthUrlIsLoading: false
   };
 }
@@ -52,7 +54,7 @@ export function oauthUrlRequestFailed() {
  */
 export function tokensRequested() {
   return {
-    type: microsoftTypes.TOKENS_REQUESTED,
+    type: microsoftTypes.MICROSOFT_TOKENS_REQUESTED,
     tokensIsLoading: true
   }
 }
@@ -64,7 +66,7 @@ export function tokensRequested() {
  */
 export function tokensRequestFailed() {
   return {
-    type: microsoftTypes.TOKENS_REQUEST_FAILED,
+    type: microsoftTypes.MICROSOFT_TOKENS_REQUEST_FAILED,
     tokensIsLoading: false,
     hasTokens: false
   }
@@ -79,7 +81,7 @@ export function tokensRequestFailed() {
  */
 export function tokensRequestSucceeded() {
   return {
-    type: microsoftTypes.TOKENS_REQUEST_SUCCEEDED,
+    type: microsoftTypes.MICROSOFT_TOKENS_REQUEST_SUCCEEDED,
     tokensIsLoading: false,
     hasTokens: true
   }
@@ -87,14 +89,14 @@ export function tokensRequestSucceeded() {
 
 export function calendarListRequested() {
   return {
-    type: microsoftTypes.CALENDARS_REQUESTED,
+    type: microsoftTypes.MICROSOFT_CALENDARS_REQUESTED,
     calendarsIsLoading: true
   }
 }
 
 export function calendarListRequestSucceeded(responseBody) {
   return {
-    type: microsoftTypes.CALENDARS_REQUEST_SUCCEEDED,
+    type: microsoftTypes.MICROSOFT_CALENDARS_REQUEST_SUCCEEDED,
     calendarsIsLoading: false,
     responseBody
   }
@@ -102,7 +104,7 @@ export function calendarListRequestSucceeded(responseBody) {
 
 export function calendarListRequestFailed() {
   return {
-    type: microsoftTypes.CALENDARS_REQUEST_FAILED,
+    type: microsoftTypes.MICROSOFT_CALENDARS_REQUEST_FAILED,
     calendarsIsLoading: false
   }
 }
@@ -118,8 +120,9 @@ export function getAuthUrl() {
     try {
       const response = await microsoftApi.getMicrosoftOAuthUrl()
       if (response && response.data) {
+        const deserializedBody = await new Deserializer({keyForAttribute: attr => attr}).deserialize(response)
         dispatch(oauthUrlRequestSucceeded());
-        window.location = response.data.url
+        window.location = deserializedBody.url
       } else {
         dispatch(oauthUrlRequestFailed());
       }
