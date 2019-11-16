@@ -24,7 +24,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-import { meActions, googleActions, microsoftActions } from '../../actions';
+import { meActions, googleActions, microsoftActions, searchActions } from '../../actions';
 import history from '../../history';
 import './Navbar.css'
 // import googleLogo from './google-logo.png'
@@ -51,6 +51,7 @@ class Navbar2 extends Component {
     this.goToLogout = this.goToLogout.bind(this);
     this.goToProfile = this.goToProfile.bind(this);
     this.onUpgradeClick = this.onUpgradeClick.bind(this);
+    this.onSearch = this.onSearch.bind(this);
   }
 
   goToProfile(event) {
@@ -60,8 +61,8 @@ class Navbar2 extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(meActions.getProfile())
+    const { getProfile } = this.props
+    getProfile()
   }
 
   onBrandClick(event) {
@@ -71,14 +72,14 @@ class Navbar2 extends Component {
 
   onGoogleCalendarClick(event) {
     event.preventDefault();
-    const { dispatch } = this.props;
-    dispatch(googleActions.getAuthUrl());
+    const { getGoogleAuthUrl } = this.props;
+    getGoogleAuthUrl()
   }
 
   onMicrosoftOutlookClick(event) {
     event.preventDefault();
-    const { dispatch } = this.props;
-    dispatch(microsoftActions.getAuthUrl())
+    const { getMicrosoftAuthUrl } = this.props;
+    getMicrosoftAuthUrl()
   }
 
   goToLogout() {
@@ -95,6 +96,14 @@ class Navbar2 extends Component {
 
   onUpgradeClick() {}
 
+  onSearch(event) {
+    event.preventDefault()
+    const { performSearch } = this.props
+    const formData = new window.FormData(event.target);
+    const query = formData.get('query')
+    performSearch(query)
+  }
+
   render() {
     const { t, classes, me } = this.props;
     const profileMenuOpen = Boolean(this.state.anchorEl);
@@ -110,7 +119,7 @@ class Navbar2 extends Component {
               <Grid container item alignItems="center" xs={4}>
                 <Typography variant="h6" className={classes.title}>Docket</Typography>
               </Grid>
-              <div className={classes.search}>
+              <form action="" onSubmit={this.onSearch} className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>
@@ -120,9 +129,11 @@ class Navbar2 extends Component {
                     root: classes.inputRoot,
                     input: classes.inputInput,
                   }}
+                  id="query"
+                  name="query"
                   inputProps={{ 'aria-label': t('search') }}
                 />
-              </div>
+              </form>
               <Grid container item xs={4} justify="flex-end">
                 {
                   !(me.attributes || {}).isPremium &&
@@ -171,12 +182,25 @@ class Navbar2 extends Component {
 }
 
 Navbar2.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  performSearch: PropTypes.func.isRequired,
+  getProfile: PropTypes.func.isRequired,
+  getGoogleAuthUrl: PropTypes.func.isRequired,
+  getMicrosoftAuthUrl: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {
   return {
-    me: state.me
+    me: state.me,
+    search: state.search
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    performSearch: query => dispatch(searchActions.search(query)),
+    getProfile: () => dispatch(meActions.getProfile()),
+    getGoogleAuthUrl: () => dispatch(googleActions.getAuthUrl()),
+    getMicrosoftAuthUrl: () => dispatch(microsoftActions.getAuthUrl())
   }
 }
 
@@ -184,5 +208,5 @@ export default compose(
   // withRouter,
   withTranslation(),
   withStyles(styles),
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(Navbar2);

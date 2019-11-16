@@ -15,57 +15,57 @@ const initialState = {
 function microsoft(state = initialState, action) {
   switch (action.type) {
 
-    case microsoftTypes.OAUTH_URL_REQUESTED:
+    case microsoftTypes.MICROSOFT_OAUTH_URL_REQUESTED:
       return Object.assign({}, state, {
         ...state,
         oAuthUrlIsLoading: action.oAuthUrlIsLoading
       });
 
-    case microsoftTypes.OAUTH_URL_REQUEST_FAILED:
+    case microsoftTypes.MICROSOFT_OAUTH_URL_REQUEST_FAILED:
       return Object.assign({}, state, {
         ...state,
         oAuthUrlIsLoading: action.oAuthUrlIsLoading
       });
 
-    case microsoftTypes.OAUTH_URL_REQUEST_SUCCEEDED:
+    case microsoftTypes.MICROSOFT_OAUTH_URL_REQUEST_SUCCEEDED:
       return Object.assign({}, state, {
         ...state,
         oAuthUrlIsLoading: action.oAuthUrlIsLoading
       });
 
-      case microsoftTypes.TOKENS_REQUESTED:
+      case microsoftTypes.MICROSOFT_TOKENS_REQUESTED:
       return Object.assign({}, state, {
         ...state,
         tokensIsLoading: action.tokensIsLoading
       });
 
-    case microsoftTypes.TOKENS_REQUEST_FAILED:
+    case microsoftTypes.MICROSOFT_TOKENS_REQUEST_FAILED:
       return Object.assign({}, state, {
         ...state,
         tokensIsLoading: action.tokensIsLoading,
         hasTokens: action.hasTokens
       });
 
-    case microsoftTypes.TOKENS_REQUEST_SUCCEEDED:
+    case microsoftTypes.MICROSOFT_TOKENS_REQUEST_SUCCEEDED:
       return Object.assign({}, state, {
         ...state,
         tokensIsLoading: action.tokensIsLoading,
         hasTokens: action.hasTokens
       });
 
-    case microsoftTypes.CALENDARS_REQUESTED:
+    case microsoftTypes.MICROSOFT_CALENDARS_REQUESTED:
       return Object.assign({}, state, {
         ...state,
         calendarsIsLoading: action.calendarsIsLoading
       });
 
-    case microsoftTypes.CALENDARS_REQUEST_FAILED:
+    case microsoftTypes.MICROSOFT_CALENDARS_REQUEST_FAILED:
       return Object.assign({}, state, {
         ...state,
         calendarsIsLoading: action.calendarsIsLoading
       });
 
-    case microsoftTypes.CALENDARS_REQUEST_SUCCEEDED:
+    case microsoftTypes.MICROSOFT_CALENDARS_REQUEST_SUCCEEDED:
       return Object.assign({}, state, {
         ...state,
         calendarsIsLoading: action.calendarsIsLoading,

@@ -16,6 +16,7 @@ import _microsoftTypes from './microsoft';
 import _nativeNotificationTypes from './native-notification';
 import _sdkTypes from './sdk';
 import _userTypes from './user';
+import _searchTypes from './search';
 import _socketIoTypes from './socket-io';
 
 export default {
@@ -28,6 +29,7 @@ export default {
   nativeNotification: _nativeNotificationTypes,
   sdk: _sdkTypes,
   user: _userTypes,
+  search: _searchTypes,
   socket: _socketIoTypes
 };
 
@@ -41,4 +43,5 @@ export const microsoftTypes = _microsoftTypes;
 export const nativeNotificationTypes = _nativeNotificationTypes;
 export const sdkTypes = _sdkTypes;
 export const userTypes = _userTypes;
+export const searchTypes = _searchTypes;
 export const socketIoTypes = _socketIoTypes;
