@@ -1,0 +1,102 @@
+version: 2.1
+orbs:
+  # See https://circleci.com/orbs/registry/orb/circleci/aws-cli
+  aws-cli: circleci/aws-cli@0.1.19
+  # See https://circleci.com/orbs/registry/orb/circleci/aws-s3
+  aws-s3: circleci/aws-s3@1.0.13
+jobs:
+  # lint:
+  #   working_directory: ~/docket/docket-web-ui
+  #   docker:
+  #     - image: circleci/node:12.10.0
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Update NPM
+  #         command: sudo npm i -g npm@latest
+  #     - restore_cache:
+  #         key: dependency-cache-{{ checksum "package-lock.json" }}
+  #     - run:
+  #         name: Install NPM packages
+  #         command: npm ci
+  #     - save_cache:
+  #         paths:
+  #           - ./node_modules
+  #         key: dependency-cache-{{ checksum "package-lock.json" }}
+  #     - run:
+  #         name: Lint
+  #         command: npm run lint
+  # test:
+  #   working_directory: ~/docket/docket-web-ui
+  #   docker:
+  #     - image: circleci/node:12.10.0
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Update NPM
+  #         command: sudo npm i -g npm@latest
+  #     - restore_cache:
+  #         key: dependency-cache-{{ checksum "package-lock.json" }}
+  #     - run:
+  #         name: Install NPM packages
+  #         command: npm ci
+  #     - save_cache:
+  #         paths:
+  #           - ./node_modules
+  #         key: dependency-cache-{{ checksum "package-lock.json" }}
+  #     - run:
+  #         name: Run unit tests
+  #         command: npm run test:unit
+  #     - run:
+  #         name: Upload test results to Coveralls
+  #         command: cat ./coverage/lcov.info | $(npm bin)/coveralls # Configured using environment variables in CircleCI
+  #     - store_artifacts:
+  #         path: test-results
+  #     - store_artifacts:
+  #         path: coverage
+  #     - store_test_results:
+  #         path: test-results
+  build:
+    working_directory: ~/docket/docket-web-ui
+    docker:
+      - image: circleci/node:12.10.0
+    steps:
+      - checkout
+      - run:
+          name: Update NPM
+          command: sudo npm i -g npm@latest
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install NPM packages
+          command: npm ci
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Build
+          command: |
+            CI=true \
+            REACT_ENV=$REACT_ENV \
+            REACT_APP_API_BASE_PATH=$REACT_APP_API_BASE_PATH \
+            REACT_APP_API_VERSION=$REACT_APP_API_VERSION \
+            npm run build
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - aws-s3/sync:
+          from: ./build/
+          to: "s3://app.staging.docket.fyi"
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          overwrite: true
+  # update_cloudformation:
+  #   jobs:
+  #     - aws-cli/:
+  #         requires:
+  #           - aws/cli
+  #         command: aws cloudformation update-stack $CFN_SERVICE_STACK_NAME ./aws/cloudformation/stack.yml
