@@ -96,7 +96,7 @@ Resources:
       - "CloudFrontDistribution"
     Properties:
       AliasTarget:
-        DNSName: !ImportValue "docket-staging:LoadBalancer:DNSName"
+        DNSName: !GetAtt "CloudFrontDistribution.DomainName"
         # EvaluateTargetHealth: Boolean
         HostedZoneId: "Z2FDTNDATAQYW2"
       # Comment: String
@@ -316,11 +316,12 @@ Resources:
         #       - String
         #     ViewerProtocolPolicy: String
         # Comment: String
-        # CustomErrorResponses:
-        #   - ErrorCachingMinTTL: Double
-        #     ErrorCode: Integer
-        #     ResponseCode: Integer
-        #     ResponsePagePath: String
+        CustomErrorResponses:
+          -
+            # ErrorCachingMinTTL: Double
+            ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: "/index.html"
         DefaultCacheBehavior:
           # AllowedMethods:
           #   - "GET"
