@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@date-io/moment": "2.4.0",
+    "@date-io/moment": "2.6.0",
     "@docket/docket.js": "0.21.0",
     "@material-ui/core": "4.6.0",
     "@material-ui/icons": "4.5.1",
